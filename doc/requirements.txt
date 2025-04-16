@@ -1,1 +1,28 @@
 group: Daniel Scheider, Indy Lyness, Soren Kaster
+
+Dataset description:
+A collection of collegiate track and field competition results, with search features and qualifyin lists for conferance and national meets.
+
+User story 1: As an athlete, I can look compare past performances of myself and other athletes, so that I can see how I stack up againts the competition.
+
+Implementation: We will have a search bar for users to search for athletes by performances, athelete names, schools, etc..., in order to bring up the page of an athlete. From the althete page will be statistical information, and an option to pull up another athletes information on the same page, for easy comparison.
+
+User story 2: As a Coach, I can see the current top X competitors in an event throughout the conferance, so that I can know what my athletes needs to accomplish in order to qualify.
+
+Implementation: User can enter a page dedicted to standings, search by event, and see top results in the conferance.
+
+User story 3: As an athlete, I can see a calculated historical qualifying average, in order to estimate the mark required to make conferance.
+
+Implementation: Under standing page will be information bar for meets that display average marks from past years.
+
+User story 4: Althlete can see a graphical element of performances and calculated future performance predictions, in order to see how there progression has looked and may look in an event.
+
+Implmentation: User can search athlete and enter a detailed page in which all PRs, past performance data, and a graphical element of past performances are displayeed. The user can select boxes for the graph to show multiple events, time frames, etc...
+
+User story 5: Coach can use time conversion tools, so that they can predict performances in adjacent events from past performances of their athletes.
+
+Implemetnation: A tools page from the home screen takes user to a page to calculate time conversions. Also, conversion data can be taken directly from results page (either for athlete or otherwise), by hovering over mark and selecting convert.
+
+User story 6: Decathlete can use score calculator tools in order to predict full event tallies on the same page as past performance information, so that they can be better informed on the marks they may need to shoot for in order to get X score in the decathlon.
+
+Implementation: User can go to tools page to open decathlon score calculator, which, like athlete comparison, can be duplicated on the page in order o have the calculator and times pulled up at the same time. User could also autofill best results to quickly estimate a potencial mark.
