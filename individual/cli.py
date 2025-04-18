@@ -61,7 +61,7 @@ def display_performances(performances, format):
         print("No performances matching filter.")
         return
     type = performances[0]["Result"]
-    header = "Athlete".ljust(20) + "| Year".ljust(8) + "| School".ljust(20) + "| Event".ljust(15) + f"| {format}".ljust(10) + "| Date".ljust(15) + "| Meet".ljust(20)
+    header = "Athlete".ljust(20) + "| Year".ljust(8) + "| School".ljust(20) + "| Event".ljust(18) + f"| {type}".ljust(12) + "| Date".ljust(15) + "| Meet".ljust(20)
     print(header)
     print("-"*150)
     for row in performances:
@@ -69,16 +69,16 @@ def display_performances(performances, format):
             mins = row["Time"] // 60
             secs = row["Time"] % 60
             if mins > 0:
-                result_string = f"{mins:.0f}:{secs:.2f}"
+                result_string = f"{mins:04.0f}:{secs:04.2f}"
             else:
-                result_string = f"{secs:.2f}"
+                result_string = f"{secs:04.2f}"
         elif format == False:
             result_string = f"{row["Mark"]}m"
         else:
             feet = row["Conv"] // 12
             inches = row["Conv"] % 12
-            result_string = f"{feet:.0f}\'{inches:.2f}\""
-        display = f"{row['Athlete']}".ljust(20) + f"| {row['Year']}".ljust(8) + f"| {row['School']}".ljust(20) + f"| {row['Event']}".ljust(15) + result_string.ljust(10) + f"| {row['Meet Date']}".ljust(15) + f"| {row['Meet']}".ljust(20)
+            result_string = f"{feet:.0f}\'{inches:04.2f}\""
+        display = f"{row['Athlete']}".ljust(20) + f"| {row['Year']}".ljust(8) + f"| {row['School']}".ljust(20) + f"| {row['Event']}".ljust(18) + f"| {result_string}".ljust(12) + f"| {row['Meet Date']}".ljust(15) + f"| {row['Meet']}".ljust(20)
         print(display)
         print("-"*150)
 
