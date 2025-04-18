@@ -13,16 +13,22 @@ import argparse
 import csv 
 
 def get_parsed_arguments():
+    """
+    Get command line arguments. Any cutoff provided must follow a strict format - see help.
+    """
     parser = argparse.ArgumentParser(description='Filter performances based on event and time/mark.')
-    parser.add_argument('event', help='Event that you would like to filter for.')
+    parser.add_argument('event', help='Event that you would like to filter for. Examples: \"400 Meters\", \"Shot Put\", etc.')
     parser.add_argument('gender', help='Gender to filter for. Options are \'m\' for men and \'f\' for women.')
-    parser.add_argument('--cutoff', '-c', help='Optional cutoff to filter performances by. For running events, this should be a time (mm:ss.xx), and for field events this should be a mark (12.37 or 4\' 2.5\").')
-    parser.add_argument('--conv', action='store_true', help='Whether to convert the cutoff mark to feet\' inches\" format (default is meters).')
+    parser.add_argument('--cutoff', '-c', help='Optional cutoff to filter performances by. For running events, this should be a time (mm:ss.xx), and for field events this should be a mark (12.37m or 4\' 2.5\").')
+    parser.add_argument('--conv', action='store_true', help='Whether to recognize the cutoff mark as feet\' inches\" format (default is meters - if you put feet/inches format and do not specify this flag you will get an error).')
     parser.add_argument('--number', '-n', default=10, help='Number of performances to display (displays all performances if there are less than the given number after filtering).')
     parsed_arguments = parser.parse_args()
     return parsed_arguments
 
 def convert_time(time):
+    """
+    Convert time string to integer representing seconds for comparison.
+    """
     if time == '':
         return
     if ":" in time:
@@ -35,6 +41,9 @@ def convert_time(time):
         return secs
     
 def convert_mark(mark):
+    """
+    Convert mark for field event to numeric - units are context dependent.
+    """
     if mark == '':
         return
     if "m" in mark:
@@ -45,6 +54,9 @@ def convert_mark(mark):
     return 12*feet + inches
 
 def display_performances(performances, format):
+    """
+    Print performances that match filter in table format.
+    """
     if performances == []:
         print("No performances matching filter.")
         return
@@ -71,7 +83,12 @@ def display_performances(performances, format):
         print("-"*150)
 
 def get_performances(arguments):
+    """
+    Find performances that match filters provided. Loads data, then creates a list of dictionary objects to represent the rows. Data can then be
+    sorted by accessing different keys for each entry.
+    """
 
+    # Set up list-dictionary data structure
     with open("MIAC_data.csv") as csvfile:
         data = []
         reader = csv.reader(csvfile,  delimiter=',')
@@ -81,6 +98,8 @@ def get_performances(arguments):
             for i, val in enumerate(row):
                 row_vals[header[i]] = val
             data.append(row_vals)
+
+    # Get relevant column for each event (Time, Mark, Points)
     events = set(row["Event"] for row in data)
     event_key = {}
     formats = ["Time", "Mark", "Points"]
@@ -90,17 +109,20 @@ def get_performances(arguments):
             if event_performances[0][format] != '':
                 event_key[event] = format
     
+    # Label each event with which column matters for result, then convert data from string to numeric format
     for row in data:
         row["Result"] = event_key[row["Event"]]
         row["Mark"] = convert_mark(row["Mark"])
         row["Conv"] = convert_mark(row["Conv"])
         row["Time"] = convert_time(row["Time"])
 
+    # Filter by gender
     if arguments.gender == "m":
         data = list(filter(lambda x: x["Category"]=='m', data))
     else:
         data = list(filter(lambda x: x["Category"]=='f', data))
 
+    # Filter by event and optional cutoff using standard filter function and relevant dictionary key
     if event_key[arguments.event] == "Time":
         performances = list(filter(lambda x: x["Event"]==arguments.event, data))
         performances.sort(key=lambda x:x["Time"])
