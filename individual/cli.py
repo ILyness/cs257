@@ -22,7 +22,7 @@ def get_parsed_arguments():
     parser.add_argument('--upper', '-p', help='Upper bound to filter performances by. For running events, this should be a time (mm:ss.xx), and for field events this should be a mark (12.37m or 4\' 2.5\"). For the decathlon, this should be a point value (e.g. 5000).')
     parser.add_argument('--lower', '-l', help='Lower bound to filter performances by. See --upper description for formatting notes.')
     parser.add_argument('--conv', action='store_true', help='Whether to recognize the cutoff mark as feet\' inches\" format (default is meters - if you put feet/inches format and do not specify this flag you will get an error).')
-    parser.add_argument('--number', '-n', default=10, help='Maximum number of performances to display (displays all performances if there are less than the given number after filtering).')
+    parser.add_argument('--number', '-n', help='Maximum number of performances to display (displays all performances if there are less than the given number after filtering).')
     parser.add_argument('--unique', '-u', action='store_true', help='Whether to display just the best performance for each athlete.')
     parsed_arguments = parser.parse_args()
     return parsed_arguments
@@ -66,10 +66,10 @@ def display_performances(performances, format):
         print("No performances matching filter.")
         return
     type = performances[0]["Result"]
-    header = "Athlete".ljust(20) + "| Year".ljust(8) + "| School".ljust(22) + "| Event".ljust(20) + f"| {type}".ljust(12) + "| Date".ljust(15) + "| Meet".ljust(20)
-    print("-"*150)
+    header = "Athlete".ljust(25) + "| Year".ljust(8) + "| School".ljust(22) + "| Event".ljust(20) + f"| {type}".ljust(12) + "| Date".ljust(15) + "| Meet".ljust(20)
+    print("-"*160)
     print(header)
-    print("-"*150)
+    print("-"*160)
     for row in performances:
         if type == "Time":
             mins = row["Time"] // 60
@@ -87,9 +87,9 @@ def display_performances(performances, format):
                 result_string = f"{feet:.0f}\'{inches:04.2f}\""
         else:
             result_string = row["Points"]
-        display = f"{row['Athlete']}".ljust(20) + f"| {row['Year']}".ljust(8) + f"| {row['School']}".ljust(22) + f"| {row['Event']}".ljust(20) + f"| {result_string}".ljust(12) + f"| {row['Meet Date']}".ljust(15) + f"| {row['Meet']}".ljust(20)
+        display = f"{row['Athlete']}".ljust(25) + f"| {row['Year']}".ljust(8) + f"| {row['School']}".ljust(22) + f"| {row['Event']}".ljust(20) + f"| {result_string}".ljust(12) + f"| {row['Meet Date']}".ljust(15) + f"| {row['Meet']}".ljust(20)
         print(display)
-        print("-"*150)
+        print("-"*160)
 
 def get_performances(arguments):
     """
@@ -165,7 +165,8 @@ def get_performances(arguments):
     else:
         final_performances = performances
 
-    final_performances = final_performances[:int(arguments.number)]
+    if arguments.number:
+        final_performances = final_performances[:int(arguments.number)]
     
 
     return final_performances
@@ -173,6 +174,11 @@ def get_performances(arguments):
 def main():
     arguments = get_parsed_arguments()
     performances = get_performances(arguments)
+    if arguments.number:
+        num_performances = max(arguments.number, len(performances))
+    else:
+        num_performances = len(performances)
+    print(f"{num_performances} Results")
     display_performances(performances, arguments.conv)
 
 if __name__ == "__main__":
