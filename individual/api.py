@@ -9,6 +9,7 @@ to use URLs to replace command line arguments. Adapted from Jeff Ondich's flask_
 
 import flask
 import csv
+import json
 import argparse
 
 app = flask.Flask(__name__)
@@ -76,6 +77,48 @@ for row in data:
 @app.route('/help')
 def get_help():
     return flask.render_template('help.html')
+
+@app.route('/<gender>/<event_id>')
+def get_performances(gender, event_id):
+    performances = list(filter(lambda x: (x['Event']==event_id and x['Category']==gender), data))
+    if event_key[event_id] == 'Time':
+        performances.sort(key=lambda x:x[event_key[event_id]])
+    else:
+        performances.sort(key=lambda x:x[event_key[event_id]], reverse=True)
+    lower = flask.request.args.get('lower')
+    upper = flask.request.args.get('upper')
+    unique = flask.request.args.get('unique', type=bool)
+    conversion = flask.request.args.get('conversion', type=bool)
+
+    if unique:
+        athletes = set()
+        best_performances = []
+        for row in performances:
+            if row["Athlete"] not in athletes:
+                athletes.add(row["Athlete"])
+                best_performances.append(row)
+        performances = best_performances
+
+
+    if event_key[event_id] == 'Time':
+        if lower:
+            performances = list(filter(lambda x: x['Time'] > convert_time(lower), performances))
+        if upper:
+            performances = list(filter(lambda x: x['Time'] < convert_time(upper), performances))
+    else:
+        if lower:
+            if conversion:
+                performances = list(filter(lambda x: x['Conv'] > convert_mark(lower), performances))
+            else:
+                performances = list(filter(lambda x: x[event_key[event_id]] > convert_mark(lower), performances))
+        if upper:
+            if conversion:
+                performances = list(filter(lambda x: x['Conv'] < convert_mark(upper), performances))
+            else:
+                performances = list(filter(lambda x: x[event_key[event_id]] < convert_mark(upper), performances))
+    
+
+    return json.dumps(performances)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Flask API implementation of CLI assigment')
