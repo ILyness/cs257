@@ -118,7 +118,7 @@ def get_performances(gender, event_id):
                 performances = list(filter(lambda x: x[event_key[event_id]] < convert_mark(upper), performances))
     
 
-    return json.dumps(performances)
+    return json.dumps(performances, indent=4)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Flask API implementation of CLI assigment')
