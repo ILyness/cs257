@@ -44,7 +44,7 @@ def convert_mark(mark):
     else:
         return int(mark)
 
-with open('MIAC_data.csv') as csvfile:
+with open('data/MIAC_data.csv') as csvfile:
     data = []
     reader = csv.reader(csvfile,  delimiter=',')
     header = reader.__next__()

@@ -98,7 +98,7 @@ def get_performances(arguments):
     """
 
     # Set up list-dictionary data structure
-    with open("MIAC_data.csv") as csvfile:
+    with open("data/MIAC_data.csv") as csvfile:
         data = []
         reader = csv.reader(csvfile,  delimiter=',')
         header = reader.__next__()
