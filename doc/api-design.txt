@@ -152,3 +152,36 @@ EXAMPLE:
         }
 
 
+REQUEST: /athletes?search=<search_entry>
+
+GET parameters
+   search_entry (Optional, default: '') -- only return athletes whose first or last name contains search_entry
+
+
+RESPONSE: a JSON list of dictionaries where each dictionary has the following fields.
+
+	name – (TEXT) the athletes name
+	school – (TEXT) the athletes school
+
+EXAMPLE:
+    /athletes?search=soren
+
+        [
+            {
+                "name": "Kaster,Soren",
+                "school": Carleton"
+            },
+
+            {
+                "name": "Smith,Soren,
+                "school": "St. Olaf"
+            },
+
+            {
+                "name": "Sorenson,Jeff",
+                "school": "Bethel"
+            }
+        ]
+
+
+
