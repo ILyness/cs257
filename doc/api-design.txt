@@ -125,7 +125,8 @@ EXAMPLE:
                                 "school": "Carleton", 
                                 "mark": "10.99", 
                                 "date": "4/25/2025", 
-                                "meet": "CS 257 Jamboree"}
+                                "meet": "CS 257 Jamboree"
+                            }
                          ], 
             “200Meters”: [
                             {
