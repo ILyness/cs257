@@ -34,7 +34,7 @@ RESPONSE: a JSON list of dictionaries, each of which represents one mark from th
    …
 
 EXAMPLE:
-    /marks/m/800Meters?mark=1:55&display_number=10
+    /marks/m/800Meters?mark=1:55&display_number=2
 
         [
             {
@@ -88,6 +88,14 @@ EXAMPLE:
                             "mark": "45.24", 
                             "date": "5/20/25", 
                             "meet": "NCAA DIII Outdoor Track and Field Championships"
+                        },
+                        .
+                        .
+                        .,
+                        {
+                            .
+                            .
+                            .
                         }
                      ]
         }
