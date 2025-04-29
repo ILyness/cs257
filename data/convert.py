@@ -21,7 +21,7 @@ def main(input_file_name):
             date = row[6]
             event = row[7]
             season = row[8]
-            # athletes = row[9] if row[9] else 'NULL'
+            relay = row[9] if row[9] else 'NULL'
             mark = row[10] if row[10] else 'NULL'
             school = row[11]
             category = row[12]
@@ -38,7 +38,7 @@ def main(input_file_name):
                 if time != 'NULL': 
                     event_category = 'Running'
                 elif points != 'NULL':
-                    event_category = 'Decathlon'
+                    event_category = 'Multi'
                 else:
                     event_category = 'Field'
                 events[event] = {'id': len(events),
@@ -61,8 +61,14 @@ def main(input_file_name):
                                                  'result_date': date,
                                                  'meet': meet,
                                                  'season': season}
-            
-            athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
+            if relay == 'NULL':
+                athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
+            else:
+                relay_team = relay.split(',')
+                for leg in relay:
+                    for athlete_key in athletes:
+                        if athletes[athlete_key]['last_name'] == leg and athletes[athlete_key]['school'] == school:
+                            athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
             events_performances.append((events[event]['id'],performances[performance_key]['id']))
 
         with open('athletes.csv', 'w') as f:
