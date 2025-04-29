@@ -34,6 +34,33 @@ def main(input_file_name):
                                              'last_name': last_name,
                                              'school': school,
                                              'gender': category}
+            if event not in events:
+                if time != 'NULL': 
+                    event_category = 'Running'
+                elif points != 'NULL':
+                    event_category = 'Decathlon'
+                else:
+                    event_category = 'Field'
+                events[event] = {'id': len(events),
+                                 'event': event,
+                                 'event_category': event_category}
+                
+            if time != 'NULL':
+                performance_key = f'{last_name}+{event}+{date}'
+                result = time
+            elif points != 'NULL':
+                performance_key = f'{last_name}+{event}+{date}'
+                result = points
+            else:
+                performance_key = f'{last_name}+{event}+{date}+{mark}'
+                result = mark
+
+            performances[performance_key] = {'id': len(performances),
+                                                 'mark': result,
+                                                 'wind': wind,
+                                                 'result_date': date,
+                                                 'meet': meet,
+                                                 'season': season}
             
-
-
+            athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
+            events_performances.append((events[event]['id'],performances[performance_key]['id']))
