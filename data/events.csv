@@ -30,10 +30,10 @@
 29,PoleVault,Field
 30,Hammer,Field
 31,WeightThrow,Field
-32,Heptathlon,Decathlon
-33,Decathlon,Decathlon
+32,Heptathlon,Multi
+33,Decathlon,Multi
 34,100Hurdles,Running
-35,Pentathlon,Decathlon
+35,Pentathlon,Multi
 36,SprintMedleyRelay,Running
 37,300Meters,Running
 38,500Meters,Running
