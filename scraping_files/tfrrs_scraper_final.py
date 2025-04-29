@@ -48,12 +48,17 @@ for link in links:
             div = event.find_next("div", class_="performance-list-body")
             keys = set([el.get("data-label") for el in div.find_all("div", attrs={"data-label":True})])
             for key in keys:
-                data[key] = ["".join(el.get_text().split()) for el in div.find_all("div", attrs={"data-label": key})]
+                if key == "Athlete":
+                    names = ["".join(el.get_text().split()).split(',') for el in div.find_all("div", attrs={"data-label": key})]
+                    data["First Name"] = list(map(lambda x: x[0], names))
+                    data["Last Name"] = list(map(lambda x: x[1], names))
+                else:
+                    data[key] = ["".join(el.get_text().split()) for el in div.find_all("div", attrs={"data-label": key})]
             data["Event"] = ["".join(event.get_text().split()) for i in range(len(div.find_all("div", attrs={"data-label": list(keys)[0]})))]
+            data["Season"] = id
             temp_df = pd.concat([temp_df, pd.DataFrame(data)], ignore_index=True)
         temp_df["School"] = link.get_text()
         temp_df["Category"] = link.get("href")
-        temp_df["Season"] = id
     df = pd.concat([df, temp_df], ignore_index=True)
 
 # Label as m/f and save to csv
