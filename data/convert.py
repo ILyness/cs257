@@ -72,29 +72,29 @@ def main(input_file_name):
                 row = (athlete['id'], athlete['first_name'], athlete['last_name'], athlete['school'], athlete['gender'])
                 writer.writerow(row)
 
-        with open('events.csv', 'w') as f:
-            writer = csv.writer(f)
-            for event_key in events:
-                event = events[event_key]
-                row = (event['id'], event['event'], event['event_category'])
-                writer.writerow(row)
+    with open('events.csv', 'w') as f:
+        writer = csv.writer(f)
+        for event_key in events:
+            event = events[event_key]
+            row = (event['id'], event['event'], event['event_category'])
+            writer.writerow(row)
 
-        with open('performances.csv', 'w') as f:
-            writer = csv.writer(f)
-            for performance_key in performances:
-                performance = performances[performance_key]
-                row = (performance['id'], performance['mark'], performance['wind'], performance['result_date'], performance['meet'], performance['season'])
-                writer.writerow(row)
+    with open('performances.csv', 'w') as f:
+        writer = csv.writer(f)
+        for performance_key in performances:
+            performance = performances[performance_key]
+            row = (performance['id'], performance['mark'], performance['wind'], performance['result_date'], performance['meet'], performance['season'])
+            writer.writerow(row)
 
-        with open('athletes_performances.csv', 'w') as f:
-            writer = csv.writer(f)
-            for athlete_id, performance_id in athletes_performances:
-                writer.writerow((athlete_id, performance_id))
+    with open('athletes_performances.csv', 'w') as f:
+        writer = csv.writer(f)
+        for athlete_id, performance_id in athletes_performances:
+            writer.writerow((athlete_id, performance_id))
 
-        with open('events_performances.csv', 'w') as f:
-            writer = csv.writer(f)
-            for event_id, performance_id in events_performances:
-                writer.writerow((event_id, performance_id))
+    with open('events_performances.csv', 'w') as f:
+        writer = csv.writer(f)
+        for event_id, performance_id in events_performances:
+            writer.writerow((event_id, performance_id))
 
                     
 if len(sys.argv) != 2:
