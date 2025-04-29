@@ -59,4 +59,4 @@ for link in links:
 # Label as m/f and save to csv
 df["Category"] = df["Category"].map(lambda x: x[x.index("college_")+8])
 df.drop(columns=["Place", "Conv"], inplace=True)
-df.to_csv("MIAC_data_final.csv", index=False)
+df.to_csv("../data/MIAC_data_final.csv", index=False)
