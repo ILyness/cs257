@@ -24,9 +24,9 @@ CREATE TABLE performances (
 CREATE TABLE athletes_performances (
     athlete_id integer,
     performance_id integer
-)
+);
 
 CREATE TABLE events_performances (
     event_id integer,
     performance_id integer
-)
+);
