@@ -12,13 +12,28 @@ def main(input_file_name):
         for row in reader:
             if row[0] == 'Time':
                 continue
-            time = row[0]
-            year = row[1]
+            time = row[0] if row[0] else 'NULL'
+            year = row[1] if row[1] else 'NULL'
             wind = row[2] if row[2] else 'NULL'
-            first_name = row[4]
-            last_name = row[3]
+            first_name = row[4] if row[4] else 'NULL'
+            last_name = row[3] if row[3] else 'NULL'
             meet = row[5]
             date = row[6]
-
+            event = row[7]
+            season = row[8]
+            athletes = row[9] if row[9] else 'NULL'
+            mark = row[10] if row[10] else 'NULL'
+            school = row[11]
+            category = row[12]
+            points = row[13] if row[13] else 'NULL'
+            if first_name != 'NULL':
+                athlete_key = f'{first_name}+{last_name}'
+                if athlete_key not in athletes:
+                    athletes[athlete_key] = {'id': len(athletes),
+                                             'first_name': first_name,
+                                             'last_name': last_name,
+                                             'school': school,
+                                             'gender': category}
+            
 
 
