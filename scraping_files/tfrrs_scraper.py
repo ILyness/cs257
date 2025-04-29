@@ -20,4 +20,4 @@ for event in events:
     df = pd.concat([df, pd.DataFrame(data)], ignore_index=True)
 df["School"] = "Carleton"
 
-df.to_csv("test.csv", index=False)
+df.to_csv("../data/test.csv", index=False)
