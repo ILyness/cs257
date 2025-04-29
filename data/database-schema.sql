@@ -17,7 +17,8 @@ CREATE TABLE performances (
     mark text,
     wind text,
     result_date text,
-    meet text
+    meet text,
+    season text
 );
 
 CREATE TABLE athletes_performances (
