@@ -8,12 +8,12 @@ CREATE TABLE athletes (
 CREATE TABLE schools (
     id integer NOT NULL,
     school text
-)
+);
 
 CREATE TABLE athletes_schools (
     athlete_id integer,
     school_id integer
-)
+);
 
 CREATE TABLE events (
     id integer NOT NULL,
@@ -32,22 +32,22 @@ CREATE TABLE performances (
 CREATE TABLE meets (
     id integer NOT NULL,
     meet text
-)
+);
 
 CREATE TABLE seasons (
     id integer NOT NULL,
     season text
-)
+);
 
 CREATE TABLE meets_performances (
     meet_id integer,
     performance_id integer
-)
+);
 
 CREATE TABLE seasons_performances (
     season_id integer,
     performance_id integer
-)
+);
 
 CREATE TABLE athletes_performances (
     athlete_id integer,
