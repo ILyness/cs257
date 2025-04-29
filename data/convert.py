@@ -65,7 +65,7 @@ def main(input_file_name):
                 athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
             else:
                 relay_team = relay.split(',')
-                for leg in relay:
+                for leg in relay_team:
                     for athlete_key in athletes:
                         if athletes[athlete_key]['last_name'] == leg and athletes[athlete_key]['school'] == school:
                             athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
