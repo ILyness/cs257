@@ -18,16 +18,12 @@ CREATE TABLE performances (
     mark text,
     wind text,
     result_date DATE, -- swapped text to datetime, so its easier to sort by date
-    meet text, 
-    event_id, integer NOT NULL -- I changed season to event_id as it is possible for us to, with a given event id, determine whether this was run indoor or outdoor by querying events
+    meet text,
+    event_id, integer NOT NULL, -- REFERS TO table:events id
+
 );
 
-CREATE TABLE athletes_performances ( 
+CREATE TABLE athletes_performances (  -- keeping this table, as multiple athletes can refer to a single performance (relays)
     athlete_id integer, --REFERS TO table athletes id
     performance_id integer -- REFERS TO performances id 
-);
-
-CREATE TABLE events_performances ( -- including the ability to check for season category would allow us to pull all indoor 200m from 2020
-    event_id integer,  --REFERS TO table events id
-    performance_id integer  -- REFERS TO table performances id
 );
