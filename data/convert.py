@@ -86,13 +86,13 @@ def main(input_file_name):
                                                  'season': season,
                                                  'event_id': events[event_key]['id']}
             if relay == 'NULL':
-                athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]))
+                athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
             else:
                 relay_team = relay.split(',')
                 for leg in relay_team:
                     for athlete_key in athletes:
                         if athletes[athlete_key]['last_name'] == leg and athletes[athlete_key]['school'] == school:
-                            athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]))
+                            athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
 
     with open('athletes.csv', 'w') as f:
         writer = csv.writer(f)
