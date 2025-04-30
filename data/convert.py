@@ -102,7 +102,7 @@ def main(input_file_name):
         writer = csv.writer(f)
         for performance_key in performances:
             performance = performances[performance_key]
-            row = (performance['id'], performance['mark'], performance['wind'], performance['result_date'], performance['meet'], performance['season'], performances['event_id'])
+            row = (performance['id'], performance['mark'], performance['wind'], performance['result_date'], performance['meet'], performance['season'], performance['event_id'])
             writer.writerow(row)
 
     with open('athletes_performances.csv', 'w') as f:
