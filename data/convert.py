@@ -88,7 +88,7 @@ def main(input_file_name):
         writer = csv.writer(f)
         for athlete_key in athletes:
             athlete = athletes[athlete_key]
-            row = (athlete['id'], athlete['first_name'], athlete['last_name'], athlete['school'], athlete['gender'])
+            row = (athlete['id'], athlete['last_name'], athlete['first_name'], athlete['school'], athlete['gender'])
             writer.writerow(row)
 
     with open('events.csv', 'w') as f:
