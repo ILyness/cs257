@@ -1,3 +1,15 @@
+"""
+Convert.py
+Soren Kaster, Indy Lyness, Daniel Scheider
+4/29/25
+
+Script to convert MIAC_data_final.csv (or a csv file matching its format) into smaller csv files to
+upload into an SQL database. Those files are:
+
+    - 
+"""
+
+
 import sys
 import csv
 
@@ -6,7 +18,6 @@ def main(input_file_name):
     performances = {}
     events = {}
     athletes_performances = []
-    events_performances = []
     with open(input_file_name) as f:
         reader = csv.reader(f)
         for row in reader:
@@ -34,16 +45,18 @@ def main(input_file_name):
                                              'last_name': last_name,
                                              'school': school,
                                              'gender': category}
-            if event not in events:
+            event_key = f'{event}+{season.split()[0]}'
+            if event_key not in events:
                 if time != 'NULL': 
                     event_category = 'Running'
                 elif points != 'NULL':
                     event_category = 'Multi'
                 else:
                     event_category = 'Field'
-                events[event] = {'id': len(events),
-                                 'event': event,
-                                 'event_category': event_category}
+                events[event_key] = {'id': len(events),
+                                     'event': event,
+                                     'event_category': event_category,
+                                     'season_category': season.split()[0]}
                 
             if time != 'NULL':
                 performance_key = f'{last_name}+{event}+{date}'
@@ -56,11 +69,12 @@ def main(input_file_name):
                 result = mark
 
             performances[performance_key] = {'id': len(performances),
-                                                 'mark': result,
-                                                 'wind': wind,
-                                                 'result_date': date,
-                                                 'meet': meet,
-                                                 'season': season}
+                                             'mark': result,
+                                             'wind': wind,
+                                             'result_date': date,
+                                             'meet': meet,
+                                             'season': season,
+                                             'event_id': events[event_key]['id']}
             if relay == 'NULL':
                 athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
             else:
@@ -69,14 +83,13 @@ def main(input_file_name):
                     for athlete_key in athletes:
                         if athletes[athlete_key]['last_name'] == leg and athletes[athlete_key]['school'] == school:
                             athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
-            events_performances.append((events[event]['id'],performances[performance_key]['id']))
 
-        with open('athletes.csv', 'w') as f:
-            writer = csv.writer(f)
-            for athlete_key in athletes:
-                athlete = athletes[athlete_key]
-                row = (athlete['id'], athlete['first_name'], athlete['last_name'], athlete['school'], athlete['gender'])
-                writer.writerow(row)
+    with open('athletes.csv', 'w') as f:
+        writer = csv.writer(f)
+        for athlete_key in athletes:
+            athlete = athletes[athlete_key]
+            row = (athlete['id'], athlete['first_name'], athlete['last_name'], athlete['school'], athlete['gender'])
+            writer.writerow(row)
 
     with open('events.csv', 'w') as f:
         writer = csv.writer(f)
@@ -96,11 +109,6 @@ def main(input_file_name):
         writer = csv.writer(f)
         for athlete_id, performance_id in athletes_performances:
             writer.writerow((athlete_id, performance_id))
-
-    with open('events_performances.csv', 'w') as f:
-        writer = csv.writer(f)
-        for event_id, performance_id in events_performances:
-            writer.writerow((event_id, performance_id))
 
                     
 if len(sys.argv) != 2:

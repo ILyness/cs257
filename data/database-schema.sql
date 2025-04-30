@@ -19,6 +19,7 @@ CREATE TABLE performances (
     wind text,
     result_date DATE, -- swapped text to datetime, so its easier to sort by date
     meet text,
+    season text, --season this performance is from
     event_id, integer NOT NULL, -- REFERS TO table:events id
 
 );
