@@ -95,14 +95,14 @@ def main(input_file_name):
         writer = csv.writer(f)
         for event_key in events:
             event = events[event_key]
-            row = (event['id'], event['event'], event['event_category'])
+            row = (event['id'], event['event'], event['event_category'], event['season_category'])
             writer.writerow(row)
 
     with open('performances.csv', 'w') as f:
         writer = csv.writer(f)
         for performance_key in performances:
             performance = performances[performance_key]
-            row = (performance['id'], performance['mark'], performance['wind'], performance['result_date'], performance['meet'], performance['season'])
+            row = (performance['id'], performance['mark'], performance['wind'], performance['result_date'], performance['meet'], performance['season'], performances['event_id'])
             writer.writerow(row)
 
     with open('athletes_performances.csv', 'w') as f:
