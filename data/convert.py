@@ -6,7 +6,12 @@ Soren Kaster, Indy Lyness, Daniel Scheider
 Script to convert MIAC_data_final.csv (or a csv file matching its format) into smaller csv files to
 upload into an SQL database. Those files are:
 
-    - 
+    - athletes.csv: id, last_name, first_name, school, gender
+    - events.csv: id, event_name, event_category, season_category
+    - performances.csv: id, mark, wind, result_date, meet, season, event_id
+    - athletes_performances: athlete_id, performance_id
+
+    Adapted from Jeff Ondich's csv2tables.py from the course repository.
 """
 
 
@@ -59,30 +64,35 @@ def main(input_file_name):
                                      'season_category': 0 if season.split()[0] == 'Indoor' else 1}
                 
             if time != 'NULL':
-                performance_key = f'{last_name}+{event}+{date}'
+                if relay == 'NULL':
+                    performance_key = f'{first_name}+{last_name}+{school}+{event}+{date}+{time}'
+                else:
+                    performance_key = f'{relay}+{event}+{school}+{date}+{time}'
                 result = time
             elif points != 'NULL':
-                performance_key = f'{last_name}+{event}+{date}'
+                performance_key = f'{first_name}+{last_name}+{school}+{event}+{date}+{points}'
                 result = points
             else:
-                performance_key = f'{last_name}+{event}+{date}+{mark}'
+                performance_key = f'{first_name}+{last_name}+{school}+{event}+{date}+{mark}+{wind}'
                 result = mark
 
-            performances[performance_key] = {'id': len(performances),
-                                             'mark': result,
-                                             'wind': wind,
-                                             'result_date': date,
-                                             'meet': meet,
-                                             'season': season,
-                                             'event_id': events[event_key]['id']}
+            if performance_key not in performances:
+
+                performances[performance_key] = {'id': len(performances),
+                                                 'mark': result,
+                                                 'wind': wind,
+                                                 'result_date': date,
+                                                 'meet': meet,
+                                                 'season': season,
+                                                 'event_id': events[event_key]['id']}
             if relay == 'NULL':
-                athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
+                athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]))
             else:
                 relay_team = relay.split(',')
                 for leg in relay_team:
                     for athlete_key in athletes:
                         if athletes[athlete_key]['last_name'] == leg and athletes[athlete_key]['school'] == school:
-                            athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
+                            athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]))
 
     with open('athletes.csv', 'w') as f:
         writer = csv.writer(f)
