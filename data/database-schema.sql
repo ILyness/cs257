@@ -20,8 +20,7 @@ CREATE TABLE performances (
     result_date DATE, -- swapped text to datetime, so its easier to sort by date
     meet text,
     season text, --season this performance is from
-    event_id, integer NOT NULL, -- REFERS TO table:events id
-
+    event_id integer NOT NULL -- REFERS TO table:events id
 );
 
 CREATE TABLE athletes_performances (  -- keeping this table, as multiple athletes can refer to a single performance (relays)

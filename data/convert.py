@@ -56,7 +56,7 @@ def main(input_file_name):
                 events[event_key] = {'id': len(events),
                                      'event': event,
                                      'event_category': event_category,
-                                     'season_category': season.split()[0]}
+                                     'season_category': 0 if season.split()[0] == 'Indoor' else 1}
                 
             if time != 'NULL':
                 performance_key = f'{last_name}+{event}+{date}'
