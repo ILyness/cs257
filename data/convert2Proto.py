@@ -62,6 +62,7 @@ def main(input_file_name):
                                              'school_year': schoolYear,
                                              'first_name': first_name,
                                              'last_name': last_name,
+                                             'school': school,
                                              'gender': category}
                     
             if season != 'NULL':
@@ -119,14 +120,14 @@ def main(input_file_name):
         writer = csv.writer(f)
         for season_key in seasons:
             season = seasons[season_key]
-            row = (season['id'], season['name'], season['season_category'])
+            row = (season['id'], season['season_name'], season['season_category'])
             writer.writerow(row)
             
     with open('athletes.csv', 'w') as f:
         writer = csv.writer(f)
         for athlete_key in athletes:
             athlete = athletes[athlete_key]
-            row = (athlete['id'], athlete['last_name'], athlete['first_name'], athlete['school'], athlete['gender'])
+            row = (athlete['id'], athlete['last_name'], athlete['first_name'], athlete['gender'])
             writer.writerow(row)
 
     with open('events.csv', 'w') as f:
@@ -140,7 +141,7 @@ def main(input_file_name):
         writer = csv.writer(f)
         for performance_key in performances:
             performance = performances[performance_key]
-            row = (performance['id'], performance['mark'], performance['wind'], performance['result_date'], performance['meet'], performance['season_id'], performance['event_id'])
+            row = (performance['id'], performance['mark'], performance['wind'], performance['result_date'], performance['meet'])
             writer.writerow(row)
 
     with open('results.csv', 'w') as f:
