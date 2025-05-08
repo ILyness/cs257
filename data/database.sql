@@ -5,18 +5,14 @@ CREATE TABLE athletes (
     gender text
 );
 
-COPY athletes(id, last_name, first_name, gender)
-FROM 'athletes.csv'
-DELIMITER ',';
+\copy athletes FROM 'athletes.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 CREATE TABLE schools (
     id integer NOT NULL,
     school_name text
 );
 
-COPY schools(id, school_name)
-FROM 'schools.csv'
-DELIMITER ',';
+\copy schools FROM 'schools.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 CREATE TABLE seasons (
     id integer NOT NULL,
@@ -24,9 +20,7 @@ CREATE TABLE seasons (
     season_category --- do we want to include this? so its easy to filter to look through all indoor seasons or all outdoor seasons?
 );
 
-COPY seasons(id, season_name, season_category)
-FROM 'seasons.csv'
-DELIMITER ',';
+\copy seasons FROM 'seasons.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 
 CREATE TABLE events ( -- this table will likely be used often for population of dropdowns/populating returned tables with event names 
@@ -36,9 +30,7 @@ CREATE TABLE events ( -- this table will likely be used often for population of 
     season_category integer NOT NULL -- indoor vs outdoor ids, indoor = 0, outdoor = 1. it's important when we look at times to know whether that time was run indoor or outdoor
 );
 
-COPY events(id, event_name, event_category, season_category)
-FROM 'events.csv'
-DELIMITER ',';
+\copy events FROM 'events.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 CREATE TABLE performances (
     id integer NOT NULL, 
@@ -48,9 +40,7 @@ CREATE TABLE performances (
     meet text
 );
 
-COPY performances(id, mark, wind, result_date, meet)
-FROM 'performances.csv'
-DELIMITER ',';
+\copy performances FROM 'performances.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 CREATE TABLE results (  -- keeping this table, as multiple athletes can refer to a single performance (relays)
     athlete_id integer, --REFERS TO table athletes table id
@@ -61,9 +51,7 @@ CREATE TABLE results (  -- keeping this table, as multiple athletes can refer to
 );
 
 
-COPY results(athlete_id, performance_id, school_id, event_id, season_id)
-FROM 'results.csv'
-DELIMITER ',';
+\copy results FROM 'results.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 
 
