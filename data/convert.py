@@ -116,6 +116,13 @@ def main(input_file_name):
                         if athletes[athlete_key]['last_name'] == leg and athletes[athlete_key]['school'] == school:
                             results.append((athletes[athlete_key]['id'],performances[performance_key]['id'],schools[school_key]['id'],events[event_key]['id'],seasons[season_key]['id']))
 
+    with open('schools.csv', 'w') as f:
+        writer = csv.writer(f)
+        for school_key in schools:
+            school = schools[school_key]
+            row = (school['id'], school['school_name'])
+            writer.writerow(row)
+
     with open('seasons.csv', 'w') as f:
         writer = csv.writer(f)
         for season_key in seasons:
