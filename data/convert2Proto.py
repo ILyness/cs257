@@ -23,7 +23,8 @@ def main(input_file_name):
     performances = {}
     events = {}
     seasons = {}
-    athletes_performances = []
+    schools = {}
+    results = []
     
     with open(input_file_name) as f:
         reader = csv.reader(f)
@@ -51,13 +52,12 @@ def main(input_file_name):
             
             
             if first_name != 'NULL':
-                athlete_key = f'{first_name}+{last_name}'
+                athlete_key = f'{first_name}+{last_name}+{school}'
                 if athlete_key not in athletes:
                     athletes[athlete_key] = {'id': len(athletes),
                                              'school_year': schoolYear,
                                              'first_name': first_name,
                                              'last_name': last_name,
-                                             'school': school,
                                              'gender': category}
                     
             if season != 'NULL':
@@ -65,7 +65,7 @@ def main(input_file_name):
                 if season_key not in seasons:
                     
                     seasons[season_key] = {"id": len(seasons),
-                                          "name": season,
+                                          "season_name": season,
                                           'season_category': 0 if season.split()[0] == 'Indoor' else 1}
                     
                     
@@ -101,9 +101,7 @@ def main(input_file_name):
                                                  'mark': result,
                                                  'wind': wind,
                                                  'result_date': date,
-                                                 'meet': meet,
-                                                 'season_id': seasons[season_key].get('id'),
-                                                 'event_id': events[event_key]['id']}
+                                                 'meet': meet}
             if relay == 'NULL':
                 athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
             else:
@@ -141,7 +139,7 @@ def main(input_file_name):
             row = (performance['id'], performance['mark'], performance['wind'], performance['result_date'], performance['meet'], performance['season_id'], performance['event_id'])
             writer.writerow(row)
 
-    with open('athletes_performances.csv', 'w') as f:
+    with open('results.csv', 'w') as f:
         writer = csv.writer(f)
         for athlete_id, performance_id in athletes_performances:
             writer.writerow((athlete_id, performance_id))
