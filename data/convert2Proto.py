@@ -47,7 +47,11 @@ def main(input_file_name):
             points = row[13] if row[13] else 'NULL'
             
             
-            
+            if school != 'NULL':
+                school_key = f'{school}'
+                if school_key not in schools:
+                    schools[school_key] = {'id': len(schools),
+                                           'school_name': school}
             
             
             
@@ -103,13 +107,13 @@ def main(input_file_name):
                                                  'result_date': date,
                                                  'meet': meet}
             if relay == 'NULL':
-                athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
+                results.append((athletes[athlete_key]['id'],performances[performance_key]['id'],schools[school_key]['id'],events[event_key]['id'],seasons[season_key]['id']))
             else:
                 relay_team = relay.split(',')
                 for leg in relay_team:
                     for athlete_key in athletes:
                         if athletes[athlete_key]['last_name'] == leg and athletes[athlete_key]['school'] == school:
-                            athletes_performances.append((athletes[athlete_key]['id'],performances[performance_key]['id']))
+                            results.append((athletes[athlete_key]['id'],performances[performance_key]['id'],schools[school_key]['id'],events[event_key]['id'],seasons[season_key]['id']))
 
     with open('seasons.csv', 'w') as f:
         writer = csv.writer(f)
@@ -141,9 +145,8 @@ def main(input_file_name):
 
     with open('results.csv', 'w') as f:
         writer = csv.writer(f)
-        for athlete_id, performance_id in athletes_performances:
-            writer.writerow((athlete_id, performance_id))
-
+        for athlete_id, performance_id, school_id, event_id, season_id in results:
+            writer.writerow((athlete_id, performance_id, school_id, event_id, season_id))
                     
 if len(sys.argv) != 2:
     print(f'Usage: {sys.argv[0]} original_csv_file', file=sys.stderr)
