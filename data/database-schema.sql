@@ -28,7 +28,7 @@ CREATE TABLE performances (
     mark text,
     wind text,
     result_date DATE, -- swapped text to datetime, so its easier to sort by date
-    meet text,
+    meet text
 );
 
 CREATE TABLE results (  -- keeping this table, as multiple athletes can refer to a single performance (relays)
