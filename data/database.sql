@@ -45,7 +45,7 @@ CREATE TABLE performances (
     mark text,
     wind text,
     result_date DATE, -- swapped text to datetime, so its easier to sort by date
-    meet text,
+    meet text
 );
 
 COPY performances(id, mark, wind, result_date, meet)
