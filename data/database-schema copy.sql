@@ -12,7 +12,8 @@ CREATE TABLE schools (
 
 CREATE TABLE seasons (
     id integer NOT NULL,
-    season_name text
+    season_name text,
+    season_category --- do we want to include this? so its easy to filter to look through all indoor seasons or all outdoor seasons?
 )
 
 CREATE TABLE events ( -- this table will likely be used often for population of dropdowns/populating returned tables with event names 
@@ -31,9 +32,9 @@ CREATE TABLE performances (
 );
 
 CREATE TABLE results (  -- keeping this table, as multiple athletes can refer to a single performance (relays)
-    athlete_id integer, --REFERS TO table athletes id
-    performance_id integer, -- REFERS TO performances id 
-    school_id integer,
-    event_id integer,
-    season_id integer
+    athlete_id integer, --REFERS TO table athletes table id
+    performance_id integer, -- REFERS TO performances table id 
+    school_id integer, -- REFERS TO schools table id
+    event_id integer, -- REFERS TO event table id
+    season_id integer -- REFERS TO seasons table id
 );
