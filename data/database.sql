@@ -17,7 +17,7 @@ CREATE TABLE schools (
 CREATE TABLE seasons (
     id integer NOT NULL,
     season_name text,
-    season_category --- do we want to include this? so its easy to filter to look through all indoor seasons or all outdoor seasons?
+    season_category integer NOT NULL --- do we want to include this? so its easy to filter to look through all indoor seasons or all outdoor seasons?
 );
 
 \copy seasons FROM 'seasons.csv' DELIMITER ',' CSV NULL AS 'NULL';
