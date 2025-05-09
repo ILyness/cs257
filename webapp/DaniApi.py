@@ -133,5 +133,4 @@ def main():
     
 if __name__ == '__main__':
     app.run(host=config.host, port=config.port, debug=True)
-
-    main()
+    
