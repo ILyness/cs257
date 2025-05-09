@@ -18,6 +18,7 @@ def get_connection():
 
 @app.route('/marks/<gender>/<event>')
 def get_marks(gender,event):
+    marks = []
     try:
         mark = flask.request.args.get('mark', type=float)
         school = flask.request.args.get('school')
@@ -29,39 +30,95 @@ def get_marks(gender,event):
                 duplicate = True
             else:
                 duplicate = False
-        query = '''SELECT events.event_name FROM results 
+        query = '''SELECT CONCAT(athletes.first_name + " " + athletes.last_name) as athlete_name, events.event_name, seasons.season_name, performances.mark, performances.result_date
+                        FROM results 
                         JOIN performances ON performances.id = results.performance_id
                         JOIN events ON results.event_id = events.id 
                         AND events.event_name = %s
-                        JOIN athletes ON athletes.gender = %s '''
+                        JOIN athletes ON athletes.id = results.athletes_id AND athletes.gender = %s
+                        JOIN seasons ON results.season_id = seasons.id
+                        JOIN schools ON schools.id = results.school_id'''
         parameters = [event,gender]
+        
         if season:
-            query = query + ''' JOIN seasons 
-                                ON results.season_id = seasons.id 
-                                AND seasons.season_name = %s
-                                        '''
+            query = query + ''' WHERE seasons.season_name = %s'''
             parameters.append[season]
+            
         if school:
-            query = query + ''' JOIN schools
-                                ON schools.id = results.school_id
-                                AND school_name = %s
-                                        '''
+            query = query + ''' AND school_name = %s'''
             parameters.append[school]
             
-        if mark: # less confident about this one, as it may need to be last cuz im filtering by stuff etc + only a basic functionalitiy for track events.
-            query = query + "WHERE CAST(performances.mark AS FLOAT) < %s"
-            parameters.append[mark]
+        if display_number:
+            query = query + '''LIMIT %s'''
+            parameters.append[display_number]
+            
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(query, parameters)
+        for row in cursor:
+            marks.append({'athlete_name': row[0], 'event_name': row[1], 'season_name': row[2], 'mark': row[3], 'result_date': row[4]})
+    
+    
+    query2 = '''SELECT event_category FROM events WHERE event_name = %s'''
+    cursor.execute(query2, (event,))
+    for row in cursor:
+        event_category = row[0]
+    connection.close() 
+    
+    if event_category = "Running":
+        marks = sorted(marks, key = lambda x: parse_time(x['mark']))
+    else if event_category = "Multi":
+        marks = sorted(marks, key = lambda x: float(x['mark'][:-1]), reverse = True)
+    else if event_category = "Field":    
+        marks = sorted(marks, key = lambda x: float(x['mark']), reverse = True)
+            
+    if mark: #filters results by mark
+        if event_category = "Running":
+            for result in marks[:]:
+                if parse_time(result['mark']) > parse_time(mark):
+                    marks.remove(result)
+        else if event_category = "Multi":
+            for result in marks[:]:
+                if float(result['mark']) < float(mark):
+                    marks.remove(result)
+        else if event_category = "Field":  
+            for result in marks[:]:
+                if float(result['mark'][:-1]) < float(mark[:-1]):
+                    marks.remove(result)
+                         
+    if not duplicate:
         
         
-        marks: []
+        
+        
     excecpt Exception as e:
         print(e, file=sys.stderr)
     
     return marks
 
+
+
+
+
+
+
+
+
+################################################################
 @app.route('/help')
 def get_help():
     return flask.render_template('help.html')
+
+
+
+def parse_time(t):  
+    if ':' in t:
+        minutes, seconds = t.split(':')
+        return int(minutes) * 60 + float(seconds)
+    else:
+        
+        return float(t)
+
 
 
 def main():
@@ -75,8 +132,6 @@ def main():
     
     
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser('A sample Flask application/API for JEFFRS')
-    parser.add_argument('host', help='the host on which this application is running')
-    parser.add_argument('port', type=int, help='the port on which this application is listening')
-    arguments = parser.parse_args()
-    app.run(host=arguments.host, port=arguments.port, debug=True)
+    app.run(host=config.host, port=config.port, debug=True)
+
+    main()
