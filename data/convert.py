@@ -6,10 +6,12 @@ Soren Kaster, Indy Lyness, Daniel Scheider
 Script to convert MIAC_data_final.csv (or a csv file matching its format) into smaller csv files to
 upload into an SQL database. Those files are:
 
-    - athletes.csv: id, last_name, first_name, school, gender
+    - athletes.csv: id, last_name, first_name, gender
+    - schools.csv: id, school_name
+    - seasons.csv: id, season_name, season_category
     - events.csv: id, event_name, event_category, season_category
-    - performances.csv: id, mark, wind, result_date, meet, season, event_id
-    - athletes_performances: athlete_id, performance_id
+    - performances.csv: id, mark, wind, result_date, meet
+    - results.csv: athlete_id, performance_id, school_id, event_id, season_id
 
     Adapted from Jeff Ondich's csv2tables.py from the course repository.
 """
@@ -29,6 +31,7 @@ def main(input_file_name):
     with open(input_file_name) as f:
         reader = csv.reader(f)
         for row in reader:
+            # Get all data values from row
             if row[0] == 'Time':
                 continue
             time = row[0] if row[0] else 'NULL'
@@ -46,7 +49,8 @@ def main(input_file_name):
             category = row[12]
             points = row[13] if row[13] else 'NULL'
             
-            
+            # Add school/athlete/season/event to relevant dictionary if new
+
             if school != 'NULL':
                 school_key = f'{school}'
                 if school_key not in schools:
@@ -87,6 +91,8 @@ def main(input_file_name):
                                      'event_category': event_category,
                                      'season_category': 0 if season.split()[0] == 'Indoor' else 1}
                 
+            # Generate performance key to avoid potential duplicates
+
             if time != 'NULL':
                 if relay == 'NULL':
                     performance_key = f'{first_name}+{last_name}+{school}+{event}+{date}+{time}'
@@ -107,6 +113,8 @@ def main(input_file_name):
                                                  'wind': wind,
                                                  'result_date': date,
                                                  'meet': meet}
+                
+            # Add performance to results, linked to correct school/athlete etc. also handling relays
             if relay == 'NULL':
                 results.append((athletes[athlete_key]['id'],performances[performance_key]['id'],schools[school_key]['id'],events[event_key]['id'],seasons[season_key]['id']))
             else:
@@ -115,6 +123,8 @@ def main(input_file_name):
                     for athlete_key in athletes:
                         if athletes[athlete_key]['last_name'] == leg and athletes[athlete_key]['school'] == school:
                             results.append((athletes[athlete_key]['id'],performances[performance_key]['id'],schools[school_key]['id'],events[event_key]['id'],seasons[season_key]['id']))
+
+    # Write resulting dictionaries/lists to csv files
 
     with open('schools.csv', 'w') as f:
         writer = csv.writer(f)
