@@ -8,11 +8,6 @@ import argparse
 app = flask.Flask(__name__)
 
 def get_connection():
-    ''' Returns a database connection object with which you can create cursors,
-        issue SQL queries, etc. This function is extremely aggressive about
-        failed connections--it just prints an error message and kills the whole
-        program. Sometimes that's the right choice, but it depends on your
-        error-handling needs. '''
     try:
         return psycopg2.connect(database=config.database,
                                 user=config.user,
@@ -23,25 +18,16 @@ def get_connection():
 
 @app.route('/list')
 def get_performance_list():
-    ''' Returns a list of all the authors in the database, ordered by surname.
-        Each author is represented by a dictionary with keys "given_name"
-        and "surname". '''
     events = []
     performance_list = {}
-    limit = flask.request.args.get('num_entries', type=int)
-    if not limit:
-        limit = 20
+    limit = flask.request.args.get('num_entries', type=int, default=20)
     try:
-        # Create a "cursor", which is an object with which you can iterate
-        # over query results.
         connection = get_connection()
         cursor = connection.cursor()
 
-        # Execute the query
         query = 'SELECT * FROM events'
         cursor.execute(query)
 
-        # Iterate over the query results to produce the list of author names.
         for row in cursor:
             events.append({'id':row[0], 'event_name':row[1], 'event_category':row[2], 'season_category':row[3]})
 
@@ -99,7 +85,7 @@ def get_help():
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser('Flask API implementation of CLI assigment')
+    parser = argparse.ArgumentParser('Flask API implementation using SQL database via psycopg2')
     parser.add_argument('host', help='the host on which this application is running')
     parser.add_argument('port', type=int, help='the port on which this application is listening')
     arguments = parser.parse_args()
