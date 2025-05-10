@@ -63,6 +63,7 @@ RESPONSE: a JSON dictionary where each dictionary representing the specified ath
 
 	name – (TEXT) the athletes name
 	school – (TEXT) the athletes school
+    gender - (TEXT) the athletes gender
 	marks - (LIST) list of dictionaries, where each dictionary is a mark for the athlete containing:
 	    event - (TEXT) event that the mark is from
 	    mark - (TEXT) time/distance/points for the performance
@@ -75,6 +76,7 @@ EXAMPLE:
         { 
             "name" : "Lyness,Indy",
             "school" : "Carleton",
+            "gender" : "m",
             "marks": [
                         {
                             "event": "800Meters", 
@@ -161,34 +163,36 @@ EXAMPLE:
         }
 
 
+
+
+
 REQUEST: /athletes?search=<search_entry>
 
 GET parameters
    search_entry (Optional, default: '') -- only return athletes whose first or last name contains search_entry
 
-
 RESPONSE: a JSON list of dictionaries where each dictionary has the following fields.
 
-	name – (TEXT) the athletes name
+	first_name – (TEXT) the athletes first name
+    last_name – (TEXT) the athletes last name
 	school – (TEXT) the athletes school
+    gender - (TEXT) the athletes gender
 
 EXAMPLE:
     /athletes?search=soren
-
         [
             {
-                "name": "Kaster,Soren",
-                "school": Carleton"
+                "first_name": "Soren",
+                "last_name": "Kaster",
+                "school": "Carleton",
+                "gender': "m"
             },
 
             {
-                "name": "Smith,Soren,
-                "school": "St. Olaf"
-            },
-
-            {
-                "name": "Sorenson,Jeff",
-                "school": "Bethel"
+                "first_name": "Soren",
+                "last_name": "Smith",
+                "school": "St. Olaf",
+                "gender": "f"
             }
         ]
 
