@@ -85,10 +85,19 @@ def get_marks(gender,event):
             for result in marks[:]:
                 if float(result['mark'][:-1]) < float(mark[:-1]):
                     marks.remove(result)
-                         
-    if not duplicate:
+                          
+    if not duplicate: ## not sure if there is an easier way to remove duplicates from the list of dictionaries
+        seen = set()
+        to_delete = []
+        for i in range(len(marks)):
+            name = (marks[i]['first'], marks[i]['last'])
+            if name in seen:
+                to_delete.append(i)
+            else:
+                seen.add(name)
         
-        
+        for i in reversed(to_delete):
+            del marks[i]
         
         
     excecpt Exception as e:
