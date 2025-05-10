@@ -3,7 +3,7 @@ Indy Lyness
 Daniel Scheider
 
 REQUEST: /marks/{sex}/{event}?mark={mark}&school={school}&season={season}&duplicate={duplicate}&display_number={display_number}
-
+    ## DANIEL WILL DO THIS
 GET parameters
 
     mark (Optional, default: ‘’) – return only athletes who have a competition mark better than ‘mark’ in specified event. For field events, this is 
@@ -58,7 +58,7 @@ EXAMPLE:
        
 
 REQUEST: /athlete/athlete_name
-
+## SOREN DOING THIS ONE
 RESPONSE: a JSON dictionary where each dictionary representing the specified athlete. The dictionary will have the following fields.
 
 	name – (TEXT) the athletes name
@@ -103,6 +103,7 @@ EXAMPLE:
         }
 
 REQUEST: /list?num_entries={num_entries}
+## INDY DOING THIS ONE
 
 GET parameters
   num_entries(Optional, default: 10) – the number of results for each event to display
@@ -167,7 +168,7 @@ EXAMPLE:
 
 
 REQUEST: /athletes?search=<search_entry>
-
+## SOREN DOING THIS
 GET parameters
    search_entry (Optional, default: '') -- only return athletes whose first or last name contains search_entry
 

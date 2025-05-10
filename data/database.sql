@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS athletes;
 CREATE TABLE athletes (
     id integer NOT NULL,
     last_name text,
@@ -7,12 +8,17 @@ CREATE TABLE athletes (
 
 \copy athletes FROM 'athletes.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
+
+DROP TABLE IF EXISTS schools;
+
 CREATE TABLE schools (
     id integer NOT NULL,
     school_name text
 );
 
 \copy schools FROM 'schools.csv' DELIMITER ',' CSV NULL AS 'NULL';
+
+DROP TABLE IF EXISTS seasons;
 
 CREATE TABLE seasons (
     id integer NOT NULL,
@@ -21,6 +27,8 @@ CREATE TABLE seasons (
 );
 
 \copy seasons FROM 'seasons.csv' DELIMITER ',' CSV NULL AS 'NULL';
+
+DROP TABLE IF EXISTS events;
 
 
 CREATE TABLE events ( -- this table will likely be used often for population of dropdowns/populating returned tables with event names 
@@ -32,6 +40,10 @@ CREATE TABLE events ( -- this table will likely be used often for population of 
 
 \copy events FROM 'events.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
+
+DROP TABLE IF EXISTS performances;
+
+
 CREATE TABLE performances (
     id integer NOT NULL, 
     mark text,
@@ -41,6 +53,10 @@ CREATE TABLE performances (
 );
 
 \copy performances FROM 'performances.csv' DELIMITER ',' CSV NULL AS 'NULL';
+
+
+DROP TABLE IF EXISTS results;
+
 
 CREATE TABLE results (  -- keeping this table, as multiple athletes can refer to a single performance (relays)
     athlete_id integer, --REFERS TO table athletes table id
