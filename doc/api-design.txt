@@ -64,8 +64,7 @@ RESPONSE: a JSON dictionary where each dictionary representing the specified ath
 	name – (TEXT) the athletes name
 	school – (TEXT) the athletes school
     gender - (TEXT) the athletes gender
-	marks - (LIST) list of dictionaries, where each dictionary is a mark for the athlete containing:
-	    event - (TEXT) event that the mark is from
+	marks - (LIST) dictionary where each key is an event and its value is all the athlete's performances from that event:
 	    mark - (TEXT) time/distance/points for the performance
 	    meet - (TEXT) meet that the mark was recorded at
 	    date - (TEXT) date that the mark was recorded
