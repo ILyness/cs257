@@ -1,5 +1,5 @@
 ''' api.py
-    api implementation
+    Api implementation using flask and SQL via psycopg2.
     Daniel, Soren, Indy
     Insprired/modeled from Jeff Ondich's sample(s)'''
 
@@ -13,6 +13,7 @@ import argparse
 app = flask.Flask(__name__)
 
 def get_connection():
+    """Get connection to SQL database, and throw error if there is a problem"""
     try:
         return psycopg2.connect(database=config.database,
                                 user=config.user,
@@ -23,9 +24,12 @@ def get_connection():
 
 @app.route('/list')
 def get_performance_list():
+    """Endpoint to get the top specified number of performances from each event. Not very flexible but puts lots of
+    useful information in the same place."""
     events = []
     performance_list = {}
     limit = flask.request.args.get('num_entries', type=int, default=20)
+    # Connect to database and grab all events
     try:
         connection = get_connection()
         cursor = connection.cursor()
@@ -41,11 +45,14 @@ def get_performance_list():
 
     connection.close()
 
+    # Go through each event that matches the current season, and grab the top performances from each one. Season is currently hardcoded
+    # to Outdoor 2025 but ultimtaley multiple seasons will be available.
     for event in events:
         if event['season_category'] == 0:
             continue
         params = (event['id'],)
         performance_list[event['event_name']] = []
+        # Build query for current event
         query = 'SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, performances.meet ' \
                 'FROM events ' \
                 'JOIN results ON events.id=results.event_id ' \
@@ -61,6 +68,7 @@ def get_performance_list():
         else:
             query += f'ORDER BY performances.mark DESC;'
 
+        # Connect to database and execute query
         try:
             connection = get_connection()
             cursor = connection.cursor()
