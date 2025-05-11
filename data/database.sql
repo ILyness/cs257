@@ -6,7 +6,7 @@ CREATE TABLE athletes (
     gender text
 );
 
-\copy athletes FROM 'athletes.csv' DELIMITER ',' CSV NULL AS 'NULL';
+\copy athletes FROM 'data/athletes.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 
 DROP TABLE IF EXISTS schools;
@@ -16,7 +16,7 @@ CREATE TABLE schools (
     school_name text
 );
 
-\copy schools FROM 'schools.csv' DELIMITER ',' CSV NULL AS 'NULL';
+\copy schools FROM 'data/schools.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 DROP TABLE IF EXISTS seasons;
 
@@ -26,7 +26,7 @@ CREATE TABLE seasons (
     season_category integer NOT NULL --- do we want to include this? so its easy to filter to look through all indoor seasons or all outdoor seasons?
 );
 
-\copy seasons FROM 'seasons.csv' DELIMITER ',' CSV NULL AS 'NULL';
+\copy seasons FROM 'data/seasons.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 DROP TABLE IF EXISTS events;
 
@@ -38,7 +38,7 @@ CREATE TABLE events ( -- this table will likely be used often for population of 
     season_category integer NOT NULL -- indoor vs outdoor ids, indoor = 0, outdoor = 1. it's important when we look at times to know whether that time was run indoor or outdoor
 );
 
-\copy events FROM 'events.csv' DELIMITER ',' CSV NULL AS 'NULL';
+\copy events FROM 'data/events.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 
 DROP TABLE IF EXISTS performances;
@@ -52,7 +52,7 @@ CREATE TABLE performances (
     meet text
 );
 
-\copy performances FROM 'performances.csv' DELIMITER ',' CSV NULL AS 'NULL';
+\copy performances FROM 'data/performances.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 
 DROP TABLE IF EXISTS results;
@@ -67,7 +67,7 @@ CREATE TABLE results (  -- keeping this table, as multiple athletes can refer to
 );
 
 
-\copy results FROM 'results.csv' DELIMITER ',' CSV NULL AS 'NULL';
+\copy results FROM 'data/results.csv' DELIMITER ',' CSV NULL AS 'NULL';
 
 
 

@@ -44,6 +44,7 @@ def get_performance_list():
     for event in events:
         if event['season_category'] == 0:
             continue
+        params = (event['id'],)
         performance_list[event['event_name']] = []
         query = 'SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, performances.meet ' \
                 'FROM events ' \
@@ -52,7 +53,7 @@ def get_performance_list():
                 'JOIN performances ON performances.id=results.performance_id ' \
                 'JOIN schools on schools.id=results.school_id ' \
                 'JOIN seasons on seasons.id=results.season_id ' \
-                f'WHERE events.id={event['id']} ' \
+                'WHERE events.id=%s ' \
                 'AND seasons.season_name=\'Outdoor 2025\' '
         
         if event['event_category'] == 'Running':
@@ -63,7 +64,7 @@ def get_performance_list():
         try:
             connection = get_connection()
             cursor = connection.cursor()
-            cursor.execute(query)
+            cursor.execute(query, params)
             athletes = set()
             i = 1
             for row in cursor:
