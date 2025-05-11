@@ -80,7 +80,6 @@ def get_performance_list():
 def get_athlete(id):
     ''' Returns '''
     athlete = []
-    id = f'{id}'
     params = [id, id]
     try:
         # Create a "cursor", which is an object with which you can iterate
@@ -90,11 +89,11 @@ def get_athlete(id):
         # Execute the query
         query = '''SELECT athletes.first_name, athletes.last_name, athletes.gender, schools.school_name, events.event_name, events.event_category, performances
                     FROM athletes
-                    JOIN results ON results.athlete_id ILIKE %s
+                    JOIN results ON results.athlete_id= %s
                     JOIN schools ON results.school_id = schools.id
                     JOIN performances ON results.performance_id = performances.id
                     JOIN events ON results.event_id = events.id
-                    WHERE athletes.id ILIKE %s
+                    WHERE athletes.id= %s
                     GROUP BY athletes.first_name, athletes.last_name, athletes.gender, schools.school_name, events.event_name, events.event_category, performances'''
         
         cursor.execute(query, params)
