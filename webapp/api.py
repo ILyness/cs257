@@ -1,3 +1,8 @@
+''' api.py
+    api implementation
+    Daniel, Soren, Indy
+    Insprired/modeled from Jeff Ondich's sample(s)'''
+
 import sys
 import psycopg2
 import config
