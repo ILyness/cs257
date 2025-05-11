@@ -59,7 +59,7 @@ def get_performance_list():
         try:
             connection = get_connection()
             cursor = connection.cursor()
-            cursor.execute(query)
+            cursor.execute(query, params)
             athletes = set()
             i = 1
             for row in cursor:
