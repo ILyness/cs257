@@ -93,7 +93,7 @@ def get_performance_list():
 @app.route('/athlete/<id>')
 def get_athlete(id):
     ''' Returns '''
-    athlete = []
+    athlete = {}
     params = [id, id]
     try:
         # Create a "cursor", which is an object with which you can iterate
@@ -113,12 +113,13 @@ def get_athlete(id):
         cursor.execute(query, params)
 
         for row in cursor:
-            athlete.append(f'{row[0], row[1], row[2], row[3]}')
-            marks = []
-            athlete.append(marks)
+            athlete = {'first_name':row[0], 'last_name':row[1], 'gender':row[2], 'school':row[3], 'marks': {}}
             break
         for row in cursor:
-            marks.append(f'{row[4],row[5],row[6],}')
+            if row[4] not in athlete['marks']:
+                athlete['marks'][row[4]] = []
+            fields = row[6].split(',')
+            athlete['marks'][row[4]].append({'mark':fields[1], 'meet':fields[4], 'date':fields[3]})
             
 
 
