@@ -64,7 +64,7 @@
                 ]
                
         
-        REQUEST: /athlete/athlete_name
+        REQUEST: /athlete/athlete_id
         ## SOREN DOING THIS ONE
         RESPONSE: a JSON dictionary where each dictionary representing the specified athlete. The dictionary will have the following fields.
         
@@ -77,7 +77,7 @@
                 date - (TEXT) date that the mark was recorded
         
         EXAMPLE:
-            /athlete/lyness,indy
+            /athlete/23
         
                 { 
                     "name" : "Lyness,Indy",
@@ -169,7 +169,7 @@
                 }
         
         
-        REQUEST: /athletes?search=<search_entry>
+        REQUEST: /athletes?search={search_entry}
         ## SOREN DOING THIS
         GET parameters
            search_entry (Optional, default: '') -- only return athletes whose first or last name contains search_entry
