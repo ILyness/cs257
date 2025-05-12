@@ -98,10 +98,12 @@ def get_marks(gender,event):
                 name = (marks[i]['athlete_name'])
                 if name in seen:
                     to_delete.append(i)
-                    marks[seen.get(name)]['num_marks'] += 1 
+                    if mark:
+                        marks[seen.get(name)]['num_marks'] += 1 
                 else:
                     seen[name] = i
-                    marks[i]['num_marks'] = 1
+                    if mark:
+                        marks[i]['num_marks'] = 1
             
             for i in reversed(to_delete):
                 del marks[i]
