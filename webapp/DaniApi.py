@@ -53,7 +53,7 @@ def get_marks(gender,event):
         cursor = connection.cursor()
         cursor.execute(query, parameters)
         for row in cursor:
-            marks.append({'athlete_name': row[0], 'event_name': row[1], 'season_name': row[2], 'mark': row[3], 'result_date': row[4].isoformat()})
+            marks.append({'athlete_name': row[0], 'event_name': row[1], 'season_name': row[2], 'mark': row[3], 'result_date': row[4].isoformat(), 'num_marks':None})
     
         
         query2 = '''SELECT event_category FROM events WHERE event_name = %s'''
@@ -70,18 +70,7 @@ def get_marks(gender,event):
             marks = sorted(marks, key = lambda x: float(x['mark'][:-1]), reverse = True)
             
             
-        if duplicate == "False": ## not sure why, but when I had this if statement AFTER the mark check, duplicate athletes would be allowed through if mark was included as a variable
-            seen = set()
-            to_delete = []
-            for i in range(len(marks)):
-                name = (marks[i]['athlete_name'])
-                if name in seen:
-                    to_delete.append(i)
-                else:
-                    seen.add(name)
-            
-            for i in reversed(to_delete):
-                del marks[i]
+        
         
                 
         if mark: #filters results by mark
@@ -100,6 +89,22 @@ def get_marks(gender,event):
                         filtered_marks.append(result)
             marks = filtered_marks
             del(filtered_marks)
+            
+            
+        if duplicate == "False": ## not sure why, but when I had this if statement AFTER the mark check, duplicate athletes would be allowed through if mark was included as a variable
+            seen = {}
+            to_delete = []
+            for i in range(len(marks)):
+                name = (marks[i]['athlete_name'])
+                if name in seen:
+                    to_delete.append(i)
+                    marks[seen.get(name)]['num_marks'] += 1 
+                else:
+                    seen[name] = i
+                    marks[i]['num_marks'] = 1
+            
+            for i in reversed(to_delete):
+                del marks[i]
         
        
         if display_number:

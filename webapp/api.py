@@ -236,20 +236,6 @@ def get_marks(gender,event):
         elif event_category == "Field":    
             marks = sorted(marks, key = lambda x: float(x['mark'][:-1]), reverse = True)
             
-            
-        #removes duplicate athletes (many athletes have multiple marks at around the same time, causing clutter)    
-        if duplicate == "False": ## not sure why, but when I had this if statement AFTER the mark check, duplicate athletes would be allowed through if mark was included as a variable
-            seen = set()
-            to_delete = []
-            for i in range(len(marks)):
-                name = (marks[i]['athlete_name'])
-                if name in seen:
-                    to_delete.append(i)
-                else:
-                    seen.add(name)
-            
-            for i in reversed(to_delete):
-                del marks[i]
         
                 
         if mark: #filters results by mark, based on event category
@@ -268,6 +254,20 @@ def get_marks(gender,event):
                         filtered_marks.append(result)
             marks = filtered_marks
             del(filtered_marks)
+            
+         #removes duplicate athletes (many athletes have multiple marks at around the same time, causing clutter)    
+        if duplicate == "False": 
+            seen = set()
+            to_delete = []
+            for i in range(len(marks)):
+                name = (marks[i]['athlete_name'])
+                if name in seen:
+                    to_delete.append(i)
+                else:
+                    seen.add(name)
+            
+            for i in reversed(to_delete):
+                del marks[i]
         
         #shows the first X results
         if display_number:
