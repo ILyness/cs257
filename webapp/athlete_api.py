@@ -26,6 +26,7 @@ def get_connection():
 def get_athlete(id):
     ''' Returns '''
     athlete = []
+    marks = []
     id = f'{id}'
     params = [id, id]
     try:
@@ -41,19 +42,15 @@ def get_athlete(id):
                     JOIN performances ON results.performance_id = performances.id
                     JOIN events ON results.event_id = events.id
                     WHERE athletes.id ILIKE %s
-                    GROUP BY athletes.first_name, athletes.last_name, athletes.gender, schools.school_name, events.event_name, events.event_category, performances'''
+                    GROUP BY athletes.first_name, athletes.last_name, schools.school_name, athletes.gender, events.event_name, events.event_category, performances'''
         
         cursor.execute(query, params)
 
         for row in cursor:
-            athlete.append(f'{row[0], row[1], row[2], row[3]}')
-            marks = []
-            athlete.append(marks)
-            break
+            athlete.append(f'{row[0], row[1], row[2], row[3], marks}')
+            breakTesse
         for row in cursor:
             marks.append(f'{row[4],row[5],row[6],}')
-            
-
 
     except Exception as e:
         print(e, file=sys.stderr)
