@@ -28,9 +28,11 @@ season_ids = {
     "Indoor 2022": 240
 }
 df = pd.DataFrame()
-for link in links:
+n = len(links)
+m = len(season_ids)
+for i, link in enumerate(links):
     temp_df = pd.DataFrame()
-    for id in season_ids.keys():
+    for j, id in enumerate(season_ids.keys()):
 
         # Grab performances for the given team and season
         time.sleep(0.5)
@@ -41,9 +43,10 @@ for link in links:
         performance_page = urlopen(performance_link).read().decode("utf-8")
         page_soup = BeautifulSoup(performance_page, "html.parser")
         events = page_soup.find_all("h3", class_="font-weight-500")
+        l = len(events)
 
         # Grab all performances for each event by forming columns for each relevant data label
-        for event in events:
+        for k, event in enumerate(events):
             data = {}
             div = event.find_next("div", class_="performance-list-body")
             keys = set([el.get("data-label") for el in div.find_all("div", attrs={"data-label":True})])
@@ -57,6 +60,9 @@ for link in links:
             data["Event"] = ["".join(event.get_text().split()) for i in range(len(div.find_all("div", attrs={"data-label": list(keys)[0]})))]
             data["Season"] = id
             temp_df = pd.concat([temp_df, pd.DataFrame(data)], ignore_index=True)
+            
+            percentage = (i/n) + (j/(m*n)) + (k/(l*m*n))
+            print(f'{percentage*100:.2f}%', end='\r')
         temp_df["School"] = link.get_text()
         temp_df["Category"] = link.get("href")
     df = pd.concat([df, temp_df], ignore_index=True)
