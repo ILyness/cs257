@@ -14,7 +14,12 @@ app = flask.Flask(__name__)
 
 def display_mark(mark, event_category):
     if event_category == 'Running':
-        return f'{mark // 60}:{mark % 60:.2f}'
+        minutes = float(mark) // 60
+        seconds = float(mark) % 60
+        if minutes == 0:
+            return f'{seconds:.2f}'
+        else:
+            return f'{minutes:.0f}:{seconds:.2f}'
     elif event_category == 'Field':
         return f'{mark}m'
     else:
@@ -61,7 +66,7 @@ def get_performance_list():
         params = (event['id'],)
         performance_list[event['event_name']] = []
         # Build query for current event
-        query = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, meet.meet_name
+        query = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, meets.meet_name
                 FROM events
                 JOIN results ON events.id=results.event_id
                 JOIN athletes ON athletes.id=results.athlete_id
@@ -113,14 +118,15 @@ def get_athlete(id):
         connection = get_connection()
         cursor = connection.cursor()
         # Execute the query
-        query = '''SELECT athletes.first_name, athletes.last_name, athletes.gender, schools.school_name, events.event_name, events.event_category, performances
+        query = '''SELECT athletes.first_name, athletes.last_name, athletes.gender, schools.school_name, events.event_name, events.event_category, meets.meet_name, performances
                     FROM athletes
                     JOIN results ON results.athlete_id= %s
                     JOIN schools ON results.school_id = schools.id
                     JOIN performances ON results.performance_id = performances.id
                     JOIN events ON results.event_id = events.id
+                    JOIN meets ON results.meet_id = meets.id
                     WHERE athletes.id= %s
-                    GROUP BY athletes.first_name, athletes.last_name, athletes.gender, schools.school_name, events.event_name, events.event_category, performances'''
+                    GROUP BY athletes.first_name, athletes.last_name, athletes.gender, schools.school_name, events.event_name, events.event_category, meets.meet_name, performances'''
         
         cursor.execute(query, params)
 
@@ -130,8 +136,8 @@ def get_athlete(id):
         for row in cursor:
             if row[4] not in athlete['marks']:
                 athlete['marks'][row[4]] = []
-            fields = row[6].split(',')
-            athlete['marks'][row[4]].append({'mark':fields[1], 'meet':fields[4], 'date':fields[3]})
+            fields = row[7].split(',')
+            athlete['marks'][row[4]].append({'mark':display_mark(fields[1], event_category=row[5]), 'meet':row[6], 'date':fields[3]})
             
 
 
@@ -203,6 +209,14 @@ def get_marks(gender,event):
         season = flask.request.args.get('season')
         duplicate = flask.request.args.get('duplicate')
         display_number = flask.request.args.get('display_number', default=20,type=int)
+
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        query2 = '''SELECT event_category FROM events WHERE event_name = %s'''
+        cursor.execute(query2, (event,))
+        for row in cursor:
+            event_category = row[0]
     
         query = '''SELECT CONCAT(athletes.first_name, athletes.last_name) as athlete_name, events.event_name, seasons.season_name, performances.mark, performances.result_date
                         FROM results 
@@ -223,26 +237,18 @@ def get_marks(gender,event):
             parameters.append(school)
             
        
-            
-        connection = get_connection()
-        cursor = connection.cursor()
         cursor.execute(query, parameters)
         for row in cursor:
-            marks.append({'athlete_name': row[0], 'event_name': row[1], 'season_name': row[2], 'mark': row[3], 'result_date': row[4].isoformat(), 'num_marks':None})
+            marks.append({'athlete_name': row[0], 'event_name': row[1], 'season_name': row[2], 'mark': display_mark(row[3], event_category=event_category), 'result_date': row[4].isoformat(), 'num_marks':None})
     
-        
-        query2 = '''SELECT event_category FROM events WHERE event_name = %s'''
-        cursor.execute(query2, (event,))
-        for row in cursor:
-            event_category = row[0]
         connection.close() 
         
         if event_category == "Running":
-            marks = sorted(marks, key = lambda x: parse_time(x['mark']))
+            marks = sorted(marks, key = lambda x: float(x['mark']))
         elif event_category == "Multi":
             marks = sorted(marks, key = lambda x: float(x['mark']), reverse = True)
         elif event_category == "Field":    
-            marks = sorted(marks, key = lambda x: float(x['mark'][:-1]), reverse = True)
+            marks = sorted(marks, key = lambda x: float(x['mark']), reverse = True)
             
             
         
