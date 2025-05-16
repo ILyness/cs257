@@ -12,6 +12,14 @@ import argparse
 
 app = flask.Flask(__name__)
 
+def display_mark(mark, event_category):
+    if event_category == 'Running':
+        return f'{mark // 60}:{mark % 60:.2f}'
+    elif event_category == 'Field':
+        return f'{mark}m'
+    else:
+        return f'{mark}'
+
 def get_connection():
     """Get connection to SQL database, and throw error if there is a problem"""
     try:
@@ -53,15 +61,16 @@ def get_performance_list():
         params = (event['id'],)
         performance_list[event['event_name']] = []
         # Build query for current event
-        query = 'SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, performances.meet ' \
-                'FROM events ' \
-                'JOIN results ON events.id=results.event_id ' \
-                'JOIN athletes ON athletes.id=results.athlete_id ' \
-                'JOIN performances ON performances.id=results.performance_id ' \
-                'JOIN schools on schools.id=results.school_id ' \
-                'JOIN seasons on seasons.id=results.season_id ' \
-                'WHERE events.id=%s ' \
-                'AND seasons.season_name=\'Outdoor 2025\' '
+        query = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, meet.meet_name
+                FROM events
+                JOIN results ON events.id=results.event_id
+                JOIN athletes ON athletes.id=results.athlete_id
+                JOIN performances ON performances.id=results.performance_id
+                JOIN schools on schools.id=results.school_id
+                JOIN seasons on seasons.id=results.season_id
+                JOIN meets on meets.id=results.meet_id
+                WHERE events.id=%s
+                AND seasons.season_name=\'Outdoor 2025\'"""
         
         if event['event_category'] == 'Running':
             query += f'ORDER BY performances.mark;'
@@ -82,7 +91,10 @@ def get_performance_list():
                     continue
                 athletes.add(row[0])
                 i += 1
-                performance_list[event['event_name']].append({'athlete_name':row[0] if 'Relay' not in event['event_name'] else 'NULL', 'school':row[1], 'mark':row[2], 'date':str(row[3]), 'meet':row[4]})
+                performance_list[event['event_name']].append({'athlete_name':row[0] if 'Relay' not in event['event_name'] else 'NULL', 
+                                                              'school':row[1], 'mark':display_mark(row[2],event['event_category']), 
+                                                              'date':str(row[3]), 
+                                                              'meet':row[4]})
 
         except Exception as e:
             print(e, file=sys.stderr)
