@@ -16,6 +16,12 @@ CREATE TABLE seasons (
     season_category --- do we want to include this? so its easy to filter to look through all indoor seasons or all outdoor seasons?
 )
 
+CREATE TABLE meets (
+    id integer NOT NULL,
+    meet_name text,
+    meet_date date
+)
+
 CREATE TABLE events ( -- this table will likely be used often for population of dropdowns/populating returned tables with event names 
     id integer NOT NULL,
     event_name text,
@@ -25,10 +31,9 @@ CREATE TABLE events ( -- this table will likely be used often for population of 
 
 CREATE TABLE performances (
     id integer NOT NULL, 
-    mark text,
-    wind text,
-    result_date DATE, -- swapped text to datetime, so its easier to sort by date
-    meet text
+    mark float,
+    wind float,
+    result_date date
 );
 
 CREATE TABLE results (  -- keeping this table, as multiple athletes can refer to a single performance (relays)
@@ -36,5 +41,6 @@ CREATE TABLE results (  -- keeping this table, as multiple athletes can refer to
     performance_id integer, -- REFERS TO performances table id 
     school_id integer, -- REFERS TO schools table id
     event_id integer, -- REFERS TO event table id
-    season_id integer -- REFERS TO seasons table id
+    season_id integer, -- REFERS TO seasons table id
+    meet_id integer
 );
