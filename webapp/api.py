@@ -244,11 +244,11 @@ def get_marks(gender,event):
         connection.close() 
         
         if event_category == "Running":
-            marks = sorted(marks, key = lambda x: float(x['mark']))
+            marks = sorted(marks, key = lambda x: x['mark'])
         elif event_category == "Multi":
-            marks = sorted(marks, key = lambda x: float(x['mark']), reverse = True)
+            marks = sorted(marks, key = lambda x: x['mark'], reverse = True)
         elif event_category == "Field":    
-            marks = sorted(marks, key = lambda x: float(x['mark']), reverse = True)
+            marks = sorted(marks, key = lambda x: x['mark'], reverse = True)
             
             
         
