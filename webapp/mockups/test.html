@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkbox List and Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+    .section h2 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .checkbox-list {
+      margin-bottom: 15px;
+    }
+    .checkbox-list label {
+      display: block;
+      margin: 5px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>My Lists with Checkboxes and Tables</h1>
+
+  <!-- Section 1 -->
+  <div class="section">
+    <h2>Fruits</h2>
+    <div class="checkbox-list">
+      <label><input type="checkbox" name="fruits" value="apple"> Apple</label>
+      <label><input type="checkbox" name="fruits" value="banana"> Banana</label>
+      <label><input type="checkbox" name="fruits" value="cherry"> Cherry</label>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Fruit</th>
+          <th>Color</th>
+          <th>Sweetness (1-10)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Apple</td><td>Red</td><td>7</td></tr>
+        <tr><td>Banana</td><td>Yellow</td><td>8</td></tr>
+        <tr><td>Cherry</td><td>Red</td><td>9</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section">
+    <h2>Vegetables</h2>
+    <div class="checkbox-list">
+      <label><input type="checkbox" name="vegetables" value="carrot"> Carrot</label>
+      <label><input type="checkbox" name="vegetables" value="broccoli"> Broccoli</label>
+      <label><input type="checkbox" name="vegetables" value="spinach"> Spinach</label>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Vegetable</th>
+          <th>Color</th>
+          <th>Vitamin Content</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Carrot</td><td>Orange</td><td>Vitamin A</td></tr>
+        <tr><td>Broccoli</td><td>Green</td><td>Vitamin C</td></tr>
+        <tr><td>Spinach</td><td>Green</td><td>Iron, Vitamin K</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
