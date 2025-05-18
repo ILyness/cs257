@@ -4,12 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (toggleBtn && comparison2) {
     toggleBtn.addEventListener("click", function () {
-      comparison2.classList.toggle("d-none");
-      toggleBtn.textContent = comparison2.classList.contains("d-none")
+      const isHidden = comparison2.classList.toggle("hidden");
+      toggleBtn.textContent = isHidden
         ? "Show Second Athlete Page"
         : "Hide Second Athlete Page";
     });
   }
 });
-
-

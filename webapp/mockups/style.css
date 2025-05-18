@@ -3,3 +3,18 @@ body {
   min-height: 75rem;
   padding-top: 4.5rem;
 }
+
+
+#Comparison2 {
+  /* Start visible */
+  opacity: 1;
+  max-width: 100%;
+  overflow: hidden;
+  transition: opacity 2s ease, max-width 2s ease;
+}
+
+#Comparison2.hidden {
+  opacity: 0;
+  max-width: 0px;
+  pointer-events: none; /* prevent interaction when hidden */
+}
