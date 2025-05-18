@@ -1,16 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- 
-
-        This is like the setup for the html file -- Title is like the "name" of the tab
-
-        the first link is a CDN to base bootstrap
-
-        the first script is a CDN (content Delivery Network) to bootstraps Javascript
-
-        We'll add our own css and script file underneath these to overwrite color and add JS functions we want
-    -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>JEFFRS Comparison Tool</title>
@@ -24,9 +14,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- this is where things actually show up on website -->
-
-    <!-- this is the navbar. its the header-->
+    <!-- Navbar -->
     <header id="navJEFFRS">
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark px-3">
         <a class="navbar-brand" href="index.html">JEFFRS</a>
@@ -53,37 +41,141 @@
               <a class="nav-link active" href="#">Comparison Tool</a>
             </li>
           </ul>
-           <form class="d-flex ms-auto col-3 align-items-center" role="search">
-              <div class="input-group w-75">
-                <input
-                  type="text"
-                  id="athlete-search"
-                  class="form-control"
-                  placeholder="Enter athlete name"
-                />
-                <button class="btn btn-secondary" type="button">Search</button>
-              </div>
-            </form>
+          <form class="d-flex ms-auto col-3 align-items-center" role="search">
+            <div class="input-group w-75">
+              <input
+                type="text"
+                id="athlete-search"
+                class="form-control"
+                placeholder="Enter athlete name"
+              />
+              <button class="btn btn-secondary" type="button">Search</button>
+            </div>
+          </form>
         </div>
       </nav>
     </header>
 
-    <main class="container">
-      <!-- Put everything within here to show up underneath the header-->
-
+    <main class="container mt-5 pt-5">
       <div class="row justify-content-center">
-        <div class="bg-dark col d-flex flex-wrap p-3" id="Comparison1">
-          <!-- Athlete Section, to be pulled from the database-->
+        <!-- Athlete 1 -->
+        <div class="bg-dark col d-flex p-3" id="Comparison1">
+          <!-- Toolbar -->
+          <div
+            class="d-flex flex-column bg-secondary text-white p-3 me-3"
+            style="width: 250px"
+            id="sidebar"
+          >
+            <h5>Tools</h5>
+            <button id="col1_2Toggle" class="btn btn-primary mt-2">
+              Show Second Athlete Page
+            </button>
+          </div>
+
+          <div class="flex-grow-1 text-white">
+            <h4 class="mb-0 pb-0">Daniel Scheider</h4>
+
+            <div class="row">
+              <h4 class="text-white bg-dark mb-0 pb-0 mt-5">400M</h4>
+              <div class="col-6">
+                <hr class="mt-0 mb-1" />
+                <table class="table text-center align-middle">
+                  <thead class="table-dark">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Meet</th>
+                      <th scope="col">Mark</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>5/17/2025</td>
+                      <td>MIAC Outdoor Conference Finals</td>
+                      <td>49.18</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>5/16/2025</td>
+                      <td>MIAC Outdoor Conference Prelims</td>
+                      <td>49.13</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>2/2/2025</td>
+                      <td>MIAC Indoor Conference</td>
+                      <td>50.80</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col-6">
+                <img
+                  src="img/graph-example2.gif"
+                  alt="Description of image"
+                  class="img-fluid"
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <h4 class="text-white bg-dark mb-0 pb-0 mt-5">800M</h4>
+              <div class="col-6">
+                <hr class="mt-0 mb-1" />
+                <table class="table text-center align-middle">
+                  <thead class="table-dark">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Meet</th>
+                      <th scope="col">Mark</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>5/17/2025</td>
+                      <td>MIAC Outdoor Conference Finals</td>
+                      <td>49.18</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>5/16/2025</td>
+                      <td>MIAC Outdoor Conference Prelims</td>
+                      <td>49.13</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>2/2/2025</td>
+                      <td>MIAC Indoor Conference</td>
+                      <td>50.80</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-6">
+                <img
+                  src="img/graph-example1.png"
+                  alt="Description of image"
+                  class="img-fluid"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Athlete 2 -->
+        <div class="bg-dark col d-flex flex-wrap p-3 d-none" id="Comparison2">
           <div class="row text-white">
-            <div class="col-6">
-              <!-- Column 1 of info, with tables of data for all events done. Will maybe try to figure out sorting by date/mark-->
-              <h4 class="mb-0 pb-0">Daniel Scheider</h4>
+            <div class="col-12">
+              <h4 class="mb-0 pb-0">Daniel Scheider (2)</h4>
 
               <div class="row">
                 <h4 class="text-white bg-dark mb-0 pb-0 mt-5">400M</h4>
                 <div class="col-6">
                   <hr class="mt-0 mb-1" />
-                  <!-- Event 1 -->
                   <table class="table text-center align-middle">
                     <thead class="table-dark">
                       <tr>
@@ -129,7 +221,6 @@
                 <h4 class="text-white bg-dark mb-0 pb-0 mt-5">800M</h4>
                 <div class="col-6">
                   <hr class="mt-0 mb-1" />
-                  <!-- Event 2-->
                   <table class="table text-center align-middle">
                     <thead class="table-dark">
                       <tr>
@@ -171,22 +262,17 @@
               </div>
             </div>
           </div>
-
-          <button id="col1_2Toggle" class="btn btn-primary ms-auto">
-            Toggle Second Athlete Page
-          </button>
         </div>
       </div>
     </main>
 
-    <footer>
-      <!-- if we want to include a footer, for sources or anything, this is how we format it-->
-    </footer>
+    <footer></footer>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
       crossorigin="anonymous"
     ></script>
+    <script src="script.js"></script>
   </body>
 </html>
