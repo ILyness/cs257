@@ -5,16 +5,16 @@ body {
 }
 
 
-#Comparison2 {
-  /* Start visible */
+#Comparison2.shown {
   opacity: 1;
   max-width: 100%;
   overflow: hidden;
-  transition: opacity 2s ease, max-width 2s ease;
+  transition: max-width 2s ease, opacity 2s ease;
 }
 
-#Comparison2.hidden {
+#Comparison2{
   opacity: 0;
-  max-width: 0px;
-  pointer-events: none; /* prevent interaction when hidden */
+  max-width: 0;
+  pointer-events: none;
+  transition: max-width 2s ease, opacity 2s ease;
 }
