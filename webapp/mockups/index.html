@@ -22,11 +22,12 @@
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
       crossorigin="anonymous"
     ></script>
+     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
     <header id="navJEFFRS">
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark px-3">
+      <nav class="navbar navbar-expand-md  navbar-dark fixed-top bg-dark px-3">
         <a class="navbar-brand" href="index.html">JEFFRS</a>
         <button
           class="navbar-toggler"
@@ -41,7 +42,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
+          <ul class="navbar-nav mr-auto ">
             <li class="nav-item">
               <a class="nav-link" href="advanced_search.html"
                 >Advanced Search</a
@@ -52,76 +53,65 @@
                 >Comparison Tool</a
               >
             </li>
-
-            <li class="nav-item">
-              <label for="athlete-search" class="form-label"
-                >Athlete Search</label
-              >
-              <div class="input-group">
+          </ul>
+            <form class="d-flex ms-auto col-3 align-items-center" role="search">
+              <div class="input-group w-75">
                 <input
                   type="text"
                   id="athlete-search"
                   class="form-control"
                   placeholder="Enter athlete name"
                 />
-                <button class="btn btn-primary" type="button">Search</button>
+                <button class="btn btn-secondary" type="button">Search</button>
               </div>
-            </li>
-          </ul>
+            </form>
+
+
+
         </div>
       </nav>
     </header>
 
     <main>
       <div class="container-md py-5">
-        <div class="mb-4 p-3 bg-body-tertiary border rounded-4">
-          <h5>Filter</h5>
+        <form id="filterForm" class="mb-4 p-3 bg-body-tertiary border rounded-4">
+  <h5>Filter</h5>
 
-          <!-- FIRST ROW -->
-          <div class="row">
-            <div class="col">
-              <div class="input-group mb-3">
-                <button
-                  class="btn-dark btn-outline-secondary dropdown-toggle rounded-2"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Season
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Outdoor 2025</a></li>
-                  <li><a class="dropdown-item" href="#">Indoor 2025</a></li>
-                  <li><a class="dropdown-item" href="#">Outdoor 2024</a></li>
-                  <li><a class="dropdown-item" href="#">etc...</a></li>
-                </ul>
-                <input
-                  type="text"
-                  class="form-control"
-                  aria-label="Text input with dropdown button"
-                />
-              </div>
-            </div>
-          </div>
+  <div class="row mb-3">
+    <div class="col-6 col-md-4">
+      <label for="seasonSelect" class="form-label">Season</label>
+      <select id="seasonSelect" name="season" class="form-select w-100">
+        <option value="" selected>Choose season...</option>
+        <option value="Outdoor 2025">Outdoor 2025</option>
+        <option value="Indoor 2025">Indoor 2025</option>
+        <option value="Outdoor 2024">Outdoor 2024</option>
+        <option value="etc...">etc...</option>
+      </select>
+    </div>
 
-          <!-- SECOND ROW -->
-          <div class="row">
-            <div class="checkbox-list">
-              <label
-                ><input type="checkbox" name="event" value="100 Meters" /> 100
-                Meters</label
-              >
-              <label
-                ><input type="checkbox" name="event" value="200 Meters" /> 200
-                Meters</label
-              >
-              <label
-                ><input type="checkbox" name="event" value="400 Meters" /> 400
-                Meters</label
-              >
-            </div>
-          </div>
-        </div>
+
+
+    <div class="col-6">
+      <label class="form-label d-block">Events</label>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="event" id="event100" value="100 Meters" />
+        <label class="form-check-label" for="event100">100 Meters</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="event" id="event200" value="200 Meters" />
+        <label class="form-check-label" for="event200">200 Meters</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="event" id="event400" value="400 Meters" />
+        <label class="form-check-label" for="event400">400 Meters</label>
+      </div>
+    </div>
+      </div>
+
+
+  <!-- Submit Button -->
+  <button type="submit" class="btn btn-primary">Apply Filters</button>
+</form>
 
         <div class="container-md">
           <h5>100 Meters</h5>
