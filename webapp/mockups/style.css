@@ -20,10 +20,10 @@ body {
 }
 
 tr.performance-table:nth-child(even) {
-  background-color: #D6EEEE;
+  background-color: #b7f4f4;
 }
 
-tr:hover {
-  background-color: #D6EEEE;
+tr.performance-table:hover {
+  background-color: #b7f4f4;
 }
 
