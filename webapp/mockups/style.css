@@ -9,12 +9,15 @@ body {
   opacity: 1;
   max-width: 100%;
   overflow: hidden;
+  visibility:visible;
   transition: max-width 2s ease, opacity 2s ease;
 }
 
 #Comparison2{
   opacity: 0;
   max-width: 0;
+  overflow:hidden;
+  visibility:hidden;
   pointer-events: none;
   transition: max-width 2s ease, opacity 2s ease;
 }
