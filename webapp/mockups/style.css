@@ -18,3 +18,12 @@ body {
   pointer-events: none;
   transition: max-width 2s ease, opacity 2s ease;
 }
+
+tr.performance-table:nth-child(even) {
+  background-color: #D6EEEE;
+}
+
+tr:hover {
+  background-color: #D6EEEE;
+}
+
