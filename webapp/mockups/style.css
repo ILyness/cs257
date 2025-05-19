@@ -19,11 +19,4 @@ body {
   transition: max-width 2s ease, opacity 2s ease;
 }
 
-tr.performance-table:nth-child(even) {
-  background-color: #b7f4f4;
-}
-
-tr.performance-table:hover {
-  background-color: #b7f4f4;
-}
 
