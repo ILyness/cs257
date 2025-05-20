@@ -78,7 +78,7 @@
         <h5>Filter</h5>
 
         <div class="row mb-3">
-          <div class="col-6 col-md-4">
+          <div class="col-md-4">
             <label for="seasonSelect" class="form-label">Season</label>
             <select id="seasonSelect" name="season" class="form-select w-100">
               <option value="" selected>Choose season...</option>
@@ -91,19 +91,38 @@
 
 
 
-          <div class="col-6">
+          <div class="col-md-8">
             <label class="form-label d-block">Events</label>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="event" id="event100" value="100 Meters" />
-              <label class="form-check-label" for="event100">100 Meters</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="event" id="event200" value="200 Meters" />
-              <label class="form-check-label" for="event200">200 Meters</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="event" id="event400" value="400 Meters" />
-              <label class="form-check-label" for="event400">400 Meters</label>
+            <div class="row">
+              <div class="col-md-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="event" id="event100" value="100 Meters" />
+                  <label class="form-check-label" for="event100">100 Meters</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="event" id="event200" value="200 Meters" />
+                  <label class="form-check-label" for="event200">200 Meters</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="event" id="event400" value="400 Meters" />
+                  <label class="form-check-label" for="event400">400 Meters</label>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="event" id="event800" value="800 Meters" />
+                  <label class="form-check-label" for="event800">800 Meters</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="event" id="event1500" value="1500 Meters" />
+                  <label class="form-check-label" for="event1500">1500 Meters</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="event" id="event5000" value="5000 Meters" />
+                  <label class="form-check-label" for="event5000">5000 Meters</label>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -115,7 +134,7 @@
 
         <div class="container-md">
           <h5>100 Meters</h5>
-          <table class="table table-condensed table-striped rounded-3 overflow-hidden">
+          <table class="table rounded-3 overflow-hidden text-center align-middle">
             <thead class="table-dark">
               <tr>
                 <th scope="col">#</th>
@@ -154,7 +173,7 @@
             </tbody>
           </table>
           <h5>200 Meters</h5>
-          <table class="table table-condensed rounded-3 overflow-hidden">
+          <table class="table rounded-3 overflow-hidden text-center align-middle">
             <thead class="table-dark">
               <tr>
                 <th scope="col">#</th>
@@ -193,7 +212,7 @@
             </tbody>
           </table>
           <h5>400 Meters</h5>
-          <table class="table table-condensed rounded-3 overflow-hidden">
+          <table class="table rounded-3 overflow-hidden text-center align-middle">
             <thead class="table-dark">
               <tr>
                 <th scope="col">#</th>
