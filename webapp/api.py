@@ -41,52 +41,46 @@ def get_performance_list():
     useful information in the same place."""
     events = []
     performance_list = {}
+    season = flask.request.args.get('season', type=str, default='Outdoor 2025')
     limit = flask.request.args.get('num_entries', type=int, default=20)
+    params = (season,)
     # Connect to database and grab all events
     try:
         connection = get_connection()
         cursor = connection.cursor()
 
-        query = 'SELECT * FROM events'
-        cursor.execute(query)
+        query = """SELECT * FROM events
+                JOIN seasons ON season.season_category = events.season_category
+                WHERE seasons.season_category = %s"""
+        cursor.execute(query, params)
 
         for row in cursor:
             events.append({'id':row[0], 'event_name':row[1], 'event_category':row[2], 'season_category':row[3]})
 
-    except Exception as e:
-        print(e, file=sys.stderr)
 
-    connection.close()
+        # Go through each event that matches the current season, and grab the top performances from each one. Season is currently hardcoded
+        # to Outdoor 2025 but ultimtaley multiple seasons will be available.
+        for event in events:
+            params = (event['id'],)
+            performance_list[event['event_name']] = []
+            # Build query for current event
+            query2 = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, meets.meet_name
+                    FROM events
+                    JOIN results ON events.id=results.event_id
+                    JOIN athletes ON athletes.id=results.athlete_id
+                    JOIN performances ON performances.id=results.performance_id
+                    JOIN schools on schools.id=results.school_id
+                    JOIN seasons on seasons.id=results.season_id
+                    JOIN meets on meets.id=results.meet_id
+                    WHERE events.id=%s
+                    AND seasons.season_name=\'Outdoor 2025\'"""
+            
+            if event['event_category'] == 'Running':
+                query2 += f'ORDER BY performances.mark;'
+            else:
+                query2 += f'ORDER BY performances.mark DESC;'
 
-    # Go through each event that matches the current season, and grab the top performances from each one. Season is currently hardcoded
-    # to Outdoor 2025 but ultimtaley multiple seasons will be available.
-    for event in events:
-        if event['season_category'] == 0:
-            continue
-        params = (event['id'],)
-        performance_list[event['event_name']] = []
-        # Build query for current event
-        query = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, meets.meet_name
-                FROM events
-                JOIN results ON events.id=results.event_id
-                JOIN athletes ON athletes.id=results.athlete_id
-                JOIN performances ON performances.id=results.performance_id
-                JOIN schools on schools.id=results.school_id
-                JOIN seasons on seasons.id=results.season_id
-                JOIN meets on meets.id=results.meet_id
-                WHERE events.id=%s
-                AND seasons.season_name=\'Outdoor 2025\'"""
-        
-        if event['event_category'] == 'Running':
-            query += f'ORDER BY performances.mark;'
-        else:
-            query += f'ORDER BY performances.mark DESC;'
-
-        # Connect to database and execute query
-        try:
-            connection = get_connection()
-            cursor = connection.cursor()
-            cursor.execute(query, params)
+            cursor.execute(query2, params)
             athletes = set()
             i = 1
             for row in cursor:
@@ -97,15 +91,15 @@ def get_performance_list():
                 athletes.add(row[0])
                 i += 1
                 performance_list[event['event_name']].append({'athlete_name':row[0] if 'Relay' not in event['event_name'] else 'NULL', 
-                                                              'school':row[1], 'mark':display_mark(row[2],event['event_category']), 
-                                                              'date':str(row[3]), 
-                                                              'meet':row[4]})
+                                                            'school':row[1], 'mark':display_mark(row[2],event['event_category']), 
+                                                            'date':str(row[3]), 
+                                                            'meet':row[4]})
+        return json.dumps(performance_list)
 
-        except Exception as e:
-            print(e, file=sys.stderr)
+    except Exception as e:
+        print(e, file=sys.stderr)
 
-        connection.close()
-    return json.dumps(performance_list, indent=4)
+    connection.close()
 
 @api.route('/athlete/<id>')
 def get_athlete(id):
