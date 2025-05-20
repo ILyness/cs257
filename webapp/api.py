@@ -35,7 +35,7 @@ def get_connection():
         print(e, file=sys.stderr)
         exit()
 
-@api.route('/list')
+@api.route('/list/')
 def get_performance_list():
     """Endpoint to get the top specified number of performances from each event. Not very flexible but puts lots of
     useful information in the same place."""
@@ -50,8 +50,8 @@ def get_performance_list():
         cursor = connection.cursor()
 
         query = """SELECT * FROM events
-                JOIN seasons ON season.season_category = events.season_category
-                WHERE seasons.season_category = %s"""
+                JOIN seasons ON seasons.season_category = events.season_category
+                WHERE seasons.season_name LIKE %s;"""
         cursor.execute(query, params)
 
         for row in cursor:
@@ -61,7 +61,7 @@ def get_performance_list():
         # Go through each event that matches the current season, and grab the top performances from each one. Season is currently hardcoded
         # to Outdoor 2025 but ultimtaley multiple seasons will be available.
         for event in events:
-            params = (event['id'],)
+            params = (event['id'],season)
             performance_list[event['event_name']] = []
             # Build query for current event
             query2 = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, meets.meet_name
@@ -73,7 +73,7 @@ def get_performance_list():
                     JOIN seasons on seasons.id=results.season_id
                     JOIN meets on meets.id=results.meet_id
                     WHERE events.id=%s
-                    AND seasons.season_name=\'Outdoor 2025\'"""
+                    AND seasons.season_name=\'%s\'"""
             
             if event['event_category'] == 'Running':
                 query2 += f'ORDER BY performances.mark;'

@@ -7,11 +7,9 @@
 window.addEventListener("load", initialize);
 
 function initialize() {
-    loadPerformanceList();
-
     let element = document.getElementById('ButtonGetData');
     if (element) {
-        element.onclick = onAuthorsSelectionChanged;
+        element.onclick = onGetData;
     }
 }
 
@@ -25,8 +23,8 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
-function loadAuthorsSelector() {
-    let url = getAPIBaseURL() + '/authors/';
+function onGetData() {
+    let url = getAPIBaseURL() + '/list/';
 
     // Send the request to the books API /authors/ endpoint
     fetch(url, {method: 'get'})
@@ -39,17 +37,36 @@ function loadAuthorsSelector() {
     // an HTML table displaying the author names and lifespan.
     .then(function(result) {
         // Add the <option> elements to the <select> element
-        let selectorBody = '';
-        for (let k = 0; k < result.authors.length; k++) {
-            let author = result.authors[k];
-            selectorBody += '<option value="' + author['id'] + '">'
-                                + author['surname'] + ', ' + author['given_name']
-                                + '</option>\n';
+        let listBody = '';
+        keys = Object.keys(result)
+        let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
+                            '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">School</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Date</th></tr>\n</thead>\n'
+        for (let k = 0; k < keys.length; k++) {
+            let event = keys[k];
+            let tableBody = '';
+            tableBody += '<h5>' + event + '</h5>\n'
+                                + tableHeader
+                                + '\n<tbody>';
+            let performances = result[event]
+            for (let j = 0; j < performances.length; j++) {
+                performance = performances[j]
+                let tableRow = ''
+                tableRow += '<tr>\n<th scope="row">' + (j+1) + '</th>' +
+                                '<td class="col-md-3">' + performance['athlete_name'] + '</td>' +
+                                '<td class="col-md-2">' + performance['school'] + '</td>' +
+                                '<td class="col-md-2">' + performance['mark'] + '</td>' +
+                                '<td class="col-md-3">' + performance['meet'] + '</td>' +
+                                '<td class="col-md-2">' + performance['date'] + '</td>' +
+                                '\n</tr>\n';
+                tableBody += tableRow
+            }
+            tableBody += '</tbody>\n</table>\n'
+            listBody += tableBody
         }
 
-        let selector = document.getElementById('author_selector');
-        if (selector) {
-            selector.innerHTML = selectorBody;
+        let performanceList = document.getElementById('performance_list');
+        if (performanceList) {
+            performanceList.innerHTML = listBody;
         }
     })
 

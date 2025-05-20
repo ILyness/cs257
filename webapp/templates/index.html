@@ -22,6 +22,7 @@
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
       crossorigin="anonymous"
     ></script>
+    <script src="{{ url_for('static', filename='index.js') }}" ></script>
      <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" />
   </head>
 
@@ -133,8 +134,8 @@
         <button type="submit" class="btn btn-danger" id="ButtonGetData">Get data</button>
       </form>
 
-        <div class="container-md">
-          <h5>100 Meters</h5>
+        <div class="container-md" id="performance_list">
+          <!-- <h5>100 Meters</h5>
           <table class="table rounded-3 overflow-hidden text-center align-middle">
             <thead class="table-dark">
               <tr>
@@ -250,7 +251,7 @@
                 <td class="col-md-2">May 11, 2025</td>
               </tr>
             </tbody>
-          </table>
+          </table> -->
         </div>
       </div>
     </main>
