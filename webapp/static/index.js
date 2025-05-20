@@ -4,7 +4,7 @@
  * Adapted from Jeff Ondich's 'books.js'
  */
 
-window.addEventListener("load", onGetData);
+window.addEventListener("load", initialize);
 
 function initialize() {
     let element = document.getElementById('ButtonGetData');

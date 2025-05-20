@@ -81,14 +81,18 @@ def get_performance_list():
                 query2 += f'ORDER BY performances.mark DESC;'
 
             cursor.execute(query2, params)
-            athletes = set()
+            unique_performers = set()
             i = 1
+            if 'Relay' in event['event_name']:
+                criteria = 1
+            else:
+                criteria = 0
             for row in cursor:
                 if i > limit:
                     break
-                if row[0] in athletes:
+                if row[criteria] in unique_performers:
                     continue
-                athletes.add(row[0])
+                unique_performers.add(row[criteria])
                 i += 1
                 performance_list[event['event_name']].append({'athlete_name':row[0] if 'Relay' not in event['event_name'] else 'NULL', 
                                                             'school':row[1], 'mark':display_mark(row[2],event['event_category']), 
