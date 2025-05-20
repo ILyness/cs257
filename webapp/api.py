@@ -73,7 +73,7 @@ def get_performance_list():
                     JOIN seasons on seasons.id=results.season_id
                     JOIN meets on meets.id=results.meet_id
                     WHERE events.id=%s
-                    AND seasons.season_name=\'%s\'"""
+                    AND seasons.season_name LIKE %s """
             
             if event['event_category'] == 'Running':
                 query2 += f'ORDER BY performances.mark;'
