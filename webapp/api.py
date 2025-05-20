@@ -10,7 +10,7 @@ import json
 import flask
 import argparse
 
-app = flask.Flask(__name__)
+api = flask.Blueprint('api', __name__)
 
 def display_mark(mark, event_category):
     if event_category == 'Running':
@@ -35,7 +35,7 @@ def get_connection():
         print(e, file=sys.stderr)
         exit()
 
-@app.route('/list')
+@api.route('/list')
 def get_performance_list():
     """Endpoint to get the top specified number of performances from each event. Not very flexible but puts lots of
     useful information in the same place."""
@@ -107,7 +107,7 @@ def get_performance_list():
         connection.close()
     return json.dumps(performance_list, indent=4)
 
-@app.route('/athlete/<id>')
+@api.route('/athlete/<id>')
 def get_athlete(id):
     ''' Returns '''
     athlete = {}
@@ -147,7 +147,7 @@ def get_athlete(id):
     connection.close()
     return json.dumps(athlete)
 
-@app.route('/athletes')
+@api.route('/athletes')
 def get_athletes():
     ''' Returns a list of all the athletes in the database, with eiter a first or last name matching with the search_string". '''
     search_string = flask.request.args.get('search', '')
@@ -199,7 +199,7 @@ def get_athletes():
     connection.close()
     return json.dumps({'athletes': athletes})
 
-@app.route('/marks/<gender>/<event>')
+@api.route('/marks/<gender>/<event>')
 def get_marks(gender,event):
     
     marks = []
@@ -301,7 +301,7 @@ def get_marks(gender,event):
 
 
 
-@app.route('/help')
+@api.route('/help')
 def get_help():
     return flask.render_template('help.html')
 
@@ -315,10 +315,11 @@ def parse_time(t):
         
         return float(t)
 
-
+'''
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Flask API implementation using SQL database via psycopg2')
     parser.add_argument('host', help='the host on which this application is running')
     parser.add_argument('port', type=int, help='the port on which this application is listening')
     arguments = parser.parse_args()
-    app.run(host=arguments.host, port=arguments.port, debug=True)
+    api.run(host=arguments.host, port=arguments.port, debug=True)
+'''
