@@ -1,3 +1,40 @@
+:root {
+  --color-text: #e0e6f5;
+  
+  --color-primary: #7693ae;
+  --color-primary-hover: #688599;
+  --color-primary-active: #5a7684;
+  
+  --color-secondary: #506561;
+  --color-secondary-hover: #576350;
+  --color-secondary-active: #46533e;
+  
+  --color-bg: #33422b;
+  --color-surface: #506561;
+  
+  --color-border: #667160;
+
+  --color-text-disabled: #9aa298;
+
+
+
+  --pad :  1rem; 
+  --marg :1rem
+
+  /* when referencing these colors, we use var(--color-primary) within the css file. 
+    like if i wanted to make the body of our pages color bg, i would use
+    body{
+    background: var(--color-bg)
+}
+
+
+    */
+
+}
+
+
+
+
 
 body {
   min-height: 75rem;
@@ -24,3 +61,49 @@ body {
   transition: max-width 2s ease, opacity 2s ease;
 }
 
+
+
+
+
+/* basic style testing */
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: sans-serif;
+  margin: 0;
+}
+
+.button-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.button-primary:active {
+  background-color: var(--color-primary-active);
+}
+
+.button-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-secondary:hover {
+  background-color: var(--color-secondary-hover);
+}
+
+.button-secondary:active {
+  background-color: var(--color-secondary-active);
+}
