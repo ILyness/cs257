@@ -11,13 +11,13 @@
       integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" />
   </head>
   <body>
     <!-- Navbar -->
     <header id="navJEFFRS">
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark px-3">
-        <a class="navbar-brand" href="index.html">JEFFRS</a>
+        <a class="navbar-brand" href="/">JEFFRS</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -33,12 +33,12 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="advanced_search.html"
+              <a class="nav-link" href="/search"
                 >Advanced Search</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="#">Comparison Tool</a>
+              <a class="nav-link active" href="/compare">Comparison Tool</a>
             </li>
           </ul>
           <form class="d-flex ms-auto col-3 align-items-center" role="search">

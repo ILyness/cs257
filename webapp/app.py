@@ -15,6 +15,14 @@ app = flask.Flask(__name__, static_folder='static', template_folder='templates')
 def home():
     return flask.render_template('index.html')
 
+@app.route('/search')
+def search():
+    return flask.render_template('advanced_search.html')
+
+@app.route('/compare')
+def compare():
+    return flask.render_template('athlete_comparison.html')
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('JEFFRs Web App implementation')
     parser.add_argument('host', help='the host to run on')

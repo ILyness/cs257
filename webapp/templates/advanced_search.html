@@ -22,13 +22,13 @@
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
       crossorigin="anonymous"
     ></script>
-     <link rel="stylesheet" href="style.css" />
+     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" />
   </head>
 
   <body>
     <header id="navJEFFRS">
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark px-3">
-        <a class="navbar-brand" href="index.html">JEFFRS</a>
+        <a class="navbar-brand" href="/">JEFFRS</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -44,10 +44,10 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Advanced Search</a>
+              <a class="nav-link active" href="/search">Advanced Search</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="athlete_comparison.html"
+              <a class="nav-link" href="/compare"
                 >Comparison Tool</a
               >
             </li>
