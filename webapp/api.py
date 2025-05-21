@@ -21,7 +21,7 @@ def display_mark(mark, event_category):
         else:
             return f'{minutes:.0f}:{seconds:05.2f}'
     elif event_category == 'Field':
-        return f'{mark}m'
+        return f'{float(mark):.2f}m'
     else:
         return f'{mark}'
 
