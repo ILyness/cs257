@@ -7,6 +7,7 @@
 window.addEventListener("load", initialize);
 
 function initialize() {
+    loadSeasonsSelector();
     let element = document.getElementById('ButtonGetData');
     if (element) {
         element.onclick = onGetData;
@@ -21,6 +22,24 @@ function getAPIBaseURL() {
                     + ':' + window.location.port
                     + '/api';
     return baseURL;
+}
+
+function loadSeasonsSelector() {
+    let url = getAPIBaseURL() + '/seasons/'
+
+    fetch(url, {method: 'get'})
+    .then((response) => response.json())
+    .then(function(result) {
+        let selectorBody = '<option value="" selected>Choose season...</option>\n'
+        for (let k = 0; k < result.length; k++) {
+            let season = result[k]
+            selectorBody += '<option value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n'
+        }
+        let selector = document.getElementById('seasonSelect');
+        if (selector) {
+            selector.innerHTML = selectorBody;
+        }
+    })
 }
 
 function onGetData() {

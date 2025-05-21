@@ -35,6 +35,24 @@ def get_connection():
         print(e, file=sys.stderr)
         exit()
 
+@api.route('/seasons/')
+def get_seasons():
+    """Endpoint to return list of all seasons to populate dropdown."""
+    seasons = []
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        query = """SELECT * FROM seasons"""
+        cursor.execute(query)
+        for row in cursor:
+            seasons.append({'season_name':row[1], 'season_category':row[2]})
+        connection.close()
+        return json.dumps(seasons)
+    
+    except Exception as e:
+        print(e, file=sys.stderr)
+
 @api.route('/list/')
 def get_performance_list():
     """Endpoint to get the top specified number of performances from each event. Not very flexible but puts lots of
@@ -98,12 +116,12 @@ def get_performance_list():
                                                             'school':row[1], 'mark':display_mark(row[2],event['event_category']), 
                                                             'date':str(row[3]), 
                                                             'meet':row[4]})
+        connection.close()
         return json.dumps(performance_list)
 
     except Exception as e:
         print(e, file=sys.stderr)
 
-    connection.close()
 
 @api.route('/athlete/<id>')
 def get_athlete(id):
