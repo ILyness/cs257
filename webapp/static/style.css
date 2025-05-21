@@ -42,9 +42,7 @@ body {
 }
 
 
-#Comparison1{
-  margin:0;
-}
+
 #Comparison2.shown {
   opacity: 1;
   padding: 0.5rem;
