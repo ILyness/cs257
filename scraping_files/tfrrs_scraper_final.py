@@ -53,11 +53,11 @@ for i, link in enumerate(links):
             for key in keys:
                 if key == "Athlete":
                     names = ["".join(el.get_text().split()).split(',') for el in div.find_all("div", attrs={"data-label": key})]
-                    data["First Name"] = list(map(lambda x: x[0], names))
-                    data["Last Name"] = list(map(lambda x: x[1], names))
+                    data["First Name"] = list(map(lambda x: x[1], names))
+                    data["Last Name"] = list(map(lambda x: x[0], names))
                 else:
-                    data[key] = ["".join(el.get_text().split()) for el in div.find_all("div", attrs={"data-label": key})]
-            data["Event"] = ["".join(event.get_text().split()) for i in range(len(div.find_all("div", attrs={"data-label": list(keys)[0]})))]
+                    data[key] = [" ".join(el.get_text().split()) for el in div.find_all("div", attrs={"data-label": key})]
+            data["Event"] = [" ".join(event.get_text().split()) for i in range(len(div.find_all("div", attrs={"data-label": list(keys)[0]})))]
             data["Season"] = id
             temp_df = pd.concat([temp_df, pd.DataFrame(data)], ignore_index=True)
             
@@ -70,4 +70,4 @@ for i, link in enumerate(links):
 # Label as m/f and save to csv
 df["Category"] = df["Category"].map(lambda x: x[x.index("college_")+8])
 df.drop(columns=["Place", "Conv"], inplace=True)
-df.to_csv("../data/MIAC_data_final.csv", index=False)
+df.to_csv("data/MIAC_data_final.csv", index=False)
