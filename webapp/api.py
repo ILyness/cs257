@@ -17,9 +17,9 @@ def display_mark(mark, event_category):
         minutes = float(mark) // 60
         seconds = float(mark) % 60
         if minutes == 0:
-            return f'{seconds:.2f}'
+            return f'{seconds:05.2f}'
         else:
-            return f'{minutes:.0f}:{seconds:.2f}'
+            return f'{minutes:.0f}:{seconds:05.2f}'
     elif event_category == 'Field':
         return f'{mark}m'
     else:
