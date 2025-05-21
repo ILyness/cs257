@@ -12,6 +12,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" />
+
   </head>
   <body>
     <!-- Navbar -->
@@ -287,6 +288,6 @@
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
       crossorigin="anonymous"
     ></script>
-    <script src="script.js"></script>
+     <script src="{{ url_for('static', filename='script.js') }}" ></script>
   </body>
 </html>
