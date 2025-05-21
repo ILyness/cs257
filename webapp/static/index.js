@@ -12,6 +12,10 @@ function initialize() {
     if (element) {
         element.onclick = onGetData;
     }
+    let form = document.getElementById('filterForm');
+    if (form) {
+        form.onsubmit = loadPerformanceList;
+    }
 }
 
 // Returns the base URL of the API, onto which endpoint
