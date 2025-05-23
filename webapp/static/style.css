@@ -115,6 +115,6 @@ body {
   background-color: var(--color-primary-active)
 }
 
-.tab-list {
-  background-color: var(--color-secondary-active)
+.nav-tabs .nav-time .nav-link {
+  background-color: var(--color-bg)
 }
