@@ -110,3 +110,7 @@ body {
 .button-secondary:active {
   background-color: var(--color-secondary-active);
 }
+
+#genderTab {
+  background-color: var(--color-secondary-active)
+}
