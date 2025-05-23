@@ -215,11 +215,13 @@ def get_athletes():
     connection.close()
     return json.dumps({'athletes': athletes})
 
-@api.route('/marks/<gender>/<event>')
+@api.route('/search')
 def get_marks(gender,event):
     
     marks = []
     try:
+        event = flask.request.args.get('event', type=str)
+        gender = flask.request.args.get('gender', type=bool)
         mark = flask.request.args.get('mark', type=str)
         school = flask.request.args.get('school')
         season = flask.request.args.get('season')
@@ -310,7 +312,7 @@ def get_marks(gender,event):
               marks = marks[:display_number]   
     except Exception as e:
         print(e, file=sys.stderr)
-    
+    print("running marks")
     return json.dumps(marks)
 
 
