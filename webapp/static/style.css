@@ -112,5 +112,9 @@ body {
 }
 
 #genderTab {
+  background-color: var(--color-primary-active)
+}
+
+.tab-list {
   background-color: var(--color-secondary-active)
 }
