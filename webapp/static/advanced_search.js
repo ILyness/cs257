@@ -7,7 +7,7 @@
 window.addEventListener("load", initialize);
 
 function initialize() {
-    loadSeasonsSelector();
+    onSearch();
     let form = document.getElementById('advancedSearchForm');
     if (form) {
         form.onsubmit = onSearch;
@@ -33,14 +33,14 @@ function onSearch() {
         let listBody = '';
         keys = Object.keys(searchResult)
         let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
-                            '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">School</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Date</th></tr>\n</thead>\n'
+                            '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Team</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Season</th><th scope="col">Date</th></tr>\n</thead>\n'
         for (let k = 0; k < keys.length; k++) {
             let event = keys[k];
             let tableBody = '';
             tableBody += '<h5>' + event + '</h5>\n'
                                 + tableHeader
                                 + '\n<tbody>';
-            let performances = result[event]
+            let performances = searchResult[event]
             if (performances.length < 10) {
                 continue
             }
@@ -49,20 +49,34 @@ function onSearch() {
                 let tableRow = ''
                 tableRow += '<tr>\n<th scope="row">' + (j+1) + '</th>' +
                                 '<td class="col-md-3">' + performance['athlete_name'] + '</td>' +
-                                '<td class="col-md-2">' + performance['school'] + '</td>' +
+                                '<td class="col-md-2">' + performance['team'] + '</td>' +
                                 '<td class="col-md-2">' + performance['mark'] + '</td>' +
                                 '<td class="col-md-3">' + performance['meet'] + '</td>' +
-                                '<td class="col-md-2">' + performance['date'] + '</td>' +
+                                '<td class="col-md-2">' + performance['season_name'] + '</td>' +
+                                '<td class="col-md-2">' + performance['result_date'] + '</td>' +
                                 '\n</tr>\n';
                 tableBody += tableRow
             }
+            let tableRow = ''
+                tableRow += '<tr>\n<th scope="row">' + (j+1) + '</th>' +
+                                '<td class="col-md-3">' + "HI!!!" + '</td>' +
+                                '<td class="col-md-2">' + "HI!!!" + '</td>' +
+                                '<td class="col-md-2">' + "HI!!!" + '</td>' +
+                                '<td class="col-md-3">' + "HI!!!" + '</td>' +
+                                '<td class="col-md-2">' + "HI!!!" + '</td>' +
+                                '<td class="col-md-2">' + "HI!!!" + '</td>' +
+                                '\n</tr>\n';
+                tableBody += tableRow
             tableBody += '</tbody>\n</table>\n'
             listBody += tableBody
         }
 
         let performanceList = document.getElementById('advancedSearchTable')
-        test = "is this working??"
-        const test = document.getElementById('test');
+        const test = 'is this thing on?'
+        const testE = document.getElementById('test')
+        if (testE) {
+            testE.textContent = test;
+        }
         if (performanceList) {
             performanceList.innerHTML = listBody;
         }

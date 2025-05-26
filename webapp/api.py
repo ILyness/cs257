@@ -222,10 +222,10 @@ def get_marks():
     try:
         event = flask.request.args.get('event', type=str)
         gender = flask.request.args.get('gender', type=bool)
-        duplicates = flask.request.args.get('duplicates')
+        duplicates = flask.request.args.get('duplicates', type=bool)
         team = flask.request.args.get('team')
         season = flask.request.args.get('season')
-        meet = flask.request.args.get('season')
+        meet = flask.request.args.get('meet')
         mark = flask.request.args.get('mark', type=str)
         
         
@@ -247,7 +247,8 @@ def get_marks():
                         AND events.event_name = %s
                         JOIN athletes ON athletes.id = results.athlete_id AND athletes.gender = %s
                         JOIN seasons ON results.season_id = seasons.id
-                        JOIN schools ON schools.id = results.school_id'''
+                        JOIN schools ON schools.id = results.school_id
+                        JOIN meets ON meets.id = reslts.meet_id'''
         parameters = [event,gender]
         
         if season:
@@ -257,11 +258,15 @@ def get_marks():
         if team:
             query = query + ''' AND school_name = %s'''
             parameters.append(team)
+
+        if meet:
+            query = query + ''' AND meet_name = %s'''
+            parameters.append(team)
             
        
         cursor.execute(query, parameters)
         for row in cursor:
-            marks.append({'athlete_name': row[0], 'event_name': row[1], 'season_name': row[2], 'mark': display_mark(row[3], event_category=event_category), 'result_date': row[4].isoformat(), 'num_marks':None})
+            marks.append({'athlete_name': row[0], 'event_name': row[1], 'team': row[2], 'season_name': row[3], 'mark': display_mark(row[4],event_category=event_category), 'meet' : row[5], 'result_date': row[6].isoformat(), 'num_marks':None})
     
         connection.close() 
         
