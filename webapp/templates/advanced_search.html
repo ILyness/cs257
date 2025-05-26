@@ -77,15 +77,15 @@
 
           <!-- Row 1: Event + Gender (required) -->
           <div class="row mb-3">
-            <div class="col">
+            <div class="col-6">
               <label class="form-label">Event</label>
               <div class="input-group">
                 <button class="btn-dark btn-outline-secondary dropdown-toggle rounded-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Event
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('eventInput').value='100m'">100m</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('eventInput').value='200m'">200m</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('eventInput').value='100m'">100</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('eventInput').value='200m'">200</a></li>
                   <li><a class="dropdown-item" href="#" onclick="document.getElementById('eventInput').value='400m'">should we go on? they can input</a></li>
                 </ul>
                 <input type="text" class="form-control" name="event" id="eventInput" placeholder="Select or enter event" required />
@@ -96,12 +96,25 @@
               <fieldset class="border-0">
                 <legend class="col-form-label pt-0">Gender</legend>
                 <div class="form-check form-check-inline">
-                  <input type="radio" name="gender" class="form-check-input" id="genderMen" value="men" />
+                  <input type="radio" name="gender" class="form-check-input" id="genderMen" value="men" required />
                   <label class="form-check-label" for="genderMen">Men</label>
                 </div>
                 <div class="form-check form-check-inline">
                   <input type="radio" name="gender" class="form-check-input" id="genderWomen" value="women" />
                   <label class="form-check-label" for="genderWomen">Women</label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="col d-flex align-items-center">
+              <fieldset class="border-0">
+                <legend class="col-form-label pt-0">Duplicates</legend>
+                <div class="form-check form-check-inline">
+                  <input type="radio" name="duplicates" class="form-check-input" id="duplicatesTrue" value="True" required />
+                  <label class="form-check-label" for="genderMen">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" name="duplicates" class="form-check-input" id="duplicatesFalse" value="False" />
+                  <label class="form-check-label" for="genderWomen">No</label>
                 </div>
               </fieldset>
             </div>
@@ -156,7 +169,7 @@
 
             <div class="col">
               <label class="form-label">Mark Better Than...</label>
-              <input type="text" class="form-control" name="markBetterThan" placeholder="e.g. 10.75" />
+              <input type="text" class="form-control" name="mark" placeholder="e.g. 10.75" />
             </div>
           </div>
 
@@ -168,36 +181,10 @@
 
 
       <div class="container-md">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Mark</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Soren</td>
-              <td>Kaster</td>
-              <td>4.60m</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jimothy</td>
-              <td>Gates</td>
-              <td>4.45m</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>John</td>
-              <td>Doe</td>
-              <td>4.00asm</td>
-            </tr>
-          </tbody>
-        </table>
+        <p>
+          <table id="advancedSearchTable"></table>
+        </p>
+        <p id="test"></p>
       </div>
     </main>
   </body>

@@ -29,9 +29,9 @@ function onSearch() {
 
     fetch(url, {method: 'get'})
     .then((response) => response.json())
-    .then(function(result) {
+    .then(function(searchResult) {
         let listBody = '';
-        keys = Object.keys(result)
+        keys = Object.keys(searchResult)
         let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
                             '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">School</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Date</th></tr>\n</thead>\n'
         for (let k = 0; k < keys.length; k++) {
@@ -60,7 +60,9 @@ function onSearch() {
             listBody += tableBody
         }
 
-        let performanceList = document.getElementById('performance_list');
+        let performanceList = document.getElementById('advancedSearchTable')
+        test = "is this working??"
+        const test = document.getElementById('test');
         if (performanceList) {
             performanceList.innerHTML = listBody;
         }
