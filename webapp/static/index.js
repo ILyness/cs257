@@ -47,13 +47,16 @@ function loadSeasonsSelector() {
 }
 
 function onGetData() {
+    //dawdawd awd w
     let url = getAPIBaseURL() + '/list/';
-
+// html call this and implements
+//get element by ID
+//.selected
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(result) {
         let listBody = '';
-        keys = Object.keys(result['m'])
+        keys = Object.keys(result)
         let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
                             '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">School</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Date</th></tr>\n</thead>\n'
         for (let k = 0; k < keys.length; k++) {
@@ -62,7 +65,7 @@ function onGetData() {
             tableBody += '<h5>' + event + '</h5>\n'
                                 + tableHeader
                                 + '\n<tbody>';
-            let performances = result['m'][event]
+            let performances = result[event]
             if (performances.length < 10) {
                 continue
             }
