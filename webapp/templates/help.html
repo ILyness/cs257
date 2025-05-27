@@ -107,15 +107,16 @@
                              ]
                 }
         
-        REQUEST: /list?num_entries={num_entries}
+        REQUEST: /list/?num_entries={num_entries}
         ## INDY DOING THIS ONE
         
         GET parameters
-          num_entries(Optional, default: 10) – the number of results for each event to display
+          num_entries(Optional, default: 20) – the number of results for each event to display
         
         
-        RESPONSE: a JSON dictionary, where each key is an event and each value is a list of dictionaries with specified length of the top performances 
-            for each event. Each of these dictionaries will represent the top mark from an athlete, and will have the following fields.
+        RESPONSE: a JSON dictionary with a key for each gender category associated with a dictionary, where each key in that dictionary is an event and each value 
+        is a list of dictionaries with specified length of the top performances for each event. Each of these dictionaries will represent the top mark from an athlete, 
+        and will have the following fields.
         
             athlete_name – (TEXT) - name of the athlete who recorded the mark
             school – (TEXT) school that the athlete attends
@@ -125,48 +126,56 @@
         
         EXAMPLE:
             /list?num_entries=2
-        
+
                 {
-                    "100Meters": [
-                                    {
-                                        "athlete_name": "Liu,Landen", 
-                                        "school": "Bethel", 
-                                        "mark": "10.57", 
-                                        "date": "4/20/2025", 
-                                        “meet”: "Bethel Invitational"
-                                    }, 
-        
-                                    {
-                                        "athlete_name": "Ondich,Jeff", 
-                                        "school": "Carleton", 
-                                        "mark": "10.99", 
-                                        "date": "4/25/2025", 
-                                        "meet": "CS 257 Jamboree"
-                                    }
-                                 ], 
-                    “200Meters”: [
-                                    {
-                                        "athlete_name": "Jamison,Komodo", 
-                                        .
-                                        .
-                                        .
-                                    },
-        
-                                    {
-                                        .
-                                        .
-                                        .
-                                    }
-                                 ],
-                                 .
-                                 .
-                                 .,
-                    "...":       [
-                                    .
-                                    .
-                                    .
-                                 ]
+                    "Men": {
+                                "100Meters": [
+                                                {
+                                                    "athlete_name": "Liu,Landen", 
+                                                    "school": "Bethel", 
+                                                    "mark": "10.57", 
+                                                    "date": "4/20/2025", 
+                                                    “meet”: "Bethel Invitational"
+                                                }, 
+                    
+                                                {
+                                                    "athlete_name": "Ondich,Jeff", 
+                                                    "school": "Carleton", 
+                                                    "mark": "10.99", 
+                                                    "date": "4/25/2025", 
+                                                    "meet": "CS 257 Jamboree"
+                                                }
+                                            ], 
+                                “200Meters”: [
+                                                {
+                                                    "athlete_name": "Jamison,Komodo", 
+                                                    .
+                                                    .
+                                                    .
+                                                },
+                    
+                                                {
+                                                    .
+                                                    .
+                                                    .
+                                                }
+                                            ],
+                                            .
+                                            .
+                                            .,
+                                "...":       [
+                                                .
+                                                .
+                                                .
+                                            ]
+                            },
+                   "Women": {
+                                .
+                                .
+                                .
+                            }
                 }
+        
         
         
         REQUEST: /athletes?search={search_entry}

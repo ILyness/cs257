@@ -58,7 +58,8 @@ def get_performance_list():
     """Endpoint to get the top specified number of performances from each event. Not very flexible but puts lots of
     useful information in the same place."""
     events = []
-    performance_list = {}
+    categories = ['m', 'f']
+    performance_list = {'m':{}, 'f':{}}
     season = flask.request.args.get('season', type=str, default='Outdoor 2025')
     limit = flask.request.args.get('num_entries', type=int, default=20)
     params = (season,)
@@ -78,44 +79,46 @@ def get_performance_list():
 
         # Go through each event that matches the current season, and grab the top performances from each one. Season is currently hardcoded
         # to Outdoor 2025 but ultimtaley multiple seasons will be available.
-        for event in events:
-            params = (event['id'],season)
-            performance_list[event['event_name']] = []
-            # Build query for current event
-            query2 = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, meets.meet_name
-                    FROM events
-                    JOIN results ON events.id=results.event_id
-                    JOIN athletes ON athletes.id=results.athlete_id
-                    JOIN performances ON performances.id=results.performance_id
-                    JOIN schools on schools.id=results.school_id
-                    JOIN seasons on seasons.id=results.season_id
-                    JOIN meets on meets.id=results.meet_id
-                    WHERE events.id=%s
-                    AND seasons.season_name LIKE %s """
-            
-            if event['event_category'] == 'Running':
-                query2 += f'ORDER BY performances.mark;'
-            else:
-                query2 += f'ORDER BY performances.mark DESC;'
+        for category in categories:
+            for event in events:
+                params = (event['id'],season,category)
+                performance_list[category][event['event_name']] = []
+                # Build query for current event
+                query2 = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, meets.meet_name
+                        FROM events
+                        JOIN results ON events.id=results.event_id
+                        JOIN athletes ON athletes.id=results.athlete_id
+                        JOIN performances ON performances.id=results.performance_id
+                        JOIN schools on schools.id=results.school_id
+                        JOIN seasons on seasons.id=results.season_id
+                        JOIN meets on meets.id=results.meet_id
+                        WHERE events.id=%s
+                        AND seasons.season_name LIKE %s 
+                        AND athletes.gender LIKE %s"""
+                
+                if event['event_category'] == 'Running':
+                    query2 += f'ORDER BY performances.mark;'
+                else:
+                    query2 += f'ORDER BY performances.mark DESC;'
 
-            cursor.execute(query2, params)
-            unique_performers = set()
-            i = 1
-            if 'Relay' in event['event_name']:
-                criteria = 1
-            else:
-                criteria = 0
-            for row in cursor:
-                if i > limit:
-                    break
-                if row[criteria] in unique_performers:
-                    continue
-                unique_performers.add(row[criteria])
-                i += 1
-                performance_list[event['event_name']].append({'athlete_name':row[0] if 'Relay' not in event['event_name'] else 'NULL', 
-                                                            'school':row[1], 'mark':display_mark(row[2],event['event_category']), 
-                                                            'date':str(row[3]), 
-                                                            'meet':row[4]})
+                cursor.execute(query2, params)
+                unique_performers = set()
+                i = 1
+                if 'Relay' in event['event_name']:
+                    criteria = 1
+                else:
+                    criteria = 0
+                for row in cursor:
+                    if i > limit:
+                        break
+                    if row[criteria] in unique_performers:
+                        continue
+                    unique_performers.add(row[criteria])
+                    i += 1
+                    performance_list[category][event['event_name']].append({'athlete_name':row[0] if 'Relay' not in event['event_name'] else 'NULL', 
+                                                                'school':row[1], 'mark':display_mark(row[2],event['event_category']), 
+                                                                'date':str(row[3]), 
+                                                                'meet':row[4]})
         connection.close()
         return json.dumps(performance_list)
 
