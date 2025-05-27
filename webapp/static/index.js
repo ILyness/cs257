@@ -62,11 +62,14 @@ function onGetData() {
                             '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">School</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Date</th></tr>\n</thead>\n'
         for (let k = 0; k < keys.length; k++) {
             let event = keys[k];
+            let performances = result[event];
+            if (performances.length < 20) {
+                continue
+            }
             let tableBody = '';
             tableBody += '<h5>' + event + '</h5>\n'
                                 + tableHeader
                                 + '\n<tbody>';
-            let performances = result[event]
             for (let j = 0; j < performances.length; j++) {
                 performance = performances[j]
                 let tableRow = ''
