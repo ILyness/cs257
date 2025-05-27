@@ -53,8 +53,8 @@ for i, link in enumerate(links):
             for key in keys:
                 if key == "Athlete":
                     names = ["".join(el.get_text().split()).split(',') for el in div.find_all("div", attrs={"data-label": key})]
-                    data["First Name"] = list(map(lambda x: x[0], names))
-                    data["Last Name"] = list(map(lambda x: x[1], names))
+                    data["First Name"] = list(map(lambda x: x[1], names))
+                    data["Last Name"] = list(map(lambda x: x[0], names))
                 else:
                     data[key] = ["".join(el.get_text().split()) for el in div.find_all("div", attrs={"data-label": key})]
             data["Event"] = ["".join(event.get_text().split()) for i in range(len(div.find_all("div", attrs={"data-label": list(keys)[0]})))]
