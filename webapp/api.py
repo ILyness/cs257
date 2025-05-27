@@ -220,14 +220,26 @@ def get_marks():
     
     marks = []
     try:
-        event = flask.request.args.get('event', type=str)
-        gender = flask.request.args.get('gender', type=bool)
-        duplicates = flask.request.args.get('duplicates', type=bool)
-        team = flask.request.args.get('team')
-        season = flask.request.args.get('season')
-        meet = flask.request.args.get('meet')
-        mark = flask.request.args.get('mark', type=str)
+
+        print("running search api")
+
+        event = flask.request.args.get('event', '100m', type=str)
+        gender = flask.request.args.get('gender', 'men') #, type=bool
+        duplicates = flask.request.args.get('duplicates')
+        team = flask.request.args.get('team', '')
+        season = flask.request.args.get('season', '')
+        meet = flask.request.args.get('meet', '')
+        mark = flask.request.args.get('mark', '', type=str)
         
+        print("API inputs")
+        print(event)
+        print(gender)
+        print(duplicates)
+        print(team)
+        print(season)
+        print(meet)
+        print(mark)
+
         
         
         display_number = flask.request.args.get('display_number', default=20,type=int)

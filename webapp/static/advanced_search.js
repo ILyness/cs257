@@ -26,6 +26,7 @@ function getAPIBaseURL() {
 
 function onSearch() {
     let url = getAPIBaseURL() + '/search';
+    console.log("url = ", url)
 
     fetch(url, {method: 'get'})
     .then((response) => response.json())
