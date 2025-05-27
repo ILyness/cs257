@@ -22,7 +22,6 @@
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
       crossorigin="anonymous"
     ></script>
-    <script src="{{ url_for('static', filename='advanced_search.js') }}" ></script>
      <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" />
   </head>
 
@@ -70,18 +69,20 @@
     </header>
 
     <main class="pt-3 mt-3">
-
-      <!-- Search Form -->
       <div class="container-md py-5">
         <form id="advancedSearchForm" class="mb-4 p-3 bg-body-tertiary border rounded-4" method="GET" action="/api/search">
           <h4 class="mb-4">Advanced Search:</h4>
 
-          <!-- Row 1: Event + Gender (required) -->
-          <div class="row mb-3">
-            <div class="col-6">
-              <label class="form-label">Event</label>
-              <div class="input-group">
-                <button class="btn-dark btn-outline-secondary dropdown-toggle rounded-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <!-- FIRST ROW -->
+          <div class="row">
+            <div class="col">
+              <div class="input-group mb-3">
+                <button
+                  class="btn-dark btn-outline-secondary dropdown-toggle rounded-2"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
                   Event
                 </button>
                 <ul class="dropdown-menu">
@@ -93,12 +94,18 @@
               </div>
             </div>
 
-            <div class="col d-flex align-items-center">
-              <fieldset class="border-0">
-                <legend class="col-form-label pt-0">Gender</legend>
-                <div class="form-check form-check-inline">
-                  <input type="radio" name="gender" class="form-check-input" id="genderMen" value="men" required />
-                  <label class="form-check-label" for="genderMen">Men</label>
+            <div class="col d-flex justify-content-center align-items-center">
+              <fieldset class="mb-3">
+                <div class="mb-3 form-check-inline">
+                  <input
+                    type="radio"
+                    name="radios"
+                    class="form-check-input"
+                    id="exampleRadio1"
+                  />
+                  <label class="form-check-label" for="exampleRadio1"
+                    >Men</label
+                  >
                 </div>
                 <div class="form-check form-check-inline">
                   <input type="radio" name="gender" class="form-check-input" id="genderWomen" value="women" />
@@ -121,10 +128,8 @@
             </div>
           </div>
 
-          <!-- Row 2: Teams + Season
-           
-          use most similar string  -->
-          <div class="row mb-3">
+          <!-- SECOND ROW -->
+          <div class="row">
             <div class="col">
               <label class="form-label">Team</label>
               <div class="input-group">
@@ -154,8 +159,8 @@
             </div>
           </div>
 
-          <!-- Row 3: Meet + Better Than -->
-          <div class="row mb-4">
+          <!-- THIRD ROW -->
+          <div class="row">
             <div class="col">
               <label class="form-label">Meet</label>
               <div class="input-group">
@@ -176,16 +181,43 @@
             </div>
           </div>
 
-          <div class="d-grid">
-            <button type="submit" class="btn btn-primary btn-lg">Search</button>
-          </div>
-        </form>
-</div>
-
+          <button class="btn-primary btn-outline-secondary" type="button">
+            Search
+          </button>
+        </div>
+      </div>
 
       <div class="container-md">
-        <div id="advancedSearchTable"></div>
-        <div id="test"></div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Mark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Soren</td>
+              <td>Kaster</td>
+              <td>4.60m</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jimothy</td>
+              <td>Gates</td>
+              <td>4.45m</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>John</td>
+              <td>Doe</td>
+              <td>4.00m</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </main>
   </body>
