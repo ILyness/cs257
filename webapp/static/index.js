@@ -7,10 +7,6 @@
 window.addEventListener("load", initialize);
 
 function initialize() {
-    let selectElement = document.getElementById('seasonSelect');
-    if (selectElement) {
-        selectElement.onchange = loadEventsSelector();
-    }
     loadSeasonsSelector();
     let element = document.getElementById('ButtonGetData');
     if (element) {
@@ -28,28 +24,16 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
-function loadEventsSelector() {
-    let selectElement = document.getElementById('seasonSelect');
-    let season = selectElement.value;
-    let url = getAPIBaseURL() + '/events?season=' + season;
-
-    fetch(url, {method: 'get'})
-    .then((respinse) => response.json())
-    .then(function(result) {
-        console.log('Made it here')
-    })
-}
-
 function loadSeasonsSelector() {
-    let url = getAPIBaseURL() + '/seasons/';
+    let url = getAPIBaseURL() + '/seasons/'
 
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(result) {
         let selectorBody = '<option value="" selected>Choose season...</option>\n'
         for (let k = 0; k < result.length; k++) {
-            let season = result[k];
-            selectorBody += '<option value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
+            let season = result[k]
+            selectorBody += '<option value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n'
         }
         let selector = document.getElementById('seasonSelect');
         if (selector) {
@@ -72,50 +56,36 @@ function onGetData() {
     // an HTML table displaying the author names and lifespan.
     .then(function(result) {
         // Add the <option> elements to the <select> element
-        categories = Object.keys(result)
-           let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
+        let listBody = '';
+        keys = Object.keys(result)
+        let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
                             '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">School</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Date</th></tr>\n</thead>\n'
-        for (let j = 0; j < categories.length; j++) {
-            let listBody = '';
-            let category = categories[j];
-            let keys = Object.keys(result[category]);
-            for (let k = 0; k < keys.length; k++) {
-                let event = keys[k];
-                let performances = result[category][event];
-                if (performances.length < 20) {
-                    continue
-                }
-                let tableBody = '';
-                tableBody += '<h5>' + event + '</h5>\n'
-                                    + tableHeader
-                                    + '\n<tbody>';
-                for (let j = 0; j < performances.length; j++) {
-                    performance = performances[j]
-                    let tableRow = ''
-                    tableRow += '<tr>\n<th scope="row">' + (j+1) + '</th>' +
-                                    '<td class="col-md-3">' + performance['athlete_name'] + '</td>' +
-                                    '<td class="col-md-2">' + performance['school'] + '</td>' +
-                                    '<td class="col-md-2">' + performance['mark'] + '</td>' +
-                                    '<td class="col-md-3">' + performance['meet'] + '</td>' +
-                                    '<td class="col-md-2">' + performance['date'] + '</td>' +
-                                    '\n</tr>\n';
-                    tableBody += tableRow;
-                }
-                tableBody += '</tbody>\n</table>\n';
-                listBody += tableBody;
+        for (let k = 0; k < keys.length; k++) {
+            let event = keys[k];
+            let tableBody = '';
+            tableBody += '<h5>' + event + '</h5>\n'
+                                + tableHeader
+                                + '\n<tbody>';
+            let performances = result[event]
+            for (let j = 0; j < performances.length; j++) {
+                performance = performances[j]
+                let tableRow = ''
+                tableRow += '<tr>\n<th scope="row">' + (j+1) + '</th>' +
+                                '<td class="col-md-3">' + performance['athlete_name'] + '</td>' +
+                                '<td class="col-md-2">' + performance['school'] + '</td>' +
+                                '<td class="col-md-2">' + performance['mark'] + '</td>' +
+                                '<td class="col-md-3">' + performance['meet'] + '</td>' +
+                                '<td class="col-md-2">' + performance['date'] + '</td>' +
+                                '\n</tr>\n';
+                tableBody += tableRow
             }
-            if (category == 'm') {
-                let performanceList = document.getElementById('men-tab-pane');
-                if (performanceList) {
-                    performanceList.innerHTML = listBody;
-                }
-            }
-            else {
-                let performanceList = document.getElementById('women-tab-pane');
-                    if (performanceList) {
-                    performanceList.innerHTML = listBody;
-                }
-            }
+            tableBody += '</tbody>\n</table>\n'
+            listBody += tableBody
+        }
+
+        let performanceList = document.getElementById('performance_list');
+        if (performanceList) {
+            performanceList.innerHTML = listBody;
         }
     })
 
