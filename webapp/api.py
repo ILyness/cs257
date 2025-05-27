@@ -17,11 +17,11 @@ def display_mark(mark, event_category):
         minutes = float(mark) // 60
         seconds = float(mark) % 60
         if minutes == 0:
-            return f'{seconds:05.2f}'
+            return f'{seconds:.2f}'
         else:
-            return f'{minutes:.0f}:{seconds:05.2f}'
+            return f'{minutes:.0f}:{seconds:.2f}'
     elif event_category == 'Field':
-        return f'{float(mark):.2f}m'
+        return f'{mark}m'
     else:
         return f'{mark}'
 
@@ -215,38 +215,19 @@ def get_athletes():
     connection.close()
     return json.dumps({'athletes': athletes})
 
-@api.route('/search')
-def get_marks():
+@api.route('/marks/<gender>/<event>')
+def get_marks(gender,event):
     
     marks = []
     try:
-
-        print("running search api")
-
-        event = flask.request.args.get('event', '100m', type=str)
-        gender = flask.request.args.get('gender', 'men') #, type=bool
-        duplicates = flask.request.args.get('duplicates')
-        team = flask.request.args.get('team', '')
-        season = flask.request.args.get('season', '')
-        meet = flask.request.args.get('meet', '')
-        mark = flask.request.args.get('mark', '', type=str)
-        
-        print("API inputs")
-        print(event)
-        print(gender)
-        print(duplicates)
-        print(team)
-        print(season)
-        print(meet)
-        print(mark)
-
-        
-        
+        mark = flask.request.args.get('mark', type=str)
+        school = flask.request.args.get('school')
+        season = flask.request.args.get('season')
+        duplicate = flask.request.args.get('duplicate')
         display_number = flask.request.args.get('display_number', default=20,type=int)
 
         connection = get_connection()
         cursor = connection.cursor()
-        event_category = ''
 
         query2 = '''SELECT event_category FROM events WHERE event_name = %s'''
         cursor.execute(query2, (event,))
@@ -261,26 +242,20 @@ def get_marks():
                         JOIN athletes ON athletes.id = results.athlete_id AND athletes.gender = %s
                         JOIN seasons ON results.season_id = seasons.id
                         JOIN schools ON schools.id = results.school_id'''
-        
-                       # JOIN meets ON meets.id = results.meet_id
         parameters = [event,gender]
         
         if season:
             query = query + ''' WHERE seasons.season_name = %s'''
             parameters.append(season)
             
-        if team:
+        if school:
             query = query + ''' AND school_name = %s'''
-            parameters.append(team)
-
-        if meet:
-            query = query + ''' AND meet_name = %s'''
-            parameters.append(team)
+            parameters.append(school)
             
        
         cursor.execute(query, parameters)
         for row in cursor:
-            marks.append({'athlete_name': row[0], 'event_name': row[1], 'team': row[2], 'season_name': row[3], 'mark': display_mark(row[4],event_category=event_category), 'meet' : row[5], 'result_date': row[6].isoformat(), 'num_marks':None})
+            marks.append({'athlete_name': row[0], 'event_name': row[1], 'season_name': row[2], 'mark': display_mark(row[3], event_category=event_category), 'result_date': row[4].isoformat(), 'num_marks':None})
     
         connection.close() 
         
@@ -313,7 +288,7 @@ def get_marks():
             del(filtered_marks)
             
             
-        if duplicates == "False": ## not sure why, but when I had this if statement AFTER the mark check, duplicates athletes would be allowed through if mark was included as a variable
+        if duplicate == "False": ## not sure why, but when I had this if statement AFTER the mark check, duplicate athletes would be allowed through if mark was included as a variable
             seen = {}
             to_delete = []
             for i in range(len(marks)):
@@ -337,7 +312,7 @@ def get_marks():
         print(e, file=sys.stderr)
     print("running search api")
     print("this is marks return print", marks)
-    #return json.dumps("test return string")
+    return json.dumps("test return string")
     return json.dumps(marks)
 
 

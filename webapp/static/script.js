@@ -5,10 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
   if (toggleBtn && comparison2) {
     toggleBtn.addEventListener("click", function () {
       const isShown = comparison2.classList.toggle("shown");
-      
       toggleBtn.textContent = isShown
         ? "Hide Second Athlete Page"
         : "Show Second Athlete Page";
     });
   }
 });
+

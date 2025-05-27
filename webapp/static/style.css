@@ -42,14 +42,11 @@ body {
 }
 
 
-
 #Comparison2.shown {
   opacity: 1;
-  padding: 0.5rem;
   max-width: 100%;
   overflow: hidden;
-  transition: max-width 2s ease, opacity 2s ease, padding 0.5s ease;
-  
+  transition: max-width 2s ease, opacity 1s ease;
 }
 
 #Comparison2{
@@ -57,12 +54,8 @@ body {
   max-width: 0;
   overflow:hidden;
   pointer-events: none;
-  padding:0;
-  
-  transition:  opacity 2s ease 0.3s, max-width 2s ease 0s, padding 0.5s ease 1.5s;
+  transition: max-width 2s ease, opacity 1s ease;
 }
-
-
 
 
 
@@ -109,12 +102,4 @@ body {
 
 .button-secondary:active {
   background-color: var(--color-secondary-active);
-}
-
-#genderTab {
-  background-color: var(--color-primary-active)
-}
-
-.nav-tabs .nav-time .nav-link {
-  background-color: var(--color-bg)
 }
