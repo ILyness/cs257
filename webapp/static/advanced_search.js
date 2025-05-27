@@ -30,11 +30,14 @@ function onSearch() {
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(searchResult) {
+        console.log("running onSearch JS")
+        console.log("searchResult", searchResult)
         let listBody = '';
         let keys = Object.keys(searchResult)
         let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
                             '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Team</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Season</th><th scope="col">Date</th></tr>\n</thead>\n'
         for (let k = 0; k < keys.length; k++) {
+            
             let event = keys[k];
             let tableBody = '';
             tableBody += '<h5>' + event + '</h5>\n'
@@ -45,6 +48,7 @@ function onSearch() {
             for (let j = 0; j < performances.length; j++) {
                 let performance = performances[j]
                 let tableRow = ''
+                console.log("filling table with a row from performance search results")
                 tableRow += '<tr>\n<th scope="row">' + (j+1) + '</th>' +
                                 '<td class="col-md-3">' + performance['athlete_name'] + '</td>' +
                                 '<td class="col-md-2">' + performance['team'] + '</td>' +
@@ -67,7 +71,7 @@ function onSearch() {
                 tableBody += tableRow
             tableBody += '</tbody>\n</table>\n'
             listBody += tableBody
-            print(listBody)
+            
         }
 
         let performanceList = document.getElementById('advancedSearchTable')
@@ -79,6 +83,7 @@ function onSearch() {
         if (performanceList) {
             performanceList.innerHTML = listBody;
         }
+        console.log("list body ", listBody)
     })
 
     .catch(function(error) {
