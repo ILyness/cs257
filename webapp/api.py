@@ -137,34 +137,66 @@ def get_athlete(id):
         connection = get_connection()
         cursor = connection.cursor()
         # Execute the query
-        query = '''SELECT athletes.first_name, athletes.last_name, athletes.gender, schools.school_name, events.event_name, events.event_category, meets.meet_name, performances
+        query = '''SELECT athletes.first_name, athletes.last_name, 
+                    athletes.gender, schools.school_name, 
+                    events.event_name, meets.meet_name, 
+                    performances.mark, performances.result_date, events.event_category
                     FROM athletes
                     JOIN results ON results.athlete_id= %s
                     JOIN schools ON results.school_id = schools.id
                     JOIN performances ON results.performance_id = performances.id
                     JOIN events ON results.event_id = events.id
                     JOIN meets ON results.meet_id = meets.id
-                    WHERE athletes.id= %s
-                    GROUP BY athletes.first_name, athletes.last_name, athletes.gender, schools.school_name, events.event_name, events.event_category, meets.meet_name, performances'''
+                    WHERE athletes.id= %s'''
         
         cursor.execute(query, params)
+        cursor.scroll(0, mode='absolute')
+        first_row = cursor.fetchone()
+        if not first_row:
+            return json.dumps({'error': 'Athlete not found'}), 404
 
+        athlete = {
+            'first_name': first_row[0],
+            'last_name': first_row[1],
+            'gender': first_row[2],
+            'school': first_row[3],
+            'event_name': {}
+        }
+
+        cursor.scroll(0, mode='absolute')
         for row in cursor:
-            athlete = {'first_name':row[0], 'last_name':row[1], 'gender':row[2], 'school':row[3], 'marks': {}}
-            break
-        for row in cursor:
-            if row[4] not in athlete['marks']:
-                athlete['marks'][row[4]] = []
-            fields = row[7].split(',')
-            athlete['marks'][row[4]].append({'mark':display_mark(fields[1], event_category=row[5]), 'meet':row[6], 'date':fields[3]})
+            event = row[4]  
+            mark = row[6]
             
+            if event not in athlete['event_name']:
+                athlete['event_name'][event] = {
+                    'event_category': row[8],
+                    'performances': []
+                }
+            
+          
+            performance = {
+                    'mark': display_mark(mark, row[8]),
+                    'meet': row[5],
+                    'date': row[7].isoformat() if row[7] else None
+                }
+            athlete['event_name'][event]['performances'].append(performance)
 
-
+            
     except Exception as e:
         print(e, file=sys.stderr)
-
-    connection.close()
+    finally:
+        cursor.close()
+        connection.close()
+    for event in athlete['event_name']:
+        athlete['event_name'][event]['performances'].sort(
+        key=lambda p: p['date'], reverse=True  # dates are ISO strings now
+    )
     return json.dumps(athlete)
+
+
+
+
 
 @api.route('/athletes')
 def get_athletes():

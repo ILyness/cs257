@@ -57,17 +57,19 @@ EXAMPLE:
         ]
        
 
-REQUEST: /athlete/athlete_name
+REQUEST: /athlete/athlete_id
 ## SOREN DOING THIS ONE
 RESPONSE: a JSON dictionary where each dictionary representing the specified athlete. The dictionary will have the following fields.
 
 	name – (TEXT) the athletes name
 	school – (TEXT) the athletes school
     gender - (TEXT) the athletes gender
-	marks - (LIST) dictionary where each key is an event and its value is all the athlete's performances from that event:
-	    mark - (TEXT) time/distance/points for the performance
-	    meet - (TEXT) meet that the mark was recorded at
-	    date - (TEXT) date that the mark was recorded
+	event - (DICT) a dictionary where each key is an event and its value is all the athlete's performances from that event (another dictionary):
+        event_category - category of event
+        performances-
+            mark - (TEXT) time/distance/points for the performance
+	        meet - (TEXT) meet that the mark was recorded at
+	        date - (TEXT) date that the mark was recorded
 
 EXAMPLE:
     /athlete/lyness,indy
