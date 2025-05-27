@@ -56,24 +56,25 @@
         </div>
       </nav>
     </header>
-
+<!-- Add Bootstrap Icons CDN for hamburger icon -->
 <link
   href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
   rel="stylesheet"
 />
 
     <main class="container mt-5 pt-5">
+      <!-- toolbar -->
     
 
 
 
-      <!-- Row 1 (Athletes 1 and 2)-->
-      <div class="row gap-0 justify-content-center" id="athleteRow1">
+
+      <div class="row justify-content-center">
         
         
         <!-- Athlete 1 -->
-        <div class="col position-relative p-2 m-0" id="Comparison1"  >
-          <div class= "container bg-dark text-white rounded-3 p-3">
+        <div class="bg-dark col position-relative" id="Comparison1"  >
+
           <div class=" position-absolute" id="toolBarContainer" style="right:20px">
             <button class = 'btn  btn-dark ' type = 'button' data-bs-toggle="collapse" data-bs-target="#toolBar1" aria-expanded = 'false' aria-controls='toolBar1'>Toggle toolbar</button>
           <div class = "collapse position-absolute" id="toolBar1" >
@@ -87,9 +88,6 @@
           </div>
         
         <div class="container text-white">
-
-
-
             <h4 class="mb-0 pb-0">Daniel Scheider</h4>
 
             <div class="row">
@@ -181,124 +179,105 @@
               </div>
             </div>
           </div>
-       
-       
-       
-        
-        
-        </div>
         </div>
 
         <!-- Athlete 2 -->
-          <div class="col position-relative m-0" id="Comparison2"  >
-          <div class= "container bg-dark text-white rounded-3 p-3">
+        <div class="bg-dark col position-relative" id="Comparison2" >
+          <div class="row text-white">
+            <div class="col-12">
+              <h4 class="mb-0 pb-0">Daniel Scheider (2)</h4>
 
-        <div class="container text-white">
+              <div class="row">
+                <h4 class="text-white bg-dark mb-0 pb-0 mt-5">400M</h4>
+                <div class="col-6">
+                  <hr class="mt-0 mb-1" />
+                  <table class="table text-center align-middle">
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Meet</th>
+                        <th scope="col">Mark</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>5/17/2025</td>
+                        <td>MIAC Outdoor Conference Finals</td>
+                        <td>49.18</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>5/16/2025</td>
+                        <td>MIAC Outdoor Conference Prelims</td>
+                        <td>49.13</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>2/2/2025</td>
+                        <td>MIAC Indoor Conference</td>
+                        <td>50.80</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-
-
-            <h4 class="mb-0 pb-0">Daniel Scheider</h4>
-
-            <div class="row">
-              <h4 class="text-white bg-dark mb-0 pb-0 mt-5">400M</h4>
-              <div class="col-6">
-                <hr class="mt-0 mb-1" />
-                <table class="table text-center align-middle">
-                  <thead class="table-dark">
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Date</th>
-                      <th scope="col">Meet</th>
-                      <th scope="col">Mark</th>
-                    </tr>
-                  </thead>
-                  <tbody class="table-group-divider">
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>5/17/2025</td>
-                      <td>MIAC Outdoor Conference Finals</td>
-                      <td>49.18</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>5/16/2025</td>
-                      <td>MIAC Outdoor Conference Prelims</td>
-                      <td>49.13</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>2/2/2025</td>
-                      <td>MIAC Indoor Conference</td>
-                      <td>50.80</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="col-6">
+                  <img
+                    src="img/graph-example2.gif"
+                    alt="Description of image"
+                    class="img-fluid"
+                  />
+                </div>
               </div>
 
-              <div class="col-6">
-                <img
-                  src="img/graph-example2.gif"
-                  alt="Description of image"
-                  class="img-fluid"
-                />
+              <div class="row">
+                <h4 class="text-white bg-dark mb-0 pb-0 mt-5">800M</h4>
+                <div class="col-6">
+                  <hr class="mt-0 mb-1" />
+                  <table class="table text-center align-middle">
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Meet</th>
+                        <th scope="col">Mark</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>5/17/2025</td>
+                        <td>MIAC Outdoor Conference Finals</td>
+                        <td>49.18</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>5/16/2025</td>
+                        <td>MIAC Outdoor Conference Prelims</td>
+                        <td>49.13</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>2/2/2025</td>
+                        <td>MIAC Indoor Conference</td>
+                        <td>50.80</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-6">
+                  <img
+                    src="img/graph-example1.png"
+                    alt="Description of image"
+                    class="img-fluid"
+                  />
+                </div>
               </div>
-            </div>
-
-            <div class="row">
-              <h4 class="text-white bg-dark mb-0 pb-0 mt-5">800M</h4>
-              <div class="col-6">
-                <hr class="mt-0 mb-1" />
-                <table class="table text-center align-middle">
-                  <thead class="table-dark">
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Date</th>
-                      <th scope="col">Meet</th>
-                      <th scope="col">Mark</th>
-                    </tr>
-                  </thead>
-                  <tbody class="table-group-divider">
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>5/17/2025</td>
-                      <td>MIAC Outdoor Conference Finals</td>
-                      <td>49.18</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>5/16/2025</td>
-                      <td>MIAC Outdoor Conference Prelims</td>
-                      <td>49.13</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>2/2/2025</td>
-                      <td>MIAC Indoor Conference</td>
-                      <td>50.80</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="col-6">
-                <img
-                  src="img/graph-example1.png"
-                  alt="Description of image"
-                  class="img-fluid"
-                />
-              </div>
-            </div>
+            </div>  
           </div>
-       
-       
-       
-        
-        
         </div>
-        </div>
-
-
-
-
       </div>
     </main>
 
