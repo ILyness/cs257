@@ -234,6 +234,7 @@ def get_marks():
 
         connection = get_connection()
         cursor = connection.cursor()
+        event_category = ''
 
         query2 = '''SELECT event_category FROM events WHERE event_name = %s'''
         cursor.execute(query2, (event,))
@@ -322,7 +323,7 @@ def get_marks():
               marks = marks[:display_number]   
     except Exception as e:
         print(e, file=sys.stderr)
-    print("running marks")
+    print("running search api")
     return json.dumps(marks)
 
 
