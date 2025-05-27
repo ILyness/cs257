@@ -25,8 +25,29 @@ function getAPIBaseURL() {
 }
 
 function onSearch() {
-    let url = getAPIBaseURL() + '/search';
-    console.log("url = ", url)
+    let url = getAPIBaseURL() + '/search?';
+
+    let event = document.getElementById('event').value;
+    //let genderMen = document.getElementById('genderMen');
+    let gender = document.getElementById('gender');
+   // let duplicatesTrue = document.getElementById('duplicatesTrue');
+    let duplicates = document.getElementById('duplicates');
+    let team = document.getElementById('team');
+    let season = document.getElementById('season');
+    let meet = document.getElementById('meet');
+    let mark = document.getElementById('mark');
+
+  //  if (genderMen.value = )
+
+    url += event;
+    url += gender;
+    url += duplicates;
+    url += team;
+    url += season;
+    url += meet;
+    url += mark;
+
+    console.log("url = ", url);
 
     fetch(url, {method: 'get'})
     .then((response) => response.json())

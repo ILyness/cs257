@@ -337,7 +337,7 @@ def get_marks():
         print(e, file=sys.stderr)
     print("running search api")
     print("this is marks return print", marks)
-    return json.dumps("test return string")
+    #return json.dumps("test return string")
     return json.dumps(marks)
 
 

@@ -73,7 +73,7 @@
 
       <!-- Search Form -->
       <div class="container-md py-5">
-        <form id="advancedSearchForm" class="mb-4 p-3 bg-body-tertiary border rounded-4" method="GET" action="/api/search">
+        <form id="advancedSearchForm" class="mb-4 p-3 bg-body-tertiary border rounded-4" method="GET" action="/search">
           <h4 class="mb-4">Advanced Search:</h4>
 
           <!-- Row 1: Event + Gender (required) -->
@@ -85,11 +85,11 @@
                   Event
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('eventInput').value='100m'">100</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('eventInput').value='200m'">200</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('eventInput').value='400m'">should we go on? they can input</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='100m'">100</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='200m'">200</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='400m'">should we go on? they can input</a></li>
                 </ul>
-                <input type="text" class="form-control" name="event" id="eventInput" placeholder="Select or enter event" required />
+                <input type="text" class="form-control" name="event" id="event" placeholder="Select or enter event" required />
               </div>
             </div>
 
@@ -111,11 +111,11 @@
                 <legend class="col-form-label pt-0">Duplicates</legend>
                 <div class="form-check form-check-inline">
                   <input type="radio" name="duplicates" class="form-check-input" id="duplicatesTrue" value="True" required />
-                  <label class="form-check-label" for="genderMen">Yes</label>
+                  <label class="form-check-label" for="duplicatesTrue">Yes</label>
                 </div>
                 <div class="form-check form-check-inline">
                   <input type="radio" name="duplicates" class="form-check-input" id="duplicatesFalse" value="False" />
-                  <label class="form-check-label" for="genderWomen">No</label>
+                  <label class="form-check-label" for="duplicatesFalse">No</label>
                 </div>
               </fieldset>
             </div>
@@ -132,10 +132,10 @@
                   Teams
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('teamInput').value='Carleton'">Carleton</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('teamInput').value='St. Olaf'">St. Olaf</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Carleton'">Carleton</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='St. Olaf'">St. Olaf</a></li>
                 </ul>
-                <input type="text" class="form-control" name="team" id="teamInput" placeholder="Select or enter team" />
+                <input type="text" class="form-control" name="team" id="team" placeholder="Select or enter team" />
               </div>
             </div>
 
@@ -146,10 +146,10 @@
                   Season
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('seasonInput').value='Outdoor 2025'">Outdoor 2025</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('seasonInput').value='Indoor 2025'">Indoor 2025</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Outdoor 2025'">Outdoor 2025</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Indoor 2025'">Indoor 2025</a></li>
                 </ul>
-                <input type="text" class="form-control" name="season" id="seasonInput" placeholder="Select or enter season" />
+                <input type="text" class="form-control" name="season" id="season" placeholder="Select or enter season" />
               </div>
             </div>
           </div>
@@ -163,16 +163,16 @@
                   Meet
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meetInput').value='Carleton Opener'">Carleton Opener</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meetInput').value='MIAC Conference'">MIAC Conference</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='Carleton Opener'">Carleton Opener</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='MIAC Conference'">MIAC Conference</a></li>
                 </ul>
-                <input type="text" class="form-control" name="meet" id="meetInput" placeholder="Select or enter meet" />
+                <input type="text" class="form-control" name="meet" id="meet" placeholder="Select or enter meet" />
               </div>
             </div>
 
             <div class="col">
               <label class="form-label">Mark Better Than...</label>
-              <input type="text" class="form-control" name="mark" placeholder="e.g. 10.75" />
+              <input type="text" class="form-control" name="mark" id="mark" placeholder="e.g. 10.75" />
             </div>
           </div>
 
