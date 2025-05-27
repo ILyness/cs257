@@ -247,8 +247,9 @@ def get_marks():
                         AND events.event_name = %s
                         JOIN athletes ON athletes.id = results.athlete_id AND athletes.gender = %s
                         JOIN seasons ON results.season_id = seasons.id
-                        JOIN schools ON schools.id = results.school_id
-                        JOIN meets ON meets.id = reslts.meet_id'''
+                        JOIN schools ON schools.id = results.school_id'''
+        
+                       # JOIN meets ON meets.id = results.meet_id
         parameters = [event,gender]
         
         if season:

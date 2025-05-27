@@ -31,7 +31,7 @@ function onSearch() {
     .then((response) => response.json())
     .then(function(searchResult) {
         let listBody = '';
-        keys = Object.keys(searchResult)
+        let keys = Object.keys(searchResult)
         let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
                             '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Team</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Season</th><th scope="col">Date</th></tr>\n</thead>\n'
         for (let k = 0; k < keys.length; k++) {
@@ -41,11 +41,9 @@ function onSearch() {
                                 + tableHeader
                                 + '\n<tbody>';
             let performances = searchResult[event]
-            if (performances.length < 10) {
-                continue
-            }
+
             for (let j = 0; j < performances.length; j++) {
-                performance = performances[j]
+                let performance = performances[j]
                 let tableRow = ''
                 tableRow += '<tr>\n<th scope="row">' + (j+1) + '</th>' +
                                 '<td class="col-md-3">' + performance['athlete_name'] + '</td>' +
@@ -58,7 +56,7 @@ function onSearch() {
                 tableBody += tableRow
             }
             let tableRow = ''
-                tableRow += '<tr>\n<th scope="row">' + (j+1) + '</th>' +
+                tableRow += '<tr>\n<th scope="row">' + (1) + '</th>' +
                                 '<td class="col-md-3">' + "HI!!!" + '</td>' +
                                 '<td class="col-md-2">' + "HI!!!" + '</td>' +
                                 '<td class="col-md-2">' + "HI!!!" + '</td>' +
@@ -69,6 +67,7 @@ function onSearch() {
                 tableBody += tableRow
             tableBody += '</tbody>\n</table>\n'
             listBody += tableBody
+            print(listBody)
         }
 
         let performanceList = document.getElementById('advancedSearchTable')
