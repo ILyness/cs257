@@ -12,6 +12,10 @@ function initialize() {
     if (element) {
         element.onclick = onGetData;
     }
+    let form = document.getElementById('filterForm');
+    if (form) {
+        form.onsubmit = loadPerformanceList;
+    }
 }
 
 // Returns the base URL of the API, onto which endpoint
@@ -43,19 +47,14 @@ function loadSeasonsSelector() {
 }
 
 function onGetData() {
+    //dawdawd awd w
     let url = getAPIBaseURL() + '/list/';
-
-    // Send the request to the books API /authors/ endpoint
+// html call this and implements
+//get element by ID
+//.selected
     fetch(url, {method: 'get'})
-
-    // When the results come back, transform them from a JSON string into
-    // a Javascript object (in this case, a list of author dictionaries).
     .then((response) => response.json())
-
-    // Once you have your list of author dictionaries, use it to build
-    // an HTML table displaying the author names and lifespan.
     .then(function(result) {
-        // Add the <option> elements to the <select> element
         let listBody = '';
         keys = Object.keys(result)
         let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
@@ -67,6 +66,9 @@ function onGetData() {
                                 + tableHeader
                                 + '\n<tbody>';
             let performances = result[event]
+            if (performances.length < 10) {
+                continue
+            }
             for (let j = 0; j < performances.length; j++) {
                 performance = performances[j]
                 let tableRow = ''
@@ -89,7 +91,6 @@ function onGetData() {
         }
     })
 
-    // Log the error if anything went wrong during the fetch.
     .catch(function(error) {
         console.log(error);
     });

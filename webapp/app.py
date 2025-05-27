@@ -1,6 +1,6 @@
 '''
     app.py
-    SOren,Indy,Daniel, 5/19/25
+    Soren,Indy,Daniel, 5/19/25
     based on Jeff's app implementation
 
 '''

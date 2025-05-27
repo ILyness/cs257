@@ -22,6 +22,7 @@
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
       crossorigin="anonymous"
     ></script>
+    <script src="{{ url_for('static', filename='advanced_search.js') }}" ></script>
      <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" />
   </head>
 
@@ -69,219 +70,122 @@
     </header>
 
     <main class="pt-3 mt-3">
-      <div class="container-md py-5">
-        <div class="mb-4 p-3 bg-body-tertiary border rounded-4">
-          <h4>Advanced Search:</h4>
 
-          <!-- FIRST ROW -->
-          <div class="row">
-            <div class="col">
-              <div class="input-group mb-3">
-                <button
-                  class="btn-dark btn-outline-secondary dropdown-toggle rounded-2"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
+      <!-- Search Form -->
+      <div class="container-md py-5">
+        <form id="advancedSearchForm" class="mb-4 p-3 bg-body-tertiary border rounded-4" method="GET" action="/api/search">
+          <h4 class="mb-4">Advanced Search:</h4>
+
+          <!-- Row 1: Event + Gender (required) -->
+          <div class="row mb-3">
+            <div class="col-6">
+              <label class="form-label">Event</label>
+              <div class="input-group">
+                <button class="btn-dark btn-outline-secondary dropdown-toggle rounded-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Event
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">100m</a></li>
-                  <li><a class="dropdown-item" href="#">200m</a></li>
-                  <li><a class="dropdown-item" href="#">400m</a></li>
-                  <li><a class="dropdown-item" href="#">etc...</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('eventInput').value='100m'">100</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('eventInput').value='200m'">200</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('eventInput').value='400m'">should we go on? they can input</a></li>
                 </ul>
-                <input
-                  type="text"
-                  class="form-control"
-                  aria-label="Text input with dropdown button"
-                />
+                <input type="text" class="form-control" name="event" id="eventInput" placeholder="Select or enter event" required />
               </div>
             </div>
 
-            <div class="col d-flex justify-content-center align-items-center">
-              <fieldset class="mb-3">
-                <div class="mb-3 form-check-inline">
-                  <input
-                    type="radio"
-                    name="radios"
-                    class="form-check-input"
-                    id="exampleRadio1"
-                  />
-                  <label class="form-check-label" for="exampleRadio1"
-                    >Men</label
-                  >
+            <div class="col d-flex align-items-center">
+              <fieldset class="border-0">
+                <legend class="col-form-label pt-0">Gender</legend>
+                <div class="form-check form-check-inline">
+                  <input type="radio" name="gender" class="form-check-input" id="genderMen" value="men" required />
+                  <label class="form-check-label" for="genderMen">Men</label>
                 </div>
-                <div class="mb-3 form-check-inline">
-                  <input
-                    type="radio"
-                    name="radios"
-                    class="form-check-input"
-                    id="exampleRadio2"
-                  />
-                  <label class="form-check-label" for="exampleRadio2"
-                    >Women</label
-                  >
+                <div class="form-check form-check-inline">
+                  <input type="radio" name="gender" class="form-check-input" id="genderWomen" value="women" />
+                  <label class="form-check-label" for="genderWomen">Women</label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="col d-flex align-items-center">
+              <fieldset class="border-0">
+                <legend class="col-form-label pt-0">Duplicates</legend>
+                <div class="form-check form-check-inline">
+                  <input type="radio" name="duplicates" class="form-check-input" id="duplicatesTrue" value="True" required />
+                  <label class="form-check-label" for="genderMen">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" name="duplicates" class="form-check-input" id="duplicatesFalse" value="False" />
+                  <label class="form-check-label" for="genderWomen">No</label>
                 </div>
               </fieldset>
             </div>
           </div>
 
-          <!-- SECOND ROW -->
-          <div class="row">
+          <!-- Row 2: Teams + Season
+           
+          use most similar string  -->
+          <div class="row mb-3">
             <div class="col">
-              <div class="d-flex align-items-center mb-3">
-                <div class="input-group">
-                  <button
-                    class="btn-dark btn-outline-secondary dropdown-toggle rounded-2"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Teams
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Carleton</a></li>
-                    <li><a class="dropdown-item" href="#">St. Olaf</a></li>
-                    <li><a class="dropdown-item" href="#">Bethel</a></li>
-                    <li><a class="dropdown-item" href="#">etc...</a></li>
-                  </ul>
-                  <input
-                    type="text"
-                    class="form-control"
-                    aria-label="Text input with dropdown button"
-                  />
-                </div>
+              <label class="form-label">Team</label>
+              <div class="input-group">
+                <button class="btn-dark btn-outline-secondary dropdown-toggle rounded-2" type="button" data-bs-toggle="dropdown">
+                  Teams
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('teamInput').value='Carleton'">Carleton</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('teamInput').value='St. Olaf'">St. Olaf</a></li>
+                </ul>
+                <input type="text" class="form-control" name="team" id="teamInput" placeholder="Select or enter team" />
               </div>
             </div>
 
             <div class="col">
-              <div class="d-flex align-items-center mb-3">
-                <div class="input-group">
-                  <button
-                    class="btn-dark btn-outline-secondary dropdown-toggle rounded-2"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Season
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Outdoor 2025</a></li>
-                    <li><a class="dropdown-item" href="#">Indoor 2025</a></li>
-                    <li><a class="dropdown-item" href="#">Outdoor 2024</a></li>
-                    <li><a class="dropdown-item" href="#">Indoor 2024</a></li>
-                    <li><a class="dropdown-item" href="#">Outdoor 2023</a></li>
-                    <li><a class="dropdown-item" href="#">Indoor 2023</a></li>
-                    <li><a class="dropdown-item" href="#">Outdoor 2022</a></li>
-                    <li><a class="dropdown-item" href="#">Indoor 2022</a></li>
-                    <li><a class="dropdown-item" href="#">Outdoor 2021</a></li>
-                    <li><a class="dropdown-item" href="#">Indoor 2021</a></li>
-                  </ul>
-                  <input
-                    type="text"
-                    class="form-control"
-                    aria-label="Text input with dropdown button"
-                  />
-                </div>
+              <label class="form-label">Season</label>
+              <div class="input-group">
+                <button class="btn-dark btn-outline-secondary dropdown-toggle rounded-2" type="button" data-bs-toggle="dropdown">
+                  Season
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('seasonInput').value='Outdoor 2025'">Outdoor 2025</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('seasonInput').value='Indoor 2025'">Indoor 2025</a></li>
+                </ul>
+                <input type="text" class="form-control" name="season" id="seasonInput" placeholder="Select or enter season" />
               </div>
             </div>
           </div>
 
-          <!-- THIRD ROW -->
-          <div class="row">
+          <!-- Row 3: Meet + Better Than -->
+          <div class="row mb-4">
             <div class="col">
-              <div class="d-flex align-items-center mb-3">
-                <div class="input-group">
-                  <button
-                    class="btn-dark btn-outline-secondary dropdown-toggle rounded-2"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Meet
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="#">Carleton Opener</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">MIAC Conferance</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#"
-                        >Meet of the Unsaintly</a
-                      >
-                    </li>
-                    <li><a class="dropdown-item" href="#">etc...</a></li>
-                  </ul>
-                  <input
-                    type="text"
-                    class="form-control"
-                    aria-label="Text input with dropdown button"
-                  />
-                </div>
+              <label class="form-label">Meet</label>
+              <div class="input-group">
+                <button class="btn-dark btn-outline-secondary dropdown-toggle rounded-2" type="button" data-bs-toggle="dropdown">
+                  Meet
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meetInput').value='Carleton Opener'">Carleton Opener</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meetInput').value='MIAC Conference'">MIAC Conference</a></li>
+                </ul>
+                <input type="text" class="form-control" name="meet" id="meetInput" placeholder="Select or enter meet" />
               </div>
             </div>
 
             <div class="col">
-              <div class="d-flex align-items-center mb-3">
-                <div class="input-group">
-                  <button
-                    class="btn-dark btn-outline-secondary rounded-2"
-                    type="button"
-                    onclick="document.getElementById('betterThanInput').focus()"
-                  >
-                    Better than...
-                  </button>
-                  <input
-                    type="text"
-                    id="betterThanInput"
-                    class="form-control"
-                    placeholder="Enter mark"
-                  />
-                </div>
-              </div>
+              <label class="form-label">Mark Better Than...</label>
+              <input type="text" class="form-control" name="mark" placeholder="e.g. 10.75" />
             </div>
           </div>
 
-          <button class="btn-primary btn-outline-secondary" type="button">
-            Search
-          </button>
-        </div>
-      </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg">Search</button>
+          </div>
+        </form>
+</div>
+
 
       <div class="container-md">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Mark</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Soren</td>
-              <td>Kaster</td>
-              <td>4.60m</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jimothy</td>
-              <td>Gates</td>
-              <td>4.45m</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>John</td>
-              <td>Doe</td>
-              <td>4.00m</td>
-            </tr>
-          </tbody>
-        </table>
+        <div id="advancedSearchTable"></div>
+        <div id="test"></div>
       </div>
     </main>
   </body>
