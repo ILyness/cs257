@@ -129,6 +129,9 @@ function loadPerformanceList() {
                     continue
                 }
                 let performances = result[category][event];
+                if (performances.length == 0) {
+                    continue
+                }
                 let tableBody = '';
                 tableBody += '<h5>' + event + '</h5>\n'
                                     + tableHeader
