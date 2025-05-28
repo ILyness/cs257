@@ -282,26 +282,15 @@ def get_marks():
     marks = []
     try:
 
-        print("running search api")
 
-        event = flask.request.args.get('event', '100Meters', type=str)
+        event = flask.request.args.get('event', '100 Meters', type=str)
         gender = flask.request.args.get('gender', 'm') #, type=bool
         duplicates = flask.request.args.get('duplicates')
         team = flask.request.args.get('team', '')
         season = flask.request.args.get('season', 'Outdoor 2025')
         meet = flask.request.args.get('meet', '')
         mark = flask.request.args.get('mark', '', type=str)
-        
-        print("API inputs")
-        print(event)
-        print(gender)
-        print(duplicates)
-        print(team)
-        print(season)
-        print(meet)
-        print(mark)
-
-        
+            
         
         display_number = flask.request.args.get('display_number', default=20,type=int)
 
@@ -314,7 +303,7 @@ def get_marks():
         for row in cursor:
             event_category = row[0]
     
-        query = '''SELECT CONCAT(athletes.first_name, athletes.last_name) as athlete_name, events.event_name, seasons.season_name, performances.mark, schools.school_name, meets.meet_name, performances.result_date
+        query = '''SELECT athletes.first_name || \' \' || athletes.last_name as athlete_name, events.event_name, seasons.season_name, performances.mark, schools.school_name, meets.meet_name, performances.result_date
                         FROM results 
                         JOIN performances ON performances.id = results.performance_id
                         JOIN events ON results.event_id = events.id 
