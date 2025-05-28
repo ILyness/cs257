@@ -287,10 +287,10 @@ def get_marks():
         event = flask.request.args.get('event', '100m', type=str)
         gender = flask.request.args.get('gender', 'men') #, type=bool
         duplicates = flask.request.args.get('duplicates')
-        team = flask.request.args.get('team', '')
-        season = flask.request.args.get('season', '')
-        meet = flask.request.args.get('meet', '')
-        mark = flask.request.args.get('mark', '', type=str)
+        team = flask.request.args.get('team', '*')
+        season = flask.request.args.get('season', '*')
+        meet = flask.request.args.get('meet', '*')
+        mark = flask.request.args.get('mark', '*', type=str)
         
         print("API inputs")
         print(event)
@@ -321,7 +321,8 @@ def get_marks():
                         AND events.event_name = %s
                         JOIN athletes ON athletes.id = results.athlete_id AND athletes.gender = %s
                         JOIN seasons ON results.season_id = seasons.id
-                        JOIN schools ON schools.id = results.school_id'''
+                        JOIN schools ON schools.id = results.school_id
+                        JOIN meets ON meets.id = results.meet_id'''
         
                        # JOIN meets ON meets.id = results.meet_id
         parameters = [event,gender]
@@ -331,12 +332,12 @@ def get_marks():
             parameters.append(season)
             
         if team:
-            query = query + ''' AND school_name = %s'''
+            query = query + ''' AND schools.school_name = %s'''
             parameters.append(team)
 
         if meet:
-            query = query + ''' AND meet_name = %s'''
-            parameters.append(team)
+            query = query + ''' AND meets.meet_name = %s'''
+            parameters.append(meet)
             
        
         cursor.execute(query, parameters)
