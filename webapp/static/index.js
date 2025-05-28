@@ -119,7 +119,7 @@ function loadPerformanceList() {
             let keys = Object.keys(result[category]);
             for (let k = 0; k < keys.length; k++) {
                 let event = keys[k];
-                if (!(event in events)) {
+                if (!(events.includes(event))) {
                     continue
                 }
                 let performances = result[category][event];
