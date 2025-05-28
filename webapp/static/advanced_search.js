@@ -35,7 +35,7 @@ function initialize() {
 
 
 
-        onSearch();
+     
     });
     }
 }
@@ -56,7 +56,11 @@ function onSearch() {
   
     let url = getAPIBaseURL() + '/search';
 
-    console.log("url = ", url);
+    console.log("url = ", url);   // just logs the basic search url, like youve been seeing
+    const currentParams = window.location.search; 
+
+    url = getAPIBaseURL() + '/search' + currentParams;
+    console.log("url = ", url);  // should log a second url, with the praams now
 
 
     fetch(url, {method: 'get'})
