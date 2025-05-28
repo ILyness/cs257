@@ -17,6 +17,10 @@ function initialize() {
         event.preventDefault();
         loadPerformanceList();
     });
+    let selectButton = document.getElementById('selectButton');
+    if (selectButton) {
+        selectButton.onclick = toggleEvents;
+    }
 }
 
 // Returns the base URL of the API, onto which endpoint
@@ -48,7 +52,7 @@ function loadEventsSelector() {
             }
             eventsBody += `
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="event" id="event${event.split(' ')[0]}" value="${event}" />
+                  <input class="form-check-input" type="checkbox" name="event" id="event${event.split(' ')[0]}" value="${event}" checked="true"/>
                   <label class="form-check-label" for="event${event.split(' ')[0]}">${event}</label>
                 </div>\n
             `;
@@ -179,4 +183,28 @@ function loadPerformanceList() {
     .catch(function(error) {
         console.log(error);
     });
+}
+
+function toggleEvents() {
+    let selectButton = document.getElementById('selectButton');
+    let checked = !(selectButton.getAttribute('value') === 'true');
+
+    let checkboxes = document.querySelectorAll('input[name="event"]');
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = checked;
+    })
+
+    if (checked) {
+        selectButton.setAttribute('value', 'true');
+        selectButton.classList.remove('btn-success');
+        selectButton.classList.add('btn-danger')
+        selectButton.innerText = 'Deselect all events';
+    }
+    else {
+        selectButton.setAttribute('value', 'false');
+        selectButton.classList.remove('btn-danger');
+        selectButton.classList.add('btn-success')
+        selectButton.innerText = 'Select all events';
+    }
+
 }
