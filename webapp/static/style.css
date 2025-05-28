@@ -114,3 +114,7 @@ body {
 .nav-tabs > .nav-item > .nav-link.active {
   background-color: var(--color-primary-active);
 }
+
+#eventSelect {
+  padding-bottom: 50px;
+}
