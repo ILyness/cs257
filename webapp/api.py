@@ -284,13 +284,13 @@ def get_marks():
 
         print("running search api")
 
-        event = flask.request.args.get('event', '100m', type=str)
-        gender = flask.request.args.get('gender', 'men') #, type=bool
+        event = flask.request.args.get('event', '100Meters', type=str)
+        gender = flask.request.args.get('gender', 'm') #, type=bool
         duplicates = flask.request.args.get('duplicates')
-        team = flask.request.args.get('team', '*')
-        season = flask.request.args.get('season', '*')
-        meet = flask.request.args.get('meet', '*')
-        mark = flask.request.args.get('mark', '*', type=str)
+        team = flask.request.args.get('team', '')
+        season = flask.request.args.get('season', 'Outdoor 2025')
+        meet = flask.request.args.get('meet', '')
+        mark = flask.request.args.get('mark', '', type=str)
         
         print("API inputs")
         print(event)
@@ -314,7 +314,7 @@ def get_marks():
         for row in cursor:
             event_category = row[0]
     
-        query = '''SELECT CONCAT(athletes.first_name, athletes.last_name) as athlete_name, events.event_name, seasons.season_name, performances.mark, performances.result_date
+        query = '''SELECT CONCAT(athletes.first_name, athletes.last_name) as athlete_name, events.event_name, seasons.season_name, performances.mark, schools.school_name, meets.meet_name, performances.result_date
                         FROM results 
                         JOIN performances ON performances.id = results.performance_id
                         JOIN events ON results.event_id = events.id 
@@ -342,7 +342,14 @@ def get_marks():
        
         cursor.execute(query, parameters)
         for row in cursor:
-            marks.append({'athlete_name': row[0], 'event_name': row[1], 'team': row[2], 'season_name': row[3], 'mark': display_mark(row[4],event_category=event_category), 'meet' : row[5], 'result_date': row[6].isoformat(), 'num_marks':None})
+            marks.append({'athlete_name': row[0], 
+                          'event_name': row[1], 
+                          'season_name': row[2],
+                          'mark': display_mark(row[3],event_category=event_category),
+                          'team': row[4], 
+                          'meet' : row[5], 
+                          'result_date': row[6].isoformat(), 
+                          'num_marks':None})
     
         connection.close() 
         
@@ -398,9 +405,11 @@ def get_marks():
     except Exception as e:
         print(e, file=sys.stderr)
     print("running search api")
-    print("this is marks return print", marks)
+    print("this is marks return print = ", marks)
     #return json.dumps("test return string")
-    return json.dumps(marks)
+    out = json.dumps(marks)
+    print("JSON dump output = ", out)
+    return out
 
 
 

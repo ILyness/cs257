@@ -91,9 +91,18 @@
                   Event
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='100m'">100</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='200m'">200</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='400m'">should we go on? they can input</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='100Meters'">100Meters</a></li> <!-- i know there is a better way to do this but will fix that post draft :)-->
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='200Meters'">200Meters</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='400Meters'">400Meters</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='800Meters'">800Meters</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='1500Meters'">1500Meters</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='5000Meters'">5000Meters</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='400Hurdles'">400Hurdles</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='LongJump'">LongJump</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='TripleJump'">TripleJump</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='PoleVault'">PoleVault</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='ShotPut'">ShotPut</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='Decathlon'">Decathlon</a></li>
                 </ul>
                 <input type="text" class="form-control" name="event" id="event" placeholder="Select or enter event" required />
               </div>
@@ -104,11 +113,11 @@
               <fieldset class="border-0">
                 <legend class="col-form-label pt-0">Gender</legend>
                 <div class="form-check form-check-inline">
-                  <input type="radio" name="gender" class="form-check-input" id="genderMen" value="men" required />
+                  <input type="radio" name="gender" class="form-check-input" id="genderMen" value="m" required />
                   <label class="form-check-label" for="genderMen">Men</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input type="radio" name="gender" class="form-check-input" id="genderWomen" value="women" />
+                  <input type="radio" name="gender" class="form-check-input" id="genderWomen" value="f" />
                   <label class="form-check-label" for="genderWomen">Women</label>
                 </div>
               </fieldset>
@@ -142,6 +151,14 @@
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Carleton'">Carleton</a></li>
                   <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='St. Olaf'">St. Olaf</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Ausburg'">Ausburg</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Bethel'">Bethel</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Concordia-Moorhead'">Concordia-Moorhead</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Gustavus Adolphus'">Gustavus Adolphus</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Hamline'">Hamline</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Macalester'">Macalester</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='St. Scholastica'">St. Scholastica</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='St. Benedict'">St. Benedict</a></li>
                 </ul>
                 <input type="text" class="form-control" name="team" id="team" placeholder="Select or enter team" />
               </div>
@@ -157,6 +174,12 @@
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Outdoor 2025'">Outdoor 2025</a></li>
                   <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Indoor 2025'">Indoor 2025</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Outdoor 2025'">Outdoor 2024</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Indoor 2025'">Indoor 2024</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Outdoor 2025'">Outdoor 2023</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Indoor 2025'">Indoor 2023</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Outdoor 2025'">Outdoor 2022</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Indoor 2025'">Indoor 2022</a></li>
                 </ul>
                 <input type="text" class="form-control" name="season" id="season" placeholder="Select or enter season" />
               </div>
@@ -173,8 +196,13 @@
                   Meet
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='Carleton Opener'">Carleton Opener</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='MIAC Conference'">MIAC Conference</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='MIACOutdoorChampionships'">MIACOutdoorChampionships</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='HamlineInvitational-Teams'">HamlineInvitational-Teams</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='BethelInvitational'">BethelInvitational</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='InvitationMeetoftheUnSaintly'">MeetoftheUnSaintly</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='MIACIndoorChampionships'">MIACIndoorChampionships</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='GopherClassic'">GopherClassic</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='JackJohnsonClassic'">JackJohnsonClassic</a></li>
                 </ul>
                 <input type="text" class="form-control" name="meet" id="meet" placeholder="Select or enter meet" />
               </div>
