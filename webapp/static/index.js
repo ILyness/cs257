@@ -95,6 +95,8 @@ function loadSeasonsSelector() {
 function loadPerformanceList() {
     let selectElement = document.getElementById('seasonSelect');
     season = selectElement.value;
+    
+    
     let url = getAPIBaseURL() + '/list/?season=' + season;
 
     // Send the request to the books API /authors/ endpoint
@@ -155,8 +157,15 @@ function loadPerformanceList() {
                 }
             }
         }
+
+
+performanceListContainer = document.getElementById('performanceListContainer');
+    performanceListContainer.classList.remove('d-none');
+
+
     })
 
+   
     // Log the error if anything went wrong during the fetch.
     .catch(function(error) {
         console.log(error);

@@ -404,12 +404,9 @@ def get_marks():
               marks = marks[:display_number]   
     except Exception as e:
         print(e, file=sys.stderr)
-    print("running search api")
-    print("this is marks return print = ", marks)
-    #return json.dumps("test return string")
-    out = json.dumps(marks)
-    print("JSON dump output = ", out)
-    return out
+  
+   
+    return json.dumps(marks)
 
 
 

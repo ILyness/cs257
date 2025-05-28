@@ -103,3 +103,14 @@ body {
 .button-secondary:active {
   background-color: var(--color-secondary-active);
 }
+
+
+.nav-tabs > .nav-item > * {
+  background-color: var(--color-primary);
+  color: black;
+}
+
+
+.nav-tabs > .nav-item > .nav-link.active {
+  background-color: var(--color-primary-active);
+}
