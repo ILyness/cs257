@@ -159,8 +159,17 @@ function loadPerformanceList() {
         }
 
 
-performanceListContainer = document.getElementById('performanceListContainer');
-    performanceListContainer.classList.remove('d-none');
+        performanceListContainer = document.getElementById('performanceListContainer');
+        if (events.length == 0) {
+            if (!(performanceListContainer.classList).contains('d-none')) {
+                performanceListContainer.classList.add('d-none');
+            }
+        }
+        else {
+            if (performanceListContainer.classList.contains('d-none')) {
+                performanceListContainer.classList.remove('d-none');
+            }
+        }
 
 
     })
