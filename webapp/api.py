@@ -43,7 +43,7 @@ def get_seasons():
         connection = get_connection()
         cursor = connection.cursor()
 
-        query = """SELECT * FROM seasons"""
+        query = """SELECT * FROM seasons;"""
         cursor.execute(query)
         for row in cursor:
             seasons.append({'season_name':row[1], 'season_category':row[2]})
@@ -52,6 +52,31 @@ def get_seasons():
     
     except Exception as e:
         print(e, file=sys.stderr)
+
+@api.route('/events/')
+def get_events():
+    """Returns a list of all events for the speicfied season."""
+    season = flask.request.args.get('season', type=str, default='Outdoor 2025')
+    events = []
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        params = (season,)
+        query = """SELECT * FROM events
+                JOIN seasons on seasons.season_category = events.season_category
+                WHERE seasons.season_name LIKE %s;"""
+
+        cursor.execute(query, params)
+
+        for row in cursor:
+            events.append({'id':row[0], 'event_name':row[1], 'event_category':row[2], 'season_category':row[3]})
+
+        connection.close()
+        return json.dumps(events)
+    except Exception as e:
+        print(e, file=sys.stderr)
+        
 
 @api.route('/list/')
 def get_performance_list():
@@ -84,7 +109,8 @@ def get_performance_list():
                 params = (event['id'],season,category)
                 performance_list[category][event['event_name']] = []
                 # Build query for current event
-                query2 = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, schools.school_name, performances.mark, performances.result_date, meets.meet_name
+                query2 = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, 
+                        schools.school_name, performances.mark, performances.result_date, meets.meet_name
                         FROM events
                         JOIN results ON events.id=results.event_id
                         JOIN athletes ON athletes.id=results.athlete_id

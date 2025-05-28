@@ -9,7 +9,7 @@ window.addEventListener("load", initialize);
 function initialize() {
     let selectElement = document.getElementById('seasonSelect');
     if (selectElement) {
-        selectElement.onchange = loadEventsSelector();
+        selectElement.onchange = loadEventsSelector;
     }
     loadSeasonsSelector();
     let element = document.getElementById('ButtonGetData');
@@ -31,13 +31,36 @@ function getAPIBaseURL() {
 function loadEventsSelector() {
     let selectElement = document.getElementById('seasonSelect');
     let season = selectElement.value;
-    let url = getAPIBaseURL() + '/events?season=' + season;
+    let url = getAPIBaseURL() + '/events/?season=' + season;
 
     fetch(url, {method: 'get'})
-    .then((respinse) => response.json())
+    .then((response) => response.json())
     .then(function(result) {
-        console.log('Made it here')
+        let eventsBody = ''
+        for (let k = 0; k < result.length; k++) {
+            let event = result[k]['event_name'];
+            if (k % 5 == 0) {
+                if (k > 0) {
+                    eventsBody += '</div>\n';
+                }
+                eventsBody += '<div class="col-md-2">\n';
+            }
+            eventsBody += `
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="event" id="event${event.split(' ')[0]}" value="${event}" />
+                  <label class="form-check-label" for="event${event.split(' ')[0]}">${event}</label>
+                </div>\n
+            `;
+        }
+        let selector = document.getElementById('eventSelect');
+        if (selector) {
+            selector.innerHTML = eventsBody;
+        }
     })
+
+    .catch(function(error) {
+        console.log(error);
+    });
 }
 
 function loadSeasonsSelector() {
@@ -46,16 +69,26 @@ function loadSeasonsSelector() {
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(result) {
-        let selectorBody = '<option value="" selected>Choose season...</option>\n'
+        let selectorBody = ''
         for (let k = 0; k < result.length; k++) {
             let season = result[k];
-            selectorBody += '<option value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
+            if (k == 0) {
+                selectorBody += '<option selected=True value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
+            }
+            else {
+                selectorBody += '<option value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
+            }
         }
         let selector = document.getElementById('seasonSelect');
         if (selector) {
             selector.innerHTML = selectorBody;
+            loadEventsSelector();
         }
     })
+
+    .catch(function(error) {
+        console.log(error);
+    });
 }
 
 function onGetData() {
@@ -82,9 +115,6 @@ function onGetData() {
             for (let k = 0; k < keys.length; k++) {
                 let event = keys[k];
                 let performances = result[category][event];
-                if (performances.length < 20) {
-                    continue
-                }
                 let tableBody = '';
                 tableBody += '<h5>' + event + '</h5>\n'
                                     + tableHeader
