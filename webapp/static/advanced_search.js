@@ -12,7 +12,31 @@ function initialize() {
     onSearch();
     let form = document.getElementById('advancedSearchForm');
     if (form) {
-        form.onsubmit = onSearch;
+    form.addEventListener('submit', function (e) { /* HERE IS THE CHANGE I MADE */
+        e.preventDefault();
+        const formData = new FormData(form);
+        const params = new URLSearchParams();
+
+            for (const [key, value] of formData.entries()) { // THIS SHOULD MANUALLY GRAB THE PARAMS FROM THE URL AND UPDATE THE URL WITH THE VARIABLES AND THEN NOT RELOAD
+                if (value) params.append(key, value);
+            }
+
+
+            history.pushState(null, '', '?' + params.toString()); // pushes the converted url with prams
+
+           
+
+
+            onSearch(); //queries as normal
+
+
+
+
+
+
+
+        onSearch();
+    });
     }
 }
 
@@ -28,10 +52,8 @@ function getAPIBaseURL() {
 }
 
 
-function onSearch(event) {
-    if (event) {
-        event.preventDefault();
-    }
+function onSearch() {
+  
     let url = getAPIBaseURL() + '/search';
 
     console.log("url = ", url);
