@@ -4,7 +4,9 @@
  * Adapted from Jeff Ondich's 'books.js'
  */
 
+
 window.addEventListener("load", initialize);
+
 
 function initialize() {
     onSearch();
@@ -13,6 +15,7 @@ function initialize() {
         form.onsubmit = onSearch;
     }
 }
+
 
 // Returns the base URL of the API, onto which endpoint
 // components can be appended.
@@ -24,30 +27,15 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
-function onSearch() {
-    let url = getAPIBaseURL() + '/search?';
 
-    let event = document.getElementById('event').value;
-    //let genderMen = document.getElementById('genderMen');
-    let gender = document.getElementById('gender');
-   // let duplicatesTrue = document.getElementById('duplicatesTrue');
-    let duplicates = document.getElementById('duplicates');
-    let team = document.getElementById('team');
-    let season = document.getElementById('season');
-    let meet = document.getElementById('meet');
-    let mark = document.getElementById('mark');
-
-  //  if (genderMen.value = )
-
-    url += event;
-    url += gender;
-    url += duplicates;
-    url += team;
-    url += season;
-    url += meet;
-    url += mark;
+function onSearch(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    let url = getAPIBaseURL() + '/search';
 
     console.log("url = ", url);
+
 
     fetch(url, {method: 'get'})
     .then((response) => response.json())
@@ -59,13 +47,14 @@ function onSearch() {
         let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
                             '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Team</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Season</th><th scope="col">Date</th></tr>\n</thead>\n'
         for (let k = 0; k < keys.length; k++) {
-            
+           
             let event = keys[k];
             let tableBody = '';
             tableBody += '<h5>' + event + '</h5>\n'
                                 + tableHeader
                                 + '\n<tbody>';
             let performances = searchResult[event]
+
 
             for (let j = 0; j < performances.length; j++) {
                 let performance = performances[j]
@@ -93,8 +82,9 @@ function onSearch() {
                 tableBody += tableRow
             tableBody += '</tbody>\n</table>\n'
             listBody += tableBody
-            
+           
         }
+
 
         let performanceList = document.getElementById('advancedSearchTable')
         const test = 'is this thing on?'
@@ -108,7 +98,9 @@ function onSearch() {
         console.log("list body ", listBody)
     })
 
+
     .catch(function(error) {
         console.log(error);
     });
 }
+
