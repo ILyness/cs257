@@ -12,10 +12,11 @@ function initialize() {
         selectElement.onchange = loadEventsSelector;
     }
     loadSeasonsSelector();
-    let element = document.getElementById('ButtonGetData');
-    if (element) {
-        element.onclick = onGetData;
-    }
+    let form = document.getElementById('filterForm');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        loadPerformanceList();
+    });
 }
 
 // Returns the base URL of the API, onto which endpoint
@@ -73,10 +74,10 @@ function loadSeasonsSelector() {
         for (let k = 0; k < result.length; k++) {
             let season = result[k];
             if (k == 0) {
-                selectorBody += '<option selected=True value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
+                selectorBody += '<option selected=True name="event" value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
             }
             else {
-                selectorBody += '<option value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
+                selectorBody += '<option name="event" value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
             }
         }
         let selector = document.getElementById('seasonSelect');
@@ -91,8 +92,10 @@ function loadSeasonsSelector() {
     });
 }
 
-function onGetData() {
-    let url = getAPIBaseURL() + '/list/';
+function loadPerformanceList() {
+    let selectElement = document.getElementById('seasonSelect');
+    season = selectElement.value;
+    let url = getAPIBaseURL() + '/list/?season=' + season;
 
     // Send the request to the books API /authors/ endpoint
     fetch(url, {method: 'get'})
@@ -105,6 +108,8 @@ function onGetData() {
     // an HTML table displaying the author names and lifespan.
     .then(function(result) {
         // Add the <option> elements to the <select> element
+        let checkboxes = document.querySelectorAll('input[name="event"]:checked');
+        let events = Array.from(checkboxes).map((checkbox) => checkbox.value);
         categories = Object.keys(result)
            let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
                             '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">School</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Date</th></tr>\n</thead>\n'
@@ -114,6 +119,9 @@ function onGetData() {
             let keys = Object.keys(result[category]);
             for (let k = 0; k < keys.length; k++) {
                 let event = keys[k];
+                if (!(event in events)) {
+                    continue
+                }
                 let performances = result[category][event];
                 let tableBody = '';
                 tableBody += '<h5>' + event + '</h5>\n'
