@@ -33,7 +33,13 @@ season_ids = {
     "Outdoor 2019": 160,
     "Indoor 2019": 148,
     "Outdoor 2018": 131,
-    "Indoor 2018": 125
+    "Indoor 2018": 125,
+    "Outdoor 2017": 110,
+    "Indoor 2017": 104,
+    "Outdoor 2016": 93,
+    "Indoor 2016": 85,
+    "Outdoor 2015": 74,
+    "Indoor 2015": 67
 }
 df = pd.DataFrame()
 n = len(links)
@@ -64,7 +70,11 @@ for i, link in enumerate(links):
                     data["First Name"] = list(map(lambda x: x[1], names))
                     data["Last Name"] = list(map(lambda x: x[0], names))
                 else:
-                    data[key] = [" ".join(el.get_text().split()) for el in div.find_all("div", attrs={"data-label": key})]
+                    values = [" ".join(el.get_text().split()) for el in div.find_all("div", attrs={"data-label": key})]
+                    if key == "Time":
+                        values = [v.rstrip('h') for v in values]
+
+                    data[key] = values
             data["Event"] = [" ".join(event.get_text().split()) for i in range(len(div.find_all("div", attrs={"data-label": list(keys)[0]})))]
             data["Season"] = id
             temp_df = pd.concat([temp_df, pd.DataFrame(data)], ignore_index=True)
