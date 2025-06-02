@@ -35,22 +35,25 @@
 34,55 Hurdles,Running,0
 35,60 Hurdles,Running,0
 36,Javelin,Field,1
-37,High Jump,Field,1
-38,Pole Vault,Field,1
-39,Hammer,Field,1
-40,Decathlon,Multi,1
-41,High Jump,Field,0
-42,Pole Vault,Field,0
-43,Weight Throw,Field,0
-44,Heptathlon,Multi,0
-45,4 x 200 Relay,Running,1
-46,100 Hurdles,Running,1
-47,Heptathlon,Multi,1
-48,Pentathlon,Multi,0
-49,3000 Meters,Running,1
-50,Sprint Medley Relay,Running,1
+37,Weight Throw,Field,0
+38,High Jump,Field,0
+39,High Jump,Field,1
+40,Hammer,Field,1
+41,100 Hurdles,Running,1
+42,Pole Vault,Field,1
+43,Decathlon,Multi,1
+44,Pole Vault,Field,0
+45,Heptathlon,Multi,0
+46,4 x 200 Relay,Running,1
+47,Pentathlon,Multi,0
+48,Sprint Medley Relay,Running,1
+49,Heptathlon,Multi,1
+50,3000 Meters,Running,1
 51,1500 Meters,Running,0
 52,Distance Medley Relay,Running,1
 53,300 Meters,Running,0
 54,500 Meters,Running,0
-55,Shuttle Hurdle Relay,Running,1
+55,Shuttle Hurdle Relay (110 Meters),Running,1
+56,Shuttle Hurdle Relay,Running,1
+57,Sprint Medley Relay,Running,0
+58,4 x 1600 Relay,Running,0

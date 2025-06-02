@@ -49,8 +49,8 @@ def main(input_file_name):
             time = row[headers['Time']] if row[headers['Time']] else 'NULL'
             schoolYear = row[headers['Year']] if row[headers['Year']] else 'NULL'
             wind = row[headers['Wind']] if (row[headers['Wind']] and row[headers['Wind']] != 'NWI') else 'NULL'
-            first_name = row[headers['First Name']] if row[headers['First Name']] else 'NULL'
-            last_name = row[headers['Last Name']] if row[headers['Last Name']] else 'NULL'
+            first_name = row[headers['First Name']].strip() if row[headers['First Name']] else 'NULL'
+            last_name = row[headers['Last Name']].strip() if row[headers['Last Name']] else 'NULL'
             meet = row[headers['Meet']]
             date = row[headers['Meet Date']]
             event = row[headers['Event']]

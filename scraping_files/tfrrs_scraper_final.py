@@ -25,7 +25,15 @@ season_ids = {
     "Outdoor 2023": 292,
     "Indoor 2023": 279,
     "Outdoor 2022": 255,
-    "Indoor 2022": 240
+    "Indoor 2022": 240,
+    "Outdoor 2021": 216,
+    "Indoor 2021": 205,
+    "Outdoor 2020": 189,
+    "Indoor 2020": 178,
+    "Outdoor 2019": 160,
+    "Indoor 2019": 148,
+    "Outdoor 2018": 131,
+    "Indoor 2018": 125
 }
 df = pd.DataFrame()
 n = len(links)
@@ -52,12 +60,12 @@ for i, link in enumerate(links):
             keys = set([el.get("data-label") for el in div.find_all("div", attrs={"data-label":True})])
             for key in keys:
                 if key == "Athlete":
-                    names = ["".join(el.get_text().split()).split(',') for el in div.find_all("div", attrs={"data-label": key})]
+                    names = [" ".join(el.get_text().split()).split(',') for el in div.find_all("div", attrs={"data-label": key})]
                     data["First Name"] = list(map(lambda x: x[1], names))
                     data["Last Name"] = list(map(lambda x: x[0], names))
                 else:
-                    data[key] = ["".join(el.get_text().split()) for el in div.find_all("div", attrs={"data-label": key})]
-            data["Event"] = ["".join(event.get_text().split()) for i in range(len(div.find_all("div", attrs={"data-label": list(keys)[0]})))]
+                    data[key] = [" ".join(el.get_text().split()) for el in div.find_all("div", attrs={"data-label": key})]
+            data["Event"] = [" ".join(event.get_text().split()) for i in range(len(div.find_all("div", attrs={"data-label": list(keys)[0]})))]
             data["Season"] = id
             temp_df = pd.concat([temp_df, pd.DataFrame(data)], ignore_index=True)
             
