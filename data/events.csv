@@ -1,60 +1,60 @@
-0,100 Meters,Running,1
-1,200 Meters,Running,1
-2,400 Meters,Running,1
-3,800 Meters,Running,1
-4,1500 Meters,Running,1
-5,Mile,Running,1
-6,5000 Meters,Running,1
-7,"10,000 Meters",Running,1
-8,400 Hurdles,Running,1
-9,4 x 100 Relay,Running,1
-10,4 x 400 Relay,Running,1
-11,4 x 800 Relay,Running,1
-12,Long Jump,Field,1
-13,Triple Jump,Field,1
-14,Shot Put,Field,1
-15,Discus,Field,1
-16,60 Meters,Running,0
-17,200 Meters,Running,0
-18,400 Meters,Running,0
-19,600 Meters,Running,0
-20,800 Meters,Running,0
-21,1000 Meters,Running,0
-22,Mile,Running,0
-23,3000 Meters,Running,0
-24,5000 Meters,Running,0
-25,4 x 200 Relay,Running,0
-26,Distance Medley Relay,Running,0
-27,Long Jump,Field,0
-28,Triple Jump,Field,0
-29,Shot Put,Field,0
-30,55 Meters,Running,0
-31,4 x 400 Relay,Running,0
-32,110 Hurdles,Running,1
-33,3000 Steeplechase,Running,1
-34,55 Hurdles,Running,0
-35,60 Hurdles,Running,0
-36,Javelin,Field,1
-37,Weight Throw,Field,0
-38,High Jump,Field,0
-39,High Jump,Field,1
-40,Hammer,Field,1
-41,Pole Vault,Field,1
-42,Pole Vault,Field,0
-43,Heptathlon,Multi,0
-44,Decathlon,Multi,1
-45,4 x 200 Relay,Running,1
-46,Sprint Medley Relay,Running,1
-47,100 Hurdles,Running,1
-48,Pentathlon,Multi,0
-49,Heptathlon,Multi,1
-50,3000 Meters,Running,1
-51,Distance Medley Relay,Running,1
-52,1500 Meters,Running,0
-53,300 Meters,Running,0
-54,500 Meters,Running,0
-55,Shuttle Hurdle Relay (110 Meters),Running,1
-56,Shuttle Hurdle Relay,Running,1
-57,Sprint Medley Relay,Running,0
-58,4 x 1600 Relay,Running,0
-59,4 x 800 Relay,Running,0
+0,100 Meters,Running,1
+1,200 Meters,Running,1
+2,400 Meters,Running,1
+3,800 Meters,Running,1
+4,1500 Meters,Running,1
+5,Mile,Running,1
+6,5000 Meters,Running,1
+7,"10,000 Meters",Running,1
+8,400 Hurdles,Running,1
+9,4 x 100 Relay,Running,1
+10,4 x 400 Relay,Running,1
+11,4 x 800 Relay,Running,1
+12,Long Jump,Field,1
+13,Triple Jump,Field,1
+14,Shot Put,Field,1
+15,Discus,Field,1
+16,60 Meters,Running,0
+17,200 Meters,Running,0
+18,400 Meters,Running,0
+19,600 Meters,Running,0
+20,800 Meters,Running,0
+21,1000 Meters,Running,0
+22,Mile,Running,0
+23,3000 Meters,Running,0
+24,5000 Meters,Running,0
+25,4 x 200 Relay,Running,0
+26,Distance Medley Relay,Running,0
+27,Long Jump,Field,0
+28,Triple Jump,Field,0
+29,Shot Put,Field,0
+30,55 Meters,Running,0
+31,4 x 400 Relay,Running,0
+32,110 Hurdles,Running,1
+33,3000 Steeplechase,Running,1
+34,55 Hurdles,Running,0
+35,60 Hurdles,Running,0
+36,Javelin,Field,1
+37,Weight Throw,Field,0
+38,High Jump,Field,0
+39,High Jump,Field,1
+40,Hammer,Field,1
+41,Pole Vault,Field,1
+42,Pole Vault,Field,0
+43,Heptathlon,Multi,0
+44,Decathlon,Multi,1
+45,4 x 200 Relay,Running,1
+46,Sprint Medley Relay,Running,1
+47,100 Hurdles,Running,1
+48,Pentathlon,Multi,0
+49,Heptathlon,Multi,1
+50,3000 Meters,Running,1
+51,Distance Medley Relay,Running,1
+52,1500 Meters,Running,0
+53,300 Meters,Running,0
+54,500 Meters,Running,0
+55,Shuttle Hurdle Relay (110 Meters),Running,1
+56,Shuttle Hurdle Relay,Running,1
+57,Sprint Medley Relay,Running,0
+58,4 x 1600 Relay,Running,0
+59,4 x 800 Relay,Running,0
