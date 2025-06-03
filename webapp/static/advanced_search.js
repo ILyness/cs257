@@ -9,7 +9,9 @@ window.addEventListener("load", initialize);
 
 
 function initialize() {
-    onSearch();
+    loadSeasonsSelector();
+    loadTeamsSelector();
+    //onSearch();
     let form = document.getElementById('advancedSearchForm');
     if (form) {
     form.addEventListener('submit', function (e) { /* HERE IS THE CHANGE I MADE */
@@ -42,6 +44,72 @@ function getAPIBaseURL() {
                     + '/api';
     return baseURL;
 }
+
+
+function loadSeasonsSelector() {
+    let url = getAPIBaseURL() + '/seasons/';
+
+    fetch(url, {method: 'get'})
+    .then((response) => response.json())
+    .then(function(result) {
+        let selectorBody = ''
+        for (let k = 0; k < result.length; k++) {
+            let season = result[k];
+            if (k == 0) {
+                selectorBody += '<option selected=True name="event" value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
+            }
+            else {
+                selectorBody += '<option name="event" value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
+            }
+        }
+        let selector = document.getElementById('seasonSelect');
+        if (selector) {
+            selector.innerHTML = selectorBody;
+            //loadEventsSelector();
+        }
+    })
+
+    .catch(function(error) {
+        console.log(error);
+    });
+}
+
+function loadTeamsSelector() {
+    let selectElement = document.getElementById('teamSelect');
+    //let team = selectElement.value;
+    let url = getAPIBaseURL() + '/teams/';
+
+    fetch(url, {method: 'get'})
+    .then((response) => response.json())
+    .then(function(result) {
+        let teamsBody = '<h6>Team Select</h6>'
+        for (let k = 0; k < result.length; k++) {
+            let team = result[k]['school_name'];
+          //  if (k % 5 == 0) {
+              //  if (k > 0) {
+              //      teamsBody += '</div>\n';
+             //   }
+             //   teamsBody += '<div class="col-md-2">\n';
+            //}
+            teamsBody += `
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="team" id="team${team.split(' ')[0]}" value="${team}" checked="true"/>
+                  <label class="form-check-label" for="team${team.split(' ')[0]}">${team}</label>
+                </div>\n
+            `;
+        }
+        let selector = document.getElementById('teamSelect');
+        if (selector) {
+            selector.innerHTML = teamsBody;
+        }
+    })
+
+    .catch(function(error) {
+        console.log(error);
+    });
+}
+
+
 
 function onSearch() {
     let url = getAPIBaseURL() + '/search';

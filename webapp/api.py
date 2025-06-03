@@ -35,6 +35,25 @@ def get_connection():
         print(e, file=sys.stderr)
         exit()
 
+@api.route('/teams/')
+def get_teams():
+    """Endpoint to return list of all teams to populate dropdown."""
+    teams = []
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        query = """SELECT * FROM schools;"""
+        cursor.execute(query)
+        for row in cursor:
+            teams.append({'school_name':row[1]})
+        connection.close()
+        print(teams)
+        return json.dumps(teams)
+    
+    except Exception as e:
+        print(e, file=sys.stderr)
+
 @api.route('/seasons/')
 def get_seasons():
     """Endpoint to return list of all seasons to populate dropdown."""
@@ -53,9 +72,34 @@ def get_seasons():
     except Exception as e:
         print(e, file=sys.stderr)
 
+
+@api.route('/meets/')
+def get_meets():
+    """Returns a list of all meets for the specified season."""
+    season = flask.request.args.get('season', type=str, default='Outdoor 2025')
+    meets = []
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        params = (season,)
+        query = """SELECT * FROM meets
+                JOIN seasons on seasons.season_category = events.season_category
+                WHERE seasons.season_name LIKE %s;"""
+
+        cursor.execute(query, params)
+
+        for row in cursor:
+            meets.append({'id':row[0], 'meet_name':row[1], 'season_category':row[3]})
+
+        connection.close()
+        return json.dumps(meets)
+    except Exception as e:
+        print(e, file=sys.stderr)
+
 @api.route('/events/')
 def get_events():
-    """Returns a list of all events for the speicfied season."""
+    """Returns a list of all events for the specified season."""
     season = flask.request.args.get('season', type=str, default='Outdoor 2025')
     events = []
     try:

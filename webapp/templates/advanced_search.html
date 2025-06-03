@@ -141,51 +141,21 @@
           <!-- Row 2: Teams + Season
            
           use most similar string  -->
-          <div class="row mb-3">
+          <div class="row">
             <div class="col">
-              <label class="form-label">Team</label>
-              <div class="input-group">
-                <button class="btn-dark btn-outline-secondary dropdown-toggle rounded-2" type="button" data-bs-toggle="dropdown">
-                  Teams
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Carleton'">Carleton</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='St. Olaf'">St. Olaf</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Ausburg'">Ausburg</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Bethel'">Bethel</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Concordia-Moorhead'">Concordia-Moorhead</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Gustavus Adolphus'">Gustavus Adolphus</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Hamline'">Hamline</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='Macalester'">Macalester</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='St. Scholastica'">St. Scholastica</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('team').value='St. Benedict'">St. Benedict</a></li>
-                </ul>
-                <input type="text" class="form-control" name="team" id="team" placeholder="Select or enter team" />
+              <div id="teamSelect" class="row">
+                <label class="form-label d-block">Teams</label>
               </div>
             </div>
 
-
+<div class="row">
             <div class="col">
-              <label class="form-label">Season</label>
-              <div class="input-group">
-                <button class="btn-dark btn-outline-secondary dropdown-toggle rounded-2" type="button" data-bs-toggle="dropdown">
-                  Season
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Outdoor 2025'">Outdoor 2025</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Indoor 2025'">Indoor 2025</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Outdoor 2025'">Outdoor 2024</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Indoor 2025'">Indoor 2024</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Outdoor 2025'">Outdoor 2023</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Indoor 2025'">Indoor 2023</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Outdoor 2025'">Outdoor 2022</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('season').value='Indoor 2025'">Indoor 2022</a></li>
-                </ul>
-                <input type="text" class="form-control" name="season" id="season" placeholder="Select or enter season" />
-              </div>
+              <label for="seasonSelect" class="form-label">Season</label>
+              <select id="seasonSelect" name="season" class="form-select w-100">
+              </select>
             </div>
           </div>
-
+</div>
 
           <!-- Row 3: Meet + Better Than -->
           <div class="row mb-4">

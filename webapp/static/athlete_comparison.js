@@ -2,7 +2,7 @@ let base;
 
 document.addEventListener("DOMContentLoaded", function () {
   const toggleBtn = document.getElementById("col1_2Toggle");
-  const comparison2 = document.getElementById("Comparison2");
+  const comparison2 = document.getElementById("Comparison2");q
 
   if (toggleBtn && comparison2) {
     toggleBtn.addEventListener("click", function () {

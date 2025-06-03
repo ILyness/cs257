@@ -1,0 +1,28 @@
+User Testing Observations
+30 May 2025
+
+Things the testers found easy
+-general navigation
+-using the tools properly
+
+
+Things people had trouble with
+-the get data and apply filters button as a residual from the end to end was still there and confusing
+-empty results with little info why (ie search has no results but cant tell if its an error or not)
+-Could be informed that not all parts of search are necessary
+-homepage could be more informative
+
+Other positive comments or observations
+-liked general style, especially bootstrap forms etc..
+-found features cool when they worked
+
+
+Other suggestions for improvement
+-some finicky things with search result led to confusion
+-highlight hovers
+-allow null entries
+-select all option
+-comparison tool underdeveloped
+
+Other notes [if any didn't fit the other categories] NA
+
