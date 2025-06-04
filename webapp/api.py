@@ -99,21 +99,31 @@ def get_meets():
 @api.route('/events/')
 def get_events():
     """Returns a list of all events for the specified season."""
+<<<<<<< HEAD
     season = flask.request.args.get('season', type=str, default='%%')
+=======
+    season = flask.request.args.get('season', type=str, default='')
+>>>>>>> refs/remotes/origin/main
     events = []
     try:
         connection = get_connection()
         cursor = connection.cursor()
 
-        params = (season,)
-        query = """SELECT events.id, events.event_name, COUNT(performances) FROM events
-                JOIN results ON results.event_id=events.id
-                JOIN seasons ON seasons.id=results.season_id
-                JOIN performances ON performances.id=results.performance_id
-                WHERE seasons.season_name LIKE %s
-                GROUP BY events.id, events.event_name;"""
+        if season:
+                params = (season,)
+                query = """SELECT events.id, events.event_name, COUNT(performances) FROM events
+                        JOIN results ON results.event_id=events.id
+                        JOIN seasons ON seasons.id=results.season_id
+                        JOIN performances ON performances.id=results.performance_id
+                        WHERE seasons.season_name LIKE %s
+                        GROUP BY events.id, events.event_name
+                        HAVING COUNT(*) > 0;"""
 
-        cursor.execute(query, params)
+                cursor.execute(query, params)
+            
+        else:
+            query = """SELECT events.id, events.event_name FROM events;"""
+            cursor.execute(query, params)
 
         for row in cursor:
             events.append({'id':row[0], 'event_name':row[1], 'count':row[2]})
@@ -122,6 +132,7 @@ def get_events():
        
         print(events)
         return json.dumps(events)
+
     except Exception as e:
         print(e, file=sys.stderr)
         
