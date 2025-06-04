@@ -52,7 +52,7 @@ function loadEventsSelector() {
             }
             eventsBody += `
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="event" id="event${event.split(' ')[0]}" value="${event}" checked="true"/>
+                  <input class="form-check-input" type="checkbox" name="event" id="event${event.split(' ')[0]}" value="${event}"/>
                   <label class="form-check-label" for="event${event.split(' ')[0]}">${event}</label>
                 </div>\n
             `;
@@ -60,6 +60,12 @@ function loadEventsSelector() {
         let selector = document.getElementById('eventSelect');
         if (selector) {
             selector.innerHTML = eventsBody;
+        }
+
+        let selectButton = document.getElementById('selectButton');
+        let checked = !(selectButton.getAttribute('value') === 'true');
+        if (!(checked)) {
+            toggleEvents();
         }
     })
 
