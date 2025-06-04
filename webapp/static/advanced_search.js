@@ -10,6 +10,7 @@ window.addEventListener("load", initialize);
 
 function initialize() {
     loadSeasonsSelector();
+    loadEventsSelector();
     loadTeamsSelector();
     let selectButton = document.getElementById('selectButton');
     if (selectButton) {
@@ -49,12 +50,41 @@ function getAPIBaseURL() {
 }
 
 
+ function loadEventsSelector() {
+    let url = getAPIBaseURL() + '/events/';
+    fetch(url, {method: 'get'})
+    .then((response) => response.json())
+    .then(function(result) {
+        let selectorBody = ''
+        for (let k = 0; k < result.length; k++) {
+            let event = result[k];
+            if (k == 0) {
+                selectorBody += '<option selected=True name="event" value="' + event['event_name'] + '">' + event['event_name'] + '</option>\n';
+            }
+            else {
+                selectorBody += '<option name="event" value="' + event['event_name'] + '">' + event['event_name'] + '</option>\n';
+            }
+        }
+        let selector = document.getElementById('eventSelect');
+       // document.getElementById("eventSelect").style.height = "20px";
+        if (selector) {
+            selector.innerHTML = selectorBody;
+            //loadEventsSelector();
+        }
+    })
+
+    .catch(function(error) {
+        console.log(error);
+    });
+}
+
 function loadSeasonsSelector() {
     let url = getAPIBaseURL() + '/seasons/';
 
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(result) {
+
         let selectorBody = ''
         for (let k = 0; k < result.length; k++) {
             let season = result[k];
@@ -153,12 +183,33 @@ function onSearch() {
 
             tableBody += '</tbody>\n</table>\n';
             listBody += tableBody;
-
-            let performanceList = document.getElementById('advancedSearchTable');
-
-            if (performanceList) {
-                performanceList.innerHTML = listBody;
+            if (category == 'm') {
+                let performanceList = document.getElementById('men-tab-pane');
+                if (performanceList) {
+                    performanceList.innerHTML = listBody;
+                }
             }
+            else {
+                let performanceList = document.getElementById('women-tab-pane');
+                    if (performanceList) {
+                    performanceList.innerHTML = listBody;
+                }
+            }
+        
+            performanceListContainer = document.getElementById('performanceListContainer');
+            if (events.length == 0) {
+                if (!(performanceListContainer.classList).contains('d-none')) {
+                    performanceListContainer.classList.add('d-none');
+                }
+            }
+            else {
+                if (performanceListContainer.classList.contains('d-none')) {
+                    performanceListContainer.classList.remove('d-none');
+                }
+            }
+
+
+
 
             console.log("list body ", listBody);
         })

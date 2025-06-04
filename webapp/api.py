@@ -99,7 +99,7 @@ def get_meets():
 @api.route('/events/')
 def get_events():
     """Returns a list of all events for the specified season."""
-    season = flask.request.args.get('season', type=str, default='Outdoor 2025')
+    season = flask.request.args.get('season', type=str, default='%%')
     events = []
     try:
         connection = get_connection()
@@ -119,6 +119,8 @@ def get_events():
             events.append({'id':row[0], 'event_name':row[1], 'count':row[2]})
 
         connection.close()
+       
+        print(events)
         return json.dumps(events)
     except Exception as e:
         print(e, file=sys.stderr)
@@ -330,7 +332,7 @@ def get_marks():
 
 
         event = flask.request.args.get('event', '100 Meters', type=str)
-        gender = flask.request.args.get('gender', 'm') #, type=bool
+        gender = flask.request.args.get('gender', '*') #, type=bool
         duplicates = flask.request.args.get('duplicates', False)
         team = flask.request.args.get('team', '')
         season = flask.request.args.get('season', 'Outdoor 2025')

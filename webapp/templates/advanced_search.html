@@ -83,37 +83,19 @@
 
 
           <!-- Row 1: Event + Gender (required) -->
-          <div class="row mb-3">
-            <div class="col-6">
-              <label class="form-label">Event</label>
-              <div class="input-group">
-                <button class="btn-dark btn-outline-secondary dropdown-toggle rounded-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Event
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='100 Meters'">100 Meters</a></li> <!-- i know there is a better way to do this but will fix that post draft :)-->
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='200 Meters'">200 Meters</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='400 Meters'">400 Meters</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='800 Meters'">800 Meters</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='1500 Meters'">1500 Meters</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='5000 Meters'">5000 Meters</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='400 Hurdles'">400 Hurdles</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='Long Jump'">Long Jump</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='Triple Jump'">Triple Jump</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='Pole Vault'">Pole Vault</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='Shot Put'">Shot Put</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('event').value='Decathlon'">Decathlon</a></li>
-                </ul>
-                <input type="text" class="form-control" name="event" id="event" placeholder="Select or enter event" required />
-              </div>
+          <div class="row">
+            <div class="col">
+              <label for="eventSelect" class="form-label">Event</label>
+              <select id="eventSelect" name="event" class="form-select w-100">
+              </select>
             </div>
-
-
+          </div>
+          <div class="row">
             <div class="col d-flex align-items-center">
               <fieldset class="border-0">
                 <legend class="col-form-label pt-0">Gender</legend>
                 <div class="form-check form-check-inline">
-                  <input type="radio" name="gender" class="form-check-input" id="genderMen" value="m" required />
+                  <input type="radio" name="gender" class="form-check-input" id="genderMen" value="m" />
                   <label class="form-check-label" for="genderMen">Men</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -152,7 +134,7 @@
               <button id="selectButton" type="button" value="true" class="btn btn-danger">Deselect all teams</button>
             </div>
             </div>
-
+          </div>
           <div class="row">
             <div class="col align-items-center">
               <label for="seasonSelect" class="form-label">Season</label>
@@ -160,7 +142,7 @@
               </select>
             </div>
           </div>
-          </div>
+          
 
           <!-- Row 3: Meet + Better Than -->
           <div class="row mb-4">
@@ -204,6 +186,26 @@
         <div id="advancedSearchTable"></div>
         <div id="test"></div>
       </div>
+
+
+      <div class="container d-none" id = "performanceListContainer">
+        <ul class="nav nav-tabs rounded-top-3" id="genderTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="men-tab" data-bs-toggle="tab" data-bs-target="#men-tab-pane" type="button" role="tab" aria-controls="men-tab-pane" aria-selected="true">Men</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="women-tab" data-bs-toggle="tab" data-bs-target="#women-tab-pane" type="button" role="tab" aria-controls="women-tab-pane" aria-selected="false">Women</button>
+          </li>
+        </ul>
+        <div class="tab-content rounded-right-3 rounded-bottom-3" id="myTabContent">
+          <div class="tab-pane fade show active mb-4 p-3 bg-body-tertiary border" id="men-tab-pane" role="tabpanel" aria-labelledby="men-tab" tabindex="0">
+          </div>
+          <div class="tab-pane fade mb-4 p-3 bg-body-tertiary border" id="women-tab-pane" role="tabpanel" aria-labelledby="women-tab" tabindex="0">
+          </div>
+        </div>
+      </div>
+
+
     </main>
   </body>
 </html>
