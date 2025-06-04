@@ -11,7 +11,10 @@ window.addEventListener("load", initialize);
 function initialize() {
     loadSeasonsSelector();
     loadTeamsSelector();
-    //onSearch();
+    let selectButton = document.getElementById('selectButton');
+    if (selectButton) {
+        selectButton.onclick = toggleEvents;
+    }
     let form = document.getElementById('advancedSearchForm');
     if (form) {
     form.addEventListener('submit', function (e) { /* HERE IS THE CHANGE I MADE */
@@ -85,12 +88,12 @@ function loadTeamsSelector() {
         let teamsBody = '<h6>Team Select</h6>'
         for (let k = 0; k < result.length; k++) {
             let team = result[k]['school_name'];
-          //  if (k % 5 == 0) {
-              //  if (k > 0) {
-              //      teamsBody += '</div>\n';
-             //   }
-             //   teamsBody += '<div class="col-md-2">\n';
-            //}
+            if (k % 1 == 0) {
+                if (k > 0) {
+                    teamsBody += '</div>\n';
+                }
+                teamsBody += '<div class="col-md-2">\n';
+            }
             teamsBody += `
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" name="team" id="team${team.split(' ')[0]}" value="${team}" checked="true"/>
@@ -164,4 +167,27 @@ function onSearch() {
         });
 }
 
+function toggleEvents() {
+    let selectButton = document.getElementById('selectButton');
+    let checked = !(selectButton.getAttribute('value') === 'true');
+
+    let checkboxes = document.querySelectorAll('input[name="team"]');
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = checked;
+    })
+
+    if (checked) {
+        selectButton.setAttribute('value', 'true');
+        selectButton.classList.remove('btn-success');
+        selectButton.classList.add('btn-danger')
+        selectButton.innerText = 'Deselect all teams';
+    }
+    else {
+        selectButton.setAttribute('value', 'false');
+        selectButton.classList.remove('btn-danger');
+        selectButton.classList.add('btn-success')
+        selectButton.innerText = 'Select all teams';
+    }
+
+}
 

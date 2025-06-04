@@ -126,7 +126,7 @@
               <fieldset class="border-0">
                 <legend class="col-form-label pt-0">Duplicates</legend>
                 <div class="form-check form-check-inline">
-                  <input type="radio" name="duplicates" class="form-check-input" id="duplicatesTrue" value="True" required />
+                  <input type="radio" name="duplicates" class="form-check-input" id="duplicatesTrue" value="True" />
                   <label class="form-check-label" for="duplicatesTrue">Yes</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -147,15 +147,20 @@
                 <label class="form-label d-block">Teams</label>
               </div>
             </div>
+            <div class="row">
+              <div class="col">
+              <button id="selectButton" type="button" value="true" class="btn btn-danger">Deselect all teams</button>
+            </div>
+            </div>
 
-<div class="row">
-            <div class="col">
+          <div class="row">
+            <div class="col align-items-center">
               <label for="seasonSelect" class="form-label">Season</label>
               <select id="seasonSelect" name="season" class="form-select w-100">
               </select>
             </div>
           </div>
-</div>
+          </div>
 
           <!-- Row 3: Meet + Better Than -->
           <div class="row mb-4">

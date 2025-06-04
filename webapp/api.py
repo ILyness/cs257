@@ -48,7 +48,6 @@ def get_teams():
         for row in cursor:
             teams.append({'school_name':row[1]})
         connection.close()
-        print(teams)
         return json.dumps(teams)
     
     except Exception as e:
@@ -329,7 +328,7 @@ def get_marks():
 
         event = flask.request.args.get('event', '100 Meters', type=str)
         gender = flask.request.args.get('gender', 'm') #, type=bool
-        duplicates = flask.request.args.get('duplicates')
+        duplicates = flask.request.args.get('duplicates', False)
         team = flask.request.args.get('team', '')
         season = flask.request.args.get('season', 'Outdoor 2025')
         meet = flask.request.args.get('meet', '')
