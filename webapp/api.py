@@ -111,7 +111,8 @@ def get_events():
                 JOIN seasons ON seasons.id=results.season_id
                 JOIN performances ON performances.id=results.performance_id
                 WHERE seasons.season_name LIKE %s
-                GROUP BY events.id, events.event_name;"""
+                GROUP BY events.id, events.event_name
+                HAVING COUNT(*) > 0;"""
 
         cursor.execute(query, params)
 

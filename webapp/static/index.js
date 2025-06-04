@@ -42,15 +42,10 @@ function loadEventsSelector() {
     .then((response) => response.json())
     .then(function(result) {
         let eventsBody = '';
-        let j = 0;
         for (let k = 0; k < result.length; k++) {
-            if (result[k]['count'] == 0) {
-                j--;
-                continue
-            }
             let event = result[k]['event_name'];
-            if (j % 5 == 0) {
-                if (j > 0) {
+            if (k % 5 == 0) {
+                if (k > 0) {
                     eventsBody += '</div>\n';
                 }
                 eventsBody += '<div class="col-md-2">\n';
@@ -61,7 +56,6 @@ function loadEventsSelector() {
                   <label class="form-check-label" for="event${event.split(' ')[0]}">${event}</label>
                 </div>\n
             `;
-            j += 1;
         }
         let selector = document.getElementById('eventSelect');
         if (selector) {
