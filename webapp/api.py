@@ -106,14 +106,17 @@ def get_events():
         cursor = connection.cursor()
 
         params = (season,)
-        query = """SELECT * FROM events
-                JOIN seasons on seasons.season_category = events.season_category
-                WHERE seasons.season_name LIKE %s;"""
+        query = """SELECT events.id, events.event_name, COUNT(performances) FROM events
+                JOIN results ON results.event_id=events.id
+                JOIN seasons ON seasons.id=results.season_id
+                JOIN performances ON performances.id=results.performance_id
+                WHERE seasons.season_name LIKE %s
+                GROUP BY events.id, events.event_name;"""
 
         cursor.execute(query, params)
 
         for row in cursor:
-            events.append({'id':row[0], 'event_name':row[1], 'event_category':row[2], 'season_category':row[3]})
+            events.append({'id':row[0], 'event_name':row[1], 'count':row[2]})
 
         connection.close()
         return json.dumps(events)
