@@ -99,11 +99,7 @@ def get_meets():
 @api.route('/events/')
 def get_events():
     """Returns a list of all events for the specified season."""
-<<<<<<< HEAD
     season = flask.request.args.get('season', type=str, default='%%')
-=======
-    season = flask.request.args.get('season', type=str, default='')
->>>>>>> refs/remotes/origin/main
     events = []
     try:
         connection = get_connection()
