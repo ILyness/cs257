@@ -83,14 +83,56 @@
 
 
           <!-- Row 1: Event + Gender (required) -->
-          <div class="row">
+          <div class="row mb-4">
             <div class="col">
               <label for="eventSelect" class="form-label">Event</label>
               <select id="eventSelect" name="event" class="form-select w-100">
               </select>
             </div>
           </div>
-          <div class="row">
+          
+
+
+          <!-- Row 2: Teams + Season
+           
+          use most similar string  -->
+          <div class="row mb-2">
+            <div class="col">
+              <div id="teamSelect" class="row mb-2">
+                <label class="form-label d-block">Teams</label>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col">
+              <button id="selectButton" type="button" value="true" class="btn btn-danger">Deselect all teams</button>
+            </div>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col align-items-center">
+              <label for="seasonSelect" class="form-label">Season</label>
+              <select id="seasonSelect" name="season" class="form-select w-100">
+              </select>
+            </div>
+          </div>
+          
+
+          <!-- Row 3: Meet + Better Than -->
+          <div class="row mb-4">
+            <div class="col align-items-center">
+              <label for="meetSelect" class="form-label">Meet</label>
+              <select id="meetSelect" name="meet" class="form-select w-100">
+              </select>
+            </div>
+            <div class="col">
+              <label class="form-label">Mark Better Than...</label>
+              <input type="text" class="form-control" name="mark" id="mark" placeholder="e.g. 10.75" />
+            </div>
+          </div>
+
+
+          <div class="row mb-4">
+
             <div class="col d-flex align-items-center">
               <fieldset class="border-0">
                 <legend class="col-form-label pt-0">Duplicates</legend>
@@ -102,61 +144,19 @@
                   <input type="radio" name="duplicates" class="form-check-input" id="duplicatesFalse" value="False" />
                   <label class="form-check-label" for="duplicatesFalse">No</label>
                 </div>
+                <div id="emailHelp" class="form-text">*If multiple marks from the same individual show</div>
               </fieldset>
+              
             </div>
-          </div>
-
-
-          <!-- Row 2: Teams + Season
-           
-          use most similar string  -->
-          <div class="row">
-            <div class="col">
-              <div id="teamSelect" class="row">
-                <label class="form-label d-block">Teams</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-              <button id="selectButton" type="button" value="true" class="btn btn-danger">Deselect all teams</button>
-            </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col align-items-center">
-              <label for="seasonSelect" class="form-label">Season</label>
-              <select id="seasonSelect" name="season" class="form-select w-100">
-              </select>
-            </div>
-          </div>
-          
-
-          <!-- Row 3: Meet + Better Than -->
-          <div class="row mb-4">
-            <div class="col">
-              <label class="form-label">Meet</label>
-              <div class="input-group">
-                <button class="btn-dark btn-outline-secondary dropdown-toggle rounded-2" type="button" data-bs-toggle="dropdown">
-                  Meet
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='MIAC Outdoor Championships'">MIAC Outdoor Championships</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='Hamline Invitational - Teams'">Hamline Invitational - Teams</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='Bethel Invitational'">Bethel Invitational</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='Meet of the UnSaintly'">Meet of the UnSaintly</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='MIAC Indoor Championships'">MIAC Indoor Championships</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='Gopher Classic'">Gopher Classic</a></li>
-                  <li><a class="dropdown-item" href="#" onclick="document.getElementById('meet').value='Jack Johnson Classic'">Jack Johnson Classic</a></li>
-                </ul>
-                <input type="text" class="form-control" name="meet" id="meet" placeholder="Select or enter meet" />
-              </div>
-            </div>
-
 
             <div class="col">
-              <label class="form-label">Mark Better Than...</label>
-              <input type="text" class="form-control" name="mark" id="mark" placeholder="e.g. 10.75" />
+              <label class="form-label">Show top X results...</label>
+              <input type="text" class="form-control" name="display_number" id="display_number" placeholder="e.g. 20" />
             </div>
+
+
+
+
           </div>
 
 

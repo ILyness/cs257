@@ -83,8 +83,7 @@ def get_meets():
 
         params = (season,)
         query = """SELECT * FROM meets
-                JOIN seasons on seasons.season_category = events.season_category
-                WHERE seasons.season_name LIKE %s;"""
+                JOIN seasons on seasons.season_name LIKE %s;"""
 
         cursor.execute(query, params)
 
@@ -92,6 +91,7 @@ def get_meets():
             meets.append({'id':row[0], 'meet_name':row[1], 'season_category':row[3]})
 
         connection.close()
+        print(meets)
         return json.dumps(meets)
     except Exception as e:
         print(e, file=sys.stderr)
@@ -368,14 +368,12 @@ def get_marks():
 
         event = flask.request.args.get('event', '100 Meters', type=str)
         gender = flask.request.args.get('gender', 'm') #, type=bool
-        duplicates = flask.request.args.get('duplicates', False)
+        duplicates = flask.request.args.get('duplicates', 'False')
         team = flask.request.args.getlist('team')
-        season = flask.request.args.get('season', 'Outdoor 2025')
+        season = flask.request.args.get('season')
         meet = flask.request.args.get('meet', '')
         mark = flask.request.args.get('mark', '', type=str)
         
-        print("teams")
-        print(team)
         
         display_number = flask.request.args.get('display_number', default=20,type=int)
 
@@ -418,8 +416,6 @@ def get_marks():
             query = query + ''' AND meets.meet_name = %s'''
             parameters.append(meet)
 
-        print(parameters)  
-        print(query)
         cursor.execute(query, parameters)
         for row in cursor:
             marks.append({'athlete_name': row[0], 
@@ -485,7 +481,6 @@ def get_marks():
     except Exception as e:
         print(e, file=sys.stderr)
   
-    print(f'printing marks--------------- {marks}')
     return json.dumps(marks)
 
 

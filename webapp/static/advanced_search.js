@@ -12,6 +12,7 @@ function initialize() {
     loadSeasonsSelector();
     loadEventsSelector();
     loadTeamsSelector();
+    loadMeetSelector();
     let selectButton = document.getElementById('selectButton');
     if (selectButton) {
         selectButton.onclick = toggleEvents;
@@ -50,6 +51,40 @@ function getAPIBaseURL() {
 }
 
 
+function loadMeetSelector() {
+    let selectElement = document.getElementById('seasonSelect');
+    let season = selectElement.value;
+    console.log("season in")
+    console.log(season)
+    let url = getAPIBaseURL() + '/meets/?season=' + season;
+
+    fetch(url, {method: 'get'})
+    .then((response) => response.json())
+    .then(function(result) {
+
+        let selectorBody = ''
+        for (let k = 0; k < result.length; k++) {
+            let meet = result[k];
+            if (k == 0) {
+                selectorBody += '<option selected=True name="meet" value="' + meet['meet_name'] + '">' + meet['meet_name'] + '</option>\n';
+            }
+            else {
+                selectorBody += '<option name="meet" value="' + season['meet_name'] + '">' + meet['meet_name'] + '</option>\n';
+            }
+        }
+        let selector = document.getElementById('meetSelect');
+        if (selector) {
+            selector.innerHTML = selectorBody;
+            loadEventsSelector();
+        }
+    })
+
+    .catch(function(error) {
+        console.log(error);
+    });
+}
+
+
  function loadEventsSelector() {
     let url = getAPIBaseURL() + '/events/';
     fetch(url, {method: 'get'})
@@ -85,7 +120,8 @@ function loadSeasonsSelector() {
     .then((response) => response.json())
     .then(function(result) {
 
-        let selectorBody = ''
+        let selectorBody = '<option selected=True name="event" value="' + '' + '">' + 'All Seasons' + '</option>\n'
+
         for (let k = 0; k < result.length; k++) {
             let season = result[k];
             if (k == 0) {
@@ -187,6 +223,7 @@ function onSearch() {
                 tableBody += '</tbody>\n</table>\n';
                 listBody += tableBody;
                 if (gender == 'm') {
+                    
                     let performanceList = document.getElementById('men-tab-pane');
                     if (performanceList) {
                         performanceList.innerHTML = listBody;
@@ -201,6 +238,17 @@ function onSearch() {
                         console.log("filling women table");
                     }
                 }
+                performanceListContainer = document.getElementById('performanceListContainer');
+                    if (false) {
+                        if (!(performanceListContainer.classList).contains('d-none')) {
+                            performanceListContainer.classList.add('d-none');
+                        }
+                    }
+                    else {
+                        if (performanceListContainer.classList.contains('d-none')) {
+                            performanceListContainer.classList.remove('d-none');
+                        }
+                    }
             //just run twice with no if......
 
                 
