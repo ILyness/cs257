@@ -125,8 +125,11 @@ def get_events():
             events.append({'id':row[0], 'event_name':row[1], 'count':row[2]})
 
         connection.close()
+<<<<<<< HEAD
        
 
+=======
+>>>>>>> refs/remotes/origin/main
         return json.dumps(events)
 
     except Exception as e:
@@ -469,6 +472,77 @@ def get_help():
     return flask.render_template('help.html')
 
 
+
+@api.route('/athleteSearch')
+def athlete_search():
+    ''' Returns a list of all the athletes in the database, with eiter a first or last name matching with the search_string, and added filtering". '''
+    nameInput = flask.request.args.get('nameInput', default=None, type=str)
+    event = flask.request.args.get('event', default=None, type=str)
+    team = flask.request.args.get('team', default=None, type=str)
+    gender = flask.request.args.get('gender', default=None, type=str)
+    season = flask.request.args.get('season', default=None, type=str)
+
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        # Base query and params list
+        query = '''
+            SELECT DISTINCT athletes.first_name, athletes.last_name, athletes.gender, schools.school_name, athletes.id
+            FROM athletes
+            JOIN results ON athletes.id = results.athlete_id
+            JOIN schools ON schools.id = results.school_id
+            JOIN events ON events.id = results.event_id
+            JOIN seasons ON seasons.id = results.season_id
+            WHERE TRUE
+        '''
+        params = []
+        if nameInput:
+            query += ' AND (athletes.first_name ILIKE %s OR athletes.last_name ILIKE %s)'
+            like_pattern = f'%{nameInput}%'
+            params.extend([like_pattern, like_pattern])
+
+        if event:
+            query += ' AND events.event_name ILIKE %s'
+            params.append(f'%{event}%')
+
+        if team:
+            query += ' AND schools.school_name ILIKE %s'
+            params.append(f'%{team}%')
+
+        if gender:
+            query += ' AND athletes.gender ILIKE %s'
+            params.append(gender)
+
+        if season:
+            query += ' AND seasons.season_name ILIKE %s'
+            params.append(f'%{season}%')
+
+        query += ' ORDER BY athletes.first_name, athletes.last_name, schools.school_name'
+
+        cursor.execute(query, params)
+
+        athletes = []
+        for row in cursor:
+            athletes.append({
+                'first_name': row[0],
+                'last_name': row[1],
+                'gender': row[2],
+                'school': row[3],
+                'id': row[4] 
+            })
+
+        connection.close()
+        return json.dumps({'athletes': athletes})
+
+    except Exception as e:
+        print(e, file=sys.stderr)
+        return json.dumps({'error': 'Server error'}), 500
+
+
+
+
+
 #used for sorting and filtering with running events, as the mark is MM:SS.SS
 def parse_time(t):  
     if ':' in t:
@@ -477,6 +551,14 @@ def parse_time(t):
     else:
         
         return float(t)
+
+
+
+
+
+
+
+
 
 '''
 if __name__ == '__main__':

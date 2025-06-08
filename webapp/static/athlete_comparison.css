@@ -1,0 +1,109 @@
+.divider-col {
+  transition: all 0.6s ease;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.divider-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.divider-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.divider-leave {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.divider-leave-active {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.dark-divider {
+  transition: background-color 0.3s ease;
+  overflow-y: auto;
+  background-color: #212529;
+  color: white;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.content-wrapper {
+  padding: 1rem 1.75rem 1rem 1rem;
+  box-sizing: border-box;
+  text-align: left;
+  color: white;
+}
+
+.title-and-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+}
+
+.content-wrapper p {
+  margin-top: 1rem;
+  white-space: pre-wrap;
+}
+
+.circle-btn {
+  position: absolute;
+  top: 10px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background-color: #3a3a3a;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.circle-btn:hover {
+  background-color: #6c757d;
+}
+
+.close-btn {
+  right: 20px;
+}
+
+.back-btn {
+  left: 20px;
+}
+
+.dark-divider::-webkit-scrollbar {
+  width: 10px;
+}
+
+.dark-divider::-webkit-scrollbar-track {
+  background: #212529;
+}
+
+.dark-divider::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid #212529;
+}
+
+.dark-divider::-webkit-scrollbar-button {
+  display: block;
+  height: 12px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.dark-divider {
+  scrollbar-width: thin;
+  scrollbar-color: white #212529;
+}
