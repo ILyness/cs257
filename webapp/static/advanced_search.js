@@ -108,7 +108,7 @@ function loadSeasonsSelector() {
 }
 
 function loadTeamsSelector() {
-    let selectElement = document.getElementById('teamSelect');
+   // let selectElement = document.getElementById('teamSelect');
     //let team = selectElement.value;
     let url = getAPIBaseURL() + '/teams/';
 
@@ -145,78 +145,71 @@ function loadTeamsSelector() {
 
 
 function onSearch() {
-    let url = getAPIBaseURL() + '/search';
-    console.log("url = ", url);
 
-    const currentParams = window.location.search;
-    url = getAPIBaseURL() + '/search' + currentParams;
-    console.log("url = ", url);
+   // let url = getAPIBaseURL() + '/search';
+ //   console.log("url = ", url);
+    const genders = ['m','f']
+    for (let i = 0; i < genders.length; i++) {
+        const gender = genders[i];
+        const currentParams = window.location.search;
+        url = getAPIBaseURL() + '/search' + currentParams + '&gender=' + gender;
+        console.log("url = ", url);
 
-    fetch(url, { method: 'get' })
-        .then((response) => response.json())
-        .then(function (searchResult) {
-            console.log("running onSearch JS");
-            console.log("searchResult", searchResult);
+        fetch(url, { method: 'get' })
+            .then((response) => response.json())
+            .then(function (searchResult) {
+                console.log("running onSearch JS");
+                console.log("searchResult", searchResult);
 
-            let listBody = '';
+                let listBody = '';
 
-            let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
-                '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Team</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Season</th><th scope="col">Date</th></tr>\n</thead>\n';
+                let tableHeader = '<table class="table rounded-3 overflow-hidden text-center align-middle">\n' +
+                    '<thead class="table-dark">\n<tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Team</th><th scope="col">Mark</th><th scope="col">Meet</th><th scope="col">Season</th><th scope="col">Date</th></tr>\n</thead>\n';
 
-            let tableBody = '';
-            tableBody +=  tableHeader + '\n<tbody>';
+                let tableBody = '';
+                tableBody +=  tableHeader + '\n<tbody>';
 
-            for (let j = 0; j < searchResult.length; j++) {
-                let performance = searchResult[j];
-                let tableRow = '';
-                console.log("filling table with a row from performance search results");
-                tableRow += '<tr>\n<th scope="row">' + (j + 1) + '</th>' +
-                    '<td class="col-md-3">' + performance['athlete_name'] + '</td>' +
-                    '<td class="col-md-2">' + performance['team'] + '</td>' +
-                    '<td class="col-md-2">' + performance['mark'] + '</td>' +
-                    '<td class="col-md-3">' + performance['meet'] + '</td>' +
-                    '<td class="col-md-2">' + performance['season_name'] + '</td>' +
-                    '<td class="col-md-2">' + performance['result_date'] + '</td>' +
-                    '\n</tr>\n';
-                tableBody += tableRow;
-            }
-
-            tableBody += '</tbody>\n</table>\n';
-            listBody += tableBody;
-            if (category == 'm') {
-                let performanceList = document.getElementById('men-tab-pane');
-                if (performanceList) {
-                    performanceList.innerHTML = listBody;
+                for (let j = 0; j < searchResult.length; j++) {
+                    let performance = searchResult[j];
+                    let tableRow = '';
+                    console.log("filling table with a row from performance search results");
+                    tableRow += '<tr>\n<th scope="row">' + (j + 1) + '</th>' +
+                        '<td class="col-md-3">' + performance['athlete_name'] + '</td>' +
+                        '<td class="col-md-2">' + performance['team'] + '</td>' +
+                        '<td class="col-md-2">' + performance['mark'] + '</td>' +
+                        '<td class="col-md-3">' + performance['meet'] + '</td>' +
+                        '<td class="col-md-2">' + performance['season_name'] + '</td>' +
+                        '<td class="col-md-2">' + performance['result_date'] + '</td>' +
+                        '\n</tr>\n';
+                    tableBody += tableRow;
                 }
-            }
-            else {
-                let performanceList = document.getElementById('women-tab-pane');
+
+                tableBody += '</tbody>\n</table>\n';
+                listBody += tableBody;
+                if (gender == 'm') {
+                    let performanceList = document.getElementById('men-tab-pane');
                     if (performanceList) {
-                    performanceList.innerHTML = listBody;
+                        performanceList.innerHTML = listBody;
+                        console.log("filling men table");
+
+                    }
                 }
-            }
-        
-            performanceListContainer = document.getElementById('performanceListContainer');
-            if (events.length == 0) {
-                if (!(performanceListContainer.classList).contains('d-none')) {
-                    performanceListContainer.classList.add('d-none');
+                else {
+                    let performanceList = document.getElementById('women-tab-pane');
+                        if (performanceList) {
+                        performanceList.innerHTML = listBody;
+                        console.log("filling women table");
+                    }
                 }
-            }
-            else {
-                if (performanceListContainer.classList.contains('d-none')) {
-                    performanceListContainer.classList.remove('d-none');
-                }
-            }
+            //just run twice with no if......
 
-
-
-
-            console.log("list body ", listBody);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-}
+                
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
+    }
 
 function toggleEvents() {
     let selectButton = document.getElementById('selectButton');

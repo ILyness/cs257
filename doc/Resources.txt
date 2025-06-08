@@ -2,3 +2,55 @@ Inspiration from:
     Jeff Ondich Samples
     Bootstrap examples and information : https://getbootstrap.com/docs/5.3/getting-started/introduction/
     
+
+
+come back and fix
+
+
+Thanks for sharing your API code! Here's how you can fix the team filter to support multiple teams correctly:
+
+✅ The Problem
+You're currently doing:
+
+python
+Copy
+Edit
+if team:
+    query = query + ''' AND schools.school_name = %s'''
+    parameters.append(team)
+But team = flask.request.args.getlist('team') returns a list, e.g. ["Augsburg", "Carleton"].
+
+So appending the whole list to parameters and using = %s causes a mismatch in SQL: it tries to compare a string to a list — which doesn’t work.
+
+✅ The Fix
+You need to:
+
+Dynamically insert a SQL IN clause.
+
+Use psycopg2's parameter substitution to safely insert the correct number of placeholders.
+
+🛠 Updated Code Snippet for the Team Filter
+Replace this part:
+
+python
+Copy
+Edit
+if team:
+    query = query + ''' AND schools.school_name = %s'''
+    parameters.append(team)
+With this:
+
+python
+Copy
+Edit
+if team:
+    placeholders = ','.join(['%s'] * len(team))
+    query += f''' AND schools.school_name IN ({placeholders})'''
+    parameters.extend(team)
+✅ Final Notes
+This will now properly support URLs like:
+
+bash
+Copy
+Edit
+/search?team=Augsburg&team=Carleton
