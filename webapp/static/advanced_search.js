@@ -107,10 +107,9 @@ function loadMeetSelector() {
             }
         }
         let selector = document.getElementById('eventSelect');
-       // document.getElementById("eventSelect").style.height = "20px";
         if (selector) {
             selector.innerHTML = selectorBody;
-            //loadEventsSelector();
+
         }
     })
 
@@ -149,8 +148,7 @@ function loadSeasonsSelector() {
 }
 
 function loadTeamsSelector() {
-   // let selectElement = document.getElementById('teamSelect');
-    //let team = selectElement.value;
+
     let url = getAPIBaseURL() + '/teams/';
 
     fetch(url, {method: 'get'})

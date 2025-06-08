@@ -54,3 +54,32 @@ bash
 Copy
 Edit
 /search?team=Augsburg&team=Carleton
+
+my dev tools say cleint height = 80
+
+html line : div class="row mb-4">
+            <div class="col">
+              <label for="eventSelect" class="form-label">Event</label>
+              <select id="eventSelect" name="event" class="form-select">
+              </select>
+            </div>
+          </div>
+
+
+ChatGPT said:
+Thanks — if your dropdown’s clientHeight is 80px, it means the rendered <select> element is visibly too tall for your layout. This can happen due to:
+
+Default Bootstrap styling (.form-select) — it may be too padded.
+
+Custom user-agent styles from the browser.
+
+Increased line height, padding, or font size.
+
+✅ To shrink the dropdown height, try one or a combo of the following CSS options:
+🔹 Option 1: Tighter padding and font size
+html
+Copy
+Edit
+<select id="eventSelect" class="form-select w-100" style="padding: 0.25rem 0.5rem; font-size: 0.875rem
+
+I changed things but kept style padding which fixed it
