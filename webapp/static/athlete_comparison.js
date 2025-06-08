@@ -1,30 +1,35 @@
-let base;
-
 window.addEventListener("load", initialize);
 const fixedBtn = document.getElementById("fixedButton");
 const container = document.getElementById("container");
+// Stores div and necessary data via Map
+const contentWrapperState = new Map();
+
 
 // handles both loading from href (with athleteId), which loads the athlete info into the initial divider and just base loading
 function initialize() {
-  const firstDivider = createDivider(0);
-  firstDivider.classList.remove("divider-enter");
-  container.appendChild(firstDivider);
+    const firstDivider = createDivider(0);
+    firstDivider.classList.remove("divider-enter");
+    container.appendChild(firstDivider);
 
-  reorganizeRows();
-  setDividerHeights();
+    reorganizeRows();
+    setDividerHeights();
 
-  const athleteId = getAthleteIdFromURL();
-  if (athleteId) {
-    const contentWrapper = firstDivider.querySelector(".content-wrapper");
-    const initialSearchFormContainer = firstDivider.querySelector(".search-form-wrapper");
+    const athleteId = getAthleteIdFromURL();
+    if (athleteId) {
+        const contentWrapper = firstDivider.querySelector(".content-wrapper");
+        const initialSearchFormContainer = firstDivider.querySelector(".search-form-wrapper");
 
-    if (contentWrapper && initialSearchFormContainer) {
-      initialSearchFormContainer.style.display = 'none';
-      contentWrapper.removeChild(initialSearchFormContainer);
+        if (contentWrapper && initialSearchFormContainer) {
+            // Save the initial search form state for back navigation
+            contentWrapperState.set(contentWrapper, {
+                type: 'searchForm',
+                content: initialSearchFormContainer
+            });
 
-      displayAthlete(athleteId, contentWrapper, null, null, initialSearchFormContainer);
+            initialSearchFormContainer.style.display = 'none';
+            displayAthlete(athleteId, contentWrapper); // simplified param call thanks to contentWrapper
+        }
     }
-  }
 }
 
 // to handle opening athlete comparison from href (from other pages)
@@ -48,7 +53,7 @@ function getAPIBaseURL() {
 
 
 // Main function -- Given an athlete Id and whatever divider the search is queried from, populates that divider with all pertinent athlete info. Also includes a back button to either return to the athlete list or search form, depending on how this is called
-function displayAthlete(id, contentWrapper, athleteListDiv, previousBackBtn, initialSearchFormContainer) {
+function displayAthlete(id, contentWrapper) {
     if (!contentWrapper) return;
 
     contentWrapper.innerHTML = "<p>Loading…</p>";
@@ -64,14 +69,19 @@ function displayAthlete(id, contentWrapper, athleteListDiv, previousBackBtn, ini
             dynamicBackBtn.innerHTML = `<i class="bi bi-arrow-left"></i>`;
 
             dynamicBackBtn.addEventListener("click", () => {
-                if (initialSearchFormContainer) {
-                    contentWrapper.innerHTML = "";
-                    initialSearchFormContainer.style.display = 'block';
-                    contentWrapper.appendChild(initialSearchFormContainer);
-                } else if (athleteListDiv && previousBackBtn) {
-                    contentWrapper.innerHTML = "";
-                    contentWrapper.appendChild(athleteListDiv);
-                    contentWrapper.appendChild(previousBackBtn);
+                const previousState = contentWrapperState.get(contentWrapper);
+
+                if (previousState) {
+                    contentWrapper.innerHTML = ""; // Clear current athlete display
+
+                    //show previous Form, either search form or athlete list w/ back button
+                    if (previousState.type === 'searchForm') {
+                        previousState.content.style.display = 'block'; 
+                        contentWrapper.appendChild(previousState.content);
+                    } else if (previousState.type === 'athleteList') {
+                        contentWrapper.appendChild(previousState.content); 
+                        contentWrapper.appendChild(previousState.backButton); 
+                    }
                 } else {
                     console.warn("Back button clicked, but no previous state to restore.");
                 }
@@ -99,7 +109,7 @@ function displayAthlete(id, contentWrapper, athleteListDiv, previousBackBtn, ini
                 </div>
             `;
 
-            // Sort the event names alphabetically before populating tables
+            // Sort the events before populating tables
             Object.entries(athlete.event_name)
                 .sort(([eventA], [eventB]) => eventA.localeCompare(eventB))
                 .forEach(([event, eventData]) => {
@@ -147,10 +157,11 @@ function displayAthlete(id, contentWrapper, athleteListDiv, previousBackBtn, ini
             errorBackBtn.className = "circle-btn back-btn";
             errorBackBtn.innerHTML = `<i class="bi bi-arrow-left"></i>`;
             errorBackBtn.addEventListener("click", () => {
-                if (initialSearchFormContainer) {
+                const previousState = contentWrapperState.get(contentWrapper);
+                if (previousState && previousState.type === 'searchForm') {
                     contentWrapper.innerHTML = "";
-                    initialSearchFormContainer.style.display = 'block';
-                    contentWrapper.appendChild(initialSearchFormContainer);
+                    previousState.content.style.display = 'block';
+                    contentWrapper.appendChild(previousState.content);
                 } else {
                     contentWrapper.innerHTML = "<p>Please try again.</p>";
                 }
@@ -158,7 +169,6 @@ function displayAthlete(id, contentWrapper, athleteListDiv, previousBackBtn, ini
             contentWrapper.prepend(errorBackBtn);
         });
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -232,6 +242,8 @@ function createDivider(index) {
         "search-form-wrapper bg-body-tertiary p-3 rounded-4 text-start";
     searchFormContainer.style.width = "65%";
     searchFormContainer.style.color = "black";
+    searchFormContainer.setAttribute('data-index', index); // Set data-index for selection of divs by their assigned index
+
     searchFormContainer.innerHTML = `
         <form id="athleteSearchForm_${index}" class="mb-4" method="GET" action="/api/search">
             <h4 class="mb-4">Athlete Search:</h4>
@@ -304,37 +316,49 @@ function createDivider(index) {
     divider.appendChild(closeBtn);
     divider.appendChild(contentWrapper);
     col.appendChild(divider);
+
+    // These functions pull the index from the container and load the searchForm with pertinent data
     loadEventsSelector(searchFormContainer);
     loadSeasonsSelector(searchFormContainer);
     loadTeamsSelector(searchFormContainer);
 
-    // calls searchSubmit function when form search is pressed
+    // Calls searchSubmit function when form search is pressed
     const form = searchFormContainer.querySelector(`#athleteSearchForm_${index}`);
     if (form) {
         form.addEventListener("submit", (event) => {
-            handleAthleteSearchSubmit(event, index, contentWrapper, searchFormContainer);
+            handleAthleteSearchSubmit(event, contentWrapper, searchFormContainer); // Removed index param from here
         });
     }
+
+    contentWrapperState.set(contentWrapper, {
+        type: 'searchForm',
+        content: searchFormContainer
+    });
 
     return col;
 }
 
 // Removes divider and reorganizes rows
 function removeDivider(col) {
-  col.classList.add("divider-leave");
-  requestAnimationFrame(() => {
-    col.classList.add("divider-leave-active");
-    col.addEventListener(
-      "transitionend",
-      () => {
-        col.remove();
-        reorganizeRows();
-        setDividerHeights();
-      }, {
-        once: true
-      }
-    );
-  });
+    const contentWrapper = col.querySelector(".content-wrapper");
+    if (contentWrapper) {
+        contentWrapperState.delete(contentWrapper);
+    }
+
+    col.classList.add("divider-leave");
+    requestAnimationFrame(() => {
+        col.classList.add("divider-leave-active");
+        col.addEventListener(
+            "transitionend",
+            () => {
+                col.remove();
+                reorganizeRows();
+                setDividerHeights();
+            }, {
+                once: true
+            }
+        );
+    });
 }
 
 
@@ -361,15 +385,17 @@ fixedBtn.addEventListener("click", () => {
 
 
 // Handles athlete name search within divider
-async function handleAthleteSearchSubmit(event, index, contentWrapper, searchFormContainer) {
+async function handleAthleteSearchSubmit(event, contentWrapper, searchFormContainer) {
     event.preventDefault();
 
     const form = event.target;
     const formData = new FormData(form);
+    const index = searchFormContainer.getAttribute('data-index'); // Get index from data attribute of div
+
     const data = {
         nameInput: formData.get("name") || "",
         event: formData.get("event") || "",
-        gender: formData.get(`gender_${index}`) || "", 
+        gender: formData.get(`gender_${index}`) || "",
         team: formData.get("team") || "",
         season: formData.get("season") || ""
     };
@@ -378,7 +404,7 @@ async function handleAthleteSearchSubmit(event, index, contentWrapper, searchFor
     console.log("Saved athlete search form data for divider", index, data);
 
     contentWrapper.innerHTML = "<p>Searching…</p>";
-    searchFormContainer.style.display = 'none'; 
+    searchFormContainer.style.display = 'none';
 
     try {
         const queryParams = new URLSearchParams();
@@ -397,7 +423,7 @@ async function handleAthleteSearchSubmit(event, index, contentWrapper, searchFor
             contentWrapper.innerHTML = `<p class="text-danger">Error: ${result.error}</p>`;
             addBackToSearchButton(contentWrapper, searchFormContainer);
         } else if (result.athletes && result.athletes.length > 0) {
-            displayAthleteSearchResults(result.athletes, contentWrapper, searchFormContainer, index);
+            displayAthleteSearchResults(result.athletes, contentWrapper, searchFormContainer);
         } else {
             contentWrapper.innerHTML = "<p>No athletes found matching your criteria.</p>";
             addBackToSearchButton(contentWrapper, searchFormContainer);
@@ -410,10 +436,9 @@ async function handleAthleteSearchSubmit(event, index, contentWrapper, searchFor
         addBackToSearchButton(contentWrapper, searchFormContainer);
     }
 }
-
 // Displays the returned list of athletes within each divider
-function displayAthleteSearchResults(athletes, contentWrapper, searchFormContainer, index) {
-    contentWrapper.innerHTML = ""; // Clear any previous content or loading message
+function displayAthleteSearchResults(athletes, contentWrapper, searchFormContainer) {
+    contentWrapper.innerHTML = ""; 
 
     const athleteListDiv = document.createElement("div");
     athleteListDiv.className = "athlete-list p-3 text-white overflow-auto";
@@ -430,23 +455,30 @@ function displayAthleteSearchResults(athletes, contentWrapper, searchFormContain
         `;
 
         athleteDiv.addEventListener("click", () => {
-            // Store athleteListDiv and backBtnForList for back navigation
-            displayAthlete(a.id, contentWrapper, athleteListDiv, backBtnForList, null);
+            
+            contentWrapperState.set(contentWrapper, {
+                type: 'athleteList',
+                content: athleteListDiv,
+                backButton: backBtnForList
+            });
+            displayAthlete(a.id, contentWrapper);
         });
         athleteListDiv.appendChild(athleteDiv);
     });
 
     const backBtnForList = document.createElement("button");
     backBtnForList.type = "button";
-    backBtnForList.id = "backBtn_" + index; // Use index for unique ID
     backBtnForList.className = "circle-btn back-btn";
     backBtnForList.innerHTML = `<i class="bi bi-arrow-left"></i>`;
 
     backBtnForList.addEventListener("click", () => {
-        // Clear current content, re-show the search form
         contentWrapper.innerHTML = "";
         contentWrapper.appendChild(searchFormContainer);
         searchFormContainer.style.display = 'block';
+        contentWrapperState.set(contentWrapper, {
+            type: 'searchForm',
+            content: searchFormContainer
+        });
     });
 
     contentWrapper.appendChild(athleteListDiv);
@@ -463,6 +495,11 @@ function addBackToSearchButton(contentWrapper, searchFormContainer) {
         contentWrapper.innerHTML = "";
         contentWrapper.appendChild(searchFormContainer);
         searchFormContainer.style.display = 'block';
+        // When returning to search form, update the state for this contentWrapper
+        contentWrapperState.set(contentWrapper, {
+            type: 'searchForm',
+            content: searchFormContainer
+        });
     });
     contentWrapper.prepend(backBtn);
 }
@@ -474,87 +511,92 @@ function addBackToSearchButton(contentWrapper, searchFormContainer) {
 // Functions to populate each search form dropdown via the database
 
 function loadEventsSelector(container) {
-  let url = getAPIBaseURL() + "/events/";
-  fetch(url, {
-      method: "get"
-    })
-    .then((response) => response.json())
-    .then(function(result) {
-      let selectorBody = '<option value="">-- Select Event (Optional) --</option>\n';
-      for (let k = 0; k < result.length; k++) {
-        let event = result[k];
-        selectorBody +=
-          '<option value="' +
-          event["event_name"] +
-          '">' +
-          event["event_name"] +
-          "</option>\n";
-      }
-      let selector = container.querySelector("select[name='event'], select[id^='eventSelect']");
-      if (selector) {
-        selector.innerHTML = selectorBody;
-      }
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+    const index = container.getAttribute('data-index');
+    let url = getAPIBaseURL() + "/events/";
+    fetch(url, {
+            method: "get"
+        })
+        .then((response) => response.json())
+        .then(function(result) {
+            let selectorBody = '<option value="">-- Select Event (Optional) --</option>\n';
+            for (let k = 0; k < result.length; k++) {
+                let event = result[k];
+                selectorBody +=
+                    '<option value="' +
+                    event["event_name"] +
+                    '">' +
+                    event["event_name"] +
+                    "</option>\n";
+            }
+            // Use specific ID from the assigned index
+            let selector = container.querySelector(`#eventSelect_${index}`);
+            if (selector) {
+                selector.innerHTML = selectorBody;
+            }
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 }
 
 function loadSeasonsSelector(container) {
-  let url = getAPIBaseURL() + "/seasons/";
-  fetch(url, {
-      method: "get"
-    })
-    .then((response) => response.json())
-    .then(function(result) {
-      let selectorBody = '<option value="">-- Select Season (Optional) --</option>\n';
-      for (let k = 0; k < result.length; k++) {
-        let season = result[k];
-        selectorBody +=
-          '<option value="' +
-          season["season_name"] +
-          '">' +
-          season["season_name"] +
-          "</option>\n";
-      }
-      let selector = container.querySelector("select[name='season'], select[id^='seasonSelect']");
-      if (selector) {
-        selector.innerHTML = selectorBody;
-      }
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+    const index = container.getAttribute('data-index');
+    let url = getAPIBaseURL() + "/seasons/";
+    fetch(url, {
+            method: "get"
+        })
+        .then((response) => response.json())
+        .then(function(result) {
+            let selectorBody = '<option value="">-- Select Season (Optional) --</option>\n';
+            for (let k = 0; k < result.length; k++) {
+                let season = result[k];
+                selectorBody +=
+                    '<option value="' +
+                    season["season_name"] +
+                    '">' +
+                    season["season_name"] +
+                    "</option>\n";
+            }
+            // Use specific ID from the index
+            let selector = container.querySelector(`#seasonSelect_${index}`);
+            if (selector) {
+                selector.innerHTML = selectorBody;
+            }
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 }
 
 async function loadTeamsSelector(container) {
-  try {
-    const response = await fetch(getAPIBaseURL() + "/teams/");
-    if (!response.ok) throw new Error("Network response was not OK");
+    const index = container.getAttribute('data-index');
+    try {
+        const response = await fetch(getAPIBaseURL() + "/teams/");
+        if (!response.ok) throw new Error("Network response was not OK");
 
-    const teams = await response.json();
+        const teams = await response.json();
 
-    const select =
-      container.querySelector("select[name='team'], select[id^='teamSelect']");
-    if (!select) {
-      console.error("Team select element not found");
-      return;
+        // Use specific ID from the index
+        const select = container.querySelector(`#teamSelect_${index}`);
+        if (!select) {
+            console.error("Team select element not found for index:", index);
+            return;
+        }
+
+        select.innerHTML = "";
+
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "-- Select a Team (Optional) --";
+        select.appendChild(defaultOption);
+
+        teams.forEach((team) => {
+            const option = document.createElement("option");
+            option.value = team.school_name;
+            option.textContent = team.school_name;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Failed to load teams:", error);
     }
-
-    select.innerHTML = "";
-
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "";
-    defaultOption.textContent = "-- Select a Team (Optional) --";
-    select.appendChild(defaultOption);
-
-    teams.forEach((team) => {
-      const option = document.createElement("option");
-      option.value = team.school_name;
-      option.textContent = team.school_name;
-      select.appendChild(option);
-    });
-  } catch (error) {
-    console.error("Failed to load teams:", error);
-  }
 }
