@@ -126,7 +126,7 @@ def get_events():
 
         connection.close()
        
-        print(events)
+
         return json.dumps(events)
 
     except Exception as e:
@@ -339,13 +339,15 @@ def get_marks():
 
 
         event = flask.request.args.get('event', '100 Meters', type=str)
-        gender = flask.request.args.get('gender', '*') #, type=bool
+        gender = flask.request.args.get('gender', 'm') #, type=bool
         duplicates = flask.request.args.get('duplicates', False)
-        team = flask.request.args.get('team', '')
+        team = flask.request.args.getlist('team')
         season = flask.request.args.get('season', 'Outdoor 2025')
         meet = flask.request.args.get('meet', '')
         mark = flask.request.args.get('mark', '', type=str)
-            
+        
+        print("teams")
+        print(team)
         
         display_number = flask.request.args.get('display_number', default=20,type=int)
 
@@ -358,32 +360,38 @@ def get_marks():
         for row in cursor:
             event_category = row[0]
     
-        query = '''SELECT athletes.first_name || \' \' || athletes.last_name as athlete_name, events.event_name, seasons.season_name, performances.mark, schools.school_name, meets.meet_name, performances.result_date
+        query = '''SELECT athletes.first_name || \' \' || athletes.last_name as athlete_name, 
+                                                        events.event_name, seasons.season_name, 
+                                                        performances.mark, schools.school_name, 
+                                                        meets.meet_name, performances.result_date
                         FROM results 
                         JOIN performances ON performances.id = results.performance_id
                         JOIN events ON results.event_id = events.id 
-                        AND events.event_name = %s
-                        JOIN athletes ON athletes.id = results.athlete_id AND athletes.gender = %s
+                        JOIN athletes ON athletes.id = results.athlete_id
                         JOIN seasons ON results.season_id = seasons.id
                         JOIN schools ON schools.id = results.school_id
-                        JOIN meets ON meets.id = results.meet_id'''
+                        JOIN meets ON meets.id = results.meet_id
+                        WHERE events.event_name = %s
+                        AND athletes.gender = %s
+                        '''
         
-                       # JOIN meets ON meets.id = results.meet_id
         parameters = [event,gender]
         
         if season:
-            query = query + ''' WHERE seasons.season_name = %s'''
+            query = query + ''' AND seasons.season_name = %s'''
             parameters.append(season)
             
-        if team:
-            query = query + ''' AND schools.school_name = %s'''
-            parameters.append(team)
+        if team: #chat aid see doc
+            teams = ','.join(['%s'] * len(team))
+            query = query + f''' AND schools.school_name IN ({teams})'''
+            parameters.extend(team)
 
         if meet:
             query = query + ''' AND meets.meet_name = %s'''
             parameters.append(meet)
-            
-       
+
+        print(parameters)  
+        print(query)
         cursor.execute(query, parameters)
         for row in cursor:
             marks.append({'athlete_name': row[0], 
@@ -449,7 +457,7 @@ def get_marks():
     except Exception as e:
         print(e, file=sys.stderr)
   
-   
+    print(f'printing marks--------------- {marks}')
     return json.dumps(marks)
 
 
