@@ -125,11 +125,6 @@ def get_events():
             events.append({'id':row[0], 'event_name':row[1], 'count':row[2]})
 
         connection.close()
-<<<<<<< HEAD
-       
-
-=======
->>>>>>> refs/remotes/origin/main
         return json.dumps(events)
 
     except Exception as e:
