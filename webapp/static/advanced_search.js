@@ -9,6 +9,7 @@ window.addEventListener("load", initialize);
 
 
 function initialize() {
+    
     loadSeasonsSelector();
     loadEventsSelector();
     loadTeamsSelector();
@@ -16,6 +17,10 @@ function initialize() {
     let selectButton = document.getElementById('selectButton');
     if (selectButton) {
         selectButton.onclick = toggleEvents;
+    }
+    let selectSeason = document.getElementById('seasonSelect');
+    if (selectSeason) {
+        selectSeason.onchange = loadMeetSelector;
     }
     let form = document.getElementById('advancedSearchForm');
     if (form) {
@@ -53,10 +58,11 @@ function getAPIBaseURL() {
 
 function loadMeetSelector() {
     let selectElement = document.getElementById('seasonSelect');
-    let season = selectElement.value;
-    console.log("season in")
-    console.log(season)
-    let url = getAPIBaseURL() + '/meets/?season=' + season;
+    season = selectElement.value
+    if (season) {
+        season = '?season=' + season
+    }
+    let url = getAPIBaseURL() + '/meets/' + season;
 
     fetch(url, {method: 'get'})
     .then((response) => response.json())
@@ -66,10 +72,10 @@ function loadMeetSelector() {
         for (let k = 0; k < result.length; k++) {
             let meet = result[k];
             if (k == 0) {
-                selectorBody += '<option selected=True name="meet" value="' + meet['meet_name'] + '">' + meet['meet_name'] + '</option>\n';
+                selectorBody += '<option selected=True name="meet" value="' + '' + '">' + 'All Meets' + '</option>\n';
             }
             else {
-                selectorBody += '<option name="meet" value="' + season['meet_name'] + '">' + meet['meet_name'] + '</option>\n';
+                selectorBody += '<option name="meet" value="' + meet['meet_name'] + '">' + meet['meet_name'] + '</option>\n';
             }
         }
         let selector = document.getElementById('meetSelect');
@@ -120,12 +126,12 @@ function loadSeasonsSelector() {
     .then((response) => response.json())
     .then(function(result) {
 
-        let selectorBody = '<option selected=True name="event" value="' + '' + '">' + 'All Seasons' + '</option>\n'
+        let selectorBody = ''
 
         for (let k = 0; k < result.length; k++) {
             let season = result[k];
             if (k == 0) {
-                selectorBody += '<option selected=True name="event" value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
+                selectorBody += '<option selected=True name="event" value="' + '' + '">' + 'All Seasons' + '</option>\n';
             }
             else {
                 selectorBody += '<option name="event" value="' + season['season_name'] + '">' + season['season_name'] + '</option>\n';
@@ -134,7 +140,6 @@ function loadSeasonsSelector() {
         let selector = document.getElementById('seasonSelect');
         if (selector) {
             selector.innerHTML = selectorBody;
-            //loadEventsSelector();
         }
     })
 
@@ -189,13 +194,13 @@ function onSearch() {
         const gender = genders[i];
         const currentParams = window.location.search;
         url = getAPIBaseURL() + '/search' + currentParams + '&gender=' + gender;
-        console.log("url = ", url);
+     //   console.log("url = ", url);
 
         fetch(url, { method: 'get' })
             .then((response) => response.json())
             .then(function (searchResult) {
-                console.log("running onSearch JS");
-                console.log("searchResult", searchResult);
+          //      console.log("running onSearch JS");
+       //         console.log("searchResult", searchResult);
 
                 let listBody = '';
 
@@ -208,7 +213,7 @@ function onSearch() {
                 for (let j = 0; j < searchResult.length; j++) {
                     let performance = searchResult[j];
                     let tableRow = '';
-                    console.log("filling table with a row from performance search results");
+                //    console.log("filling table with a row from performance search results");
                     tableRow += '<tr>\n<th scope="row">' + (j + 1) + '</th>' +
                         '<td class="col-md-3">' + performance['athlete_name'] + '</td>' +
                         '<td class="col-md-2">' + performance['team'] + '</td>' +
@@ -227,7 +232,7 @@ function onSearch() {
                     let performanceList = document.getElementById('men-tab-pane');
                     if (performanceList) {
                         performanceList.innerHTML = listBody;
-                        console.log("filling men table");
+                     //   console.log("filling men table");
 
                     }
                 }
@@ -235,7 +240,7 @@ function onSearch() {
                     let performanceList = document.getElementById('women-tab-pane');
                         if (performanceList) {
                         performanceList.innerHTML = listBody;
-                        console.log("filling women table");
+                     //   console.log("filling women table");
                     }
                 }
                 performanceListContainer = document.getElementById('performanceListContainer');

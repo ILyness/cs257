@@ -75,7 +75,7 @@ def get_seasons():
 @api.route('/meets/')
 def get_meets():
     """Returns a list of all meets for the specified season."""
-    season = flask.request.args.get('season', type=str, default='Outdoor 2025')
+    season = flask.request.args.get('season', type=str, default='%%')
     meets = []
     try:
         connection = get_connection()
@@ -83,12 +83,28 @@ def get_meets():
 
         params = (season,)
         query = """SELECT * FROM meets
-                JOIN seasons on seasons.season_name LIKE %s;"""
+                JOIN results ON results.meet_id=meets.id
+                JOIN seasons ON seasons.id=results.season_id
+                WHERE seasons.season_name LIKE %s
+                ORDER BY meet_name;
+                """
+        
 
         cursor.execute(query, params)
 
         for row in cursor:
             meets.append({'id':row[0], 'meet_name':row[1], 'season_category':row[3]})
+
+        seen = {}
+        to_delete = []
+        for i in range(len(meets)):
+            name = (meets[i]['meet_name'])
+            if name in seen:
+                to_delete.append(i)
+            else:
+                seen[name] = i
+        for i in reversed(to_delete):
+            del meets[i]
 
         connection.close()
         print(meets)
@@ -123,6 +139,18 @@ def get_events():
 
         for row in cursor:
             events.append({'id':row[0], 'event_name':row[1], 'count':row[2]})
+
+        seen = {}
+        to_delete = []
+        for i in range(len(events)):
+            name = (events[i]['event_name'])
+            if name in seen:
+                to_delete.append(i)
+            else:
+                seen[name] = i
+        for i in reversed(to_delete):
+            del events[i]
+
 
         connection.close()
         return json.dumps(events)
