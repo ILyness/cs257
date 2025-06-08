@@ -12,10 +12,13 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" />
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='athlete_comparison.css')}}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <!-- Navbar -->
     <header id="navJEFFRS">
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark px-3">
         <a class="navbar-brand" href="/">JEFFRS</a>
@@ -34,9 +37,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/search"
-                >Advanced Search</a
-              >
+              <a class="nav-link" href="/search">Advanced Search</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="/compare">Comparison Tool</a>
@@ -57,150 +58,16 @@
       </nav>
     </header>
 
-<link
-  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-  rel="stylesheet"
-/>
-
     <main class="container mt-5 pt-5">
-      <!-- toolbar -->
-    
+      <div class="container py-4 px-0" id="container"></div>
 
-
-
+      <button id="fixedButton" class="btn btn-dark rounded-circle position-fixed d-flex align-items-center justify-content-center"
+        style="width: 60px; height: 60px; bottom: 20px; right: 20px; z-index: 1050;" aria-label="Add divider" title="Add divider">
+        <i class="bi bi-plus-lg fs-4"></i>
+      </button>
 
       <div class="row justify-content-center">
-        
-        
-        <!-- Athlete 1 -->
-        <div class="bg-dark col position-relative"   >
-
-          <div class=" position-absolute" id="toolBarContainer" style="right:20px">
-            <button class = 'btn  btn-dark ' type = 'button' data-bs-toggle="collapse" data-bs-target="#toolBar1" aria-expanded = 'false' aria-controls='toolBar1'>Toggle toolbar</button>
-          <div class = "collapse position-absolute" id="toolBar1" >
-            <div class="toolBarItem">
-              <button id="col1_2Toggle" class="btn btn-outline-light">
-                  Add Athlete Page
-                </button>
-            </div>
-
-          </div>
-          </div>
-        
-        <div class="container text-white p-5 " id="Comparison1">
-          
-            <h4> Select an Athlete</h4>
-            <div class="container" id="athleteList">
-          <div class="row" data-id="303"> Daniel Scheider</div>
-          <div class="row" data-id="299"> Soren Kaster</div>
-          <div class="row" data-id="309"> Indy Lyness </div>
-          </div>
-
-
-
-
-
-
-          </div>
-        </div>
-
-        <!-- Athlete 2 -->
-        <div class="bg-dark col position-relative" id="Comparison2" >
-          <div class="row text-white">
-            <div class="col-12">
-              <h4 class="mb-0 pb-0">Daniel Scheider (2)</h4>
-
-              <div class="row">
-                <h4 class="text-white bg-dark mb-0 pb-0 mt-5">400M</h4>
-                <div class="col-6">
-                  <hr class="mt-0 mb-1" />
-                  <table class="table text-center align-middle">
-                    <thead class="table-dark">
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Meet</th>
-                        <th scope="col">Mark</th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>5/17/2025</td>
-                        <td>MIAC Outdoor Conference Finals</td>
-                        <td>49.18</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>5/16/2025</td>
-                        <td>MIAC Outdoor Conference Prelims</td>
-                        <td>49.13</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>2/2/2025</td>
-                        <td>MIAC Indoor Conference</td>
-                        <td>50.80</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <div class="col-6">
-                  <img
-                    src="img/graph-example2.gif"
-                    alt="Description of image"
-                    class="img-fluid"
-                  />
-                </div>
-              </div>
-
-              <div class="row">
-                <h4 class="text-white bg-dark mb-0 pb-0 mt-5">800M</h4>
-                <div class="col-6">
-                  <hr class="mt-0 mb-1" />
-                  <table class="table text-center align-middle">
-                    <thead class="table-dark">
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Meet</th>
-                        <th scope="col">Mark</th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>5/17/2025</td>
-                        <td>MIAC Outdoor Conference Finals</td>
-                        <td>49.18</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>5/16/2025</td>
-                        <td>MIAC Outdoor Conference Prelims</td>
-                        <td>49.13</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>2/2/2025</td>
-                        <td>MIAC Indoor Conference</td>
-                        <td>50.80</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="col-6">
-                  <img
-                    src="img/graph-example1.png"
-                    alt="Description of image"
-                    class="img-fluid"
-                  />
-                </div>
-              </div>
-            </div>  
-          </div>
-        </div>
+        <div class="bg-dark col position-relative"></div>
       </div>
     </main>
 
@@ -211,6 +78,6 @@
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
       crossorigin="anonymous"
     ></script>
-     <script src="{{ url_for('static', filename='athlete_comparison.js') }}" ></script>
+    <script src="{{ url_for('static', filename='athlete_comparison.js') }}"></script>
   </body>
 </html>
