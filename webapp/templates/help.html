@@ -10,14 +10,37 @@
         Daniel Scheider
 
 
+        REQUEST: /seasons/
+
+            GET parameters
+                none
+
+            RESPONSE: a JSON dictionary of the seasons in the dataset with their season category
+
+                [{Outdoor 2025, Outdoor},{Outdoor 2024, Outdoor} , etc..]
+
+            EXAMPLE:
+
+                /teams/
+
+                [Carleton, St. Olaf, etc..]
+
         REQUEST: /teams/
 
             GET parameters
                 none
 
-            RESPONSE: a JSON list of the teams in the dataset
+            RESPONSE: a JSON dictionary of the teams in the dataset
 
-                [Carleton, St. Olaf, etc..]
+                [
+                        {     
+                            "school": "Carleton", 
+                        },
+                        
+                        {
+                            "school": "St. Olaf", 
+                        }
+                    ]
 
             EXAMPLE:
 
