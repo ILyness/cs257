@@ -190,7 +190,7 @@ def get_performance_list():
                 params = (event['id'],season,category)
                 performance_list[category][event['event_name']] = []
                 # Build query for current event
-                query2 = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, 
+                query2 = """SELECT athletes.first_name || \' \' || athletes.last_name AS athlete_name, athletes.id,
                         schools.school_name, performances.mark, performances.result_date, meets.meet_name
                         FROM events
                         JOIN results ON events.id=results.event_id
@@ -222,10 +222,12 @@ def get_performance_list():
                         continue
                     unique_performers.add(row[criteria])
                     i += 1
-                    performance_list[category][event['event_name']].append({'athlete_name':row[0] if 'Relay' not in event['event_name'] else 'NULL', 
-                                                                'school':row[1], 'mark':display_mark(row[2],event['event_category']), 
-                                                                'date':str(row[3]), 
-                                                                'meet':row[4]})
+                    performance_list[category][event['event_name']].append({'athlete_name':row[0] if 'Relay' not in event['event_name'] else 'NULL',
+                                                                'id':row[1],
+                                                                'school':row[2], 
+                                                                'mark':display_mark(row[3],event['event_category']), 
+                                                                'date':str(row[4]), 
+                                                                'meet':row[5]})
         connection.close()
         return json.dumps(performance_list)
 
@@ -415,7 +417,7 @@ def get_marks():
         for row in cursor:
             event_category = row[0]
     
-        query = '''SELECT athletes.first_name || \' \' || athletes.last_name as athlete_name, 
+        query = '''SELECT athletes.first_name || \' \' || athletes.last_name as athlete_name, athletes.id, 
                                                         events.event_name, seasons.season_name, 
                                                         performances.mark, schools.school_name, 
                                                         meets.meet_name, performances.result_date
@@ -447,13 +449,14 @@ def get_marks():
 
         cursor.execute(query, parameters)
         for row in cursor:
-            marks.append({'athlete_name': row[0], 
-                          'event_name': row[1], 
-                          'season_name': row[2],
-                          'mark': display_mark(row[3],event_category=event_category),
-                          'team': row[4], 
-                          'meet' : row[5], 
-                          'result_date': row[6].isoformat(), 
+            marks.append({'athlete_name': row[0],
+                          'athlete_id': row[1],
+                          'event_name': row[2], 
+                          'season_name': row[3],
+                          'mark': display_mark(row[4],event_category=event_category),
+                          'team': row[5], 
+                          'meet' : row[6], 
+                          'result_date': row[7].isoformat(), 
                           'num_marks':None})
     
         connection.close() 

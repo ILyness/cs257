@@ -146,7 +146,7 @@ function loadPerformanceList() {
                     performance = performances[j]
                     let tableRow = ''
                     tableRow += '<tr>\n<th scope="row">' + (j+1) + '</th>' +
-                                    '<td class="col-md-3">' + performance['athlete_name'] + '</td>' +
+                                    '<td class="col-md-3">' + '<a href="/compare?athleteId=' + performance['id'] + '">' + performance['athlete_name'] + '</a>' + '</td>' +
                                     '<td class="col-md-2">' + performance['school'] + '</td>' +
                                     '<td class="col-md-2">' + performance['mark'] + '</td>' +
                                     '<td class="col-md-3">' + performance['meet'] + '</td>' +
