@@ -3,83 +3,114 @@ Inspiration from:
     Bootstrap examples and information : https://getbootstrap.com/docs/5.3/getting-started/introduction/
     
 
+LLM Use:
 
-come back and fix
+    Case 1:
+        
+        Author: Soren 
+        
+        Prompt:
+            Described problem with having multiple parameters come in as team and gave my query code...
+            if team:
+                query = query + ''' AND schools.school_name = %s'''
+                parameters.append(team)
+            But team = flask.request.args.getlist('team') returns a list, e.g. ["Augsburg", "Carleton"].
+            So appending the whole list to parameters and using = %s causes a mismatch in SQL: it tries to compare a string to a list — which doesn’t work.
+
+        Response:
+            ✅ The Problem
+            You're currently doing:
+            python
+            Copy
+            Edit
+            if team:
+                query = query + ''' AND schools.school_name = %s'''
+                parameters.append(team)
+            But team = flask.request.args.getlist('team') returns a list, e.g. ["Augsburg", "Carleton"].
+            So appending the whole list to parameters and using = %s causes a mismatch in SQL: it tries to compare a string to a list — which doesn’t work.
+            ✅ The Fix
+            You need to:
+            Dynamically insert a SQL IN clause.
+            Use psycopg2's parameter substitution to safely insert the correct number of placeholders.
+            🛠 Updated Code Snippet for the Team Filter
+            Replace this part:
+            python
+            Copy
+            Edit
+            if team:
+                query = query + ''' AND schools.school_name = %s'''
+                parameters.append(team)
+            With this:
+            python
+            Copy
+            Edit
+            if team:
+                placeholders = ','.join(['%s'] * len(team))
+                query += f''' AND schools.school_name IN ({placeholders})'''
+                parameters.extend(team)
+            ✅ Final Notes
+            This will now properly support URLs like:
+            bash
+            Copy
+            Edit
+            /search?team=Augsburg&team=Carleton
+
+        Code Implemented:
+            teams = ','.join(['%s'] * len(team))
+            query = query + f''' AND schools.school_name IN ({teams})'''
+            parameters.extend(team)
+
+        What I gained:
+            Helped me fix a problem that i had been wokring on for a while quickly, specifically with help in SQL which is a new language as well as
+            the way apis send informtaion
+            Also gave me insight in how the %s function works
+
+        What I lost:
+            Admitedly, this was a problem I could have solved myself given the time and patience, and by having an LLM help me, yes it sped things up, 
+            and helped sytaxically, however, I lost a chance to deepen my understanding further, by putting the extra time in to solve it myself
 
 
-Thanks for sharing your API code! Here's how you can fix the team filter to support multiple teams correctly:
+    Case 2:
+        
+        Author: Soren 
 
-✅ The Problem
-You're currently doing:
+        Prompt:
+            Described how I dont understand why my dropdown was auto-sizing larger than the other ones that had the same code
+            my dev tools say cleint height = 80
 
-python
-Copy
-Edit
-if team:
-    query = query + ''' AND schools.school_name = %s'''
-    parameters.append(team)
-But team = flask.request.args.getlist('team') returns a list, e.g. ["Augsburg", "Carleton"].
+            html line : div class="row mb-4">
+                        <div class="col">
+                        <label for="eventSelect" class="form-label">Event</label>
+                        <select id="eventSelect" name="event" class="form-select">
+                        </select>
+                        </div>
+                    </div>
 
-So appending the whole list to parameters and using = %s causes a mismatch in SQL: it tries to compare a string to a list — which doesn’t work.
+            
+        Response:
 
-✅ The Fix
-You need to:
+            Thanks — if your dropdown’s clientHeight is 80px, it means the rendered <select> element is visibly too tall for your layout. This can happen due to:
 
-Dynamically insert a SQL IN clause.
+            Default Bootstrap styling (.form-select) — it may be too padded.
 
-Use psycopg2's parameter substitution to safely insert the correct number of placeholders.
+            Custom user-agent styles from the browser.
 
-🛠 Updated Code Snippet for the Team Filter
-Replace this part:
+            Increased line height, padding, or font size.
 
-python
-Copy
-Edit
-if team:
-    query = query + ''' AND schools.school_name = %s'''
-    parameters.append(team)
-With this:
+            ✅ To shrink the dropdown height, try one or a combo of the following CSS options:
+            🔹 Option 1: Tighter padding and font size
+            html
+            Copy
+            Edit
+            <select id="eventSelect" class="form-select w-100" style="padding: 0.25rem 0.5rem; font-size: 0.875rem
 
-python
-Copy
-Edit
-if team:
-    placeholders = ','.join(['%s'] * len(team))
-    query += f''' AND schools.school_name IN ({placeholders})'''
-    parameters.extend(team)
-✅ Final Notes
-This will now properly support URLs like:
+        Code Implemented:
+            style="padding: 0.25rem 0.5rem; (with some tweaking to fit what i actually wanted)
 
-bash
-Copy
-Edit
-/search?team=Augsburg&team=Carleton
-
-my dev tools say cleint height = 80
-
-html line : div class="row mb-4">
-            <div class="col">
-              <label for="eventSelect" class="form-label">Event</label>
-              <select id="eventSelect" name="event" class="form-select">
-              </select>
-            </div>
-          </div>
-
-
-ChatGPT said:
-Thanks — if your dropdown’s clientHeight is 80px, it means the rendered <select> element is visibly too tall for your layout. This can happen due to:
-
-Default Bootstrap styling (.form-select) — it may be too padded.
-
-Custom user-agent styles from the browser.
-
-Increased line height, padding, or font size.
-
-✅ To shrink the dropdown height, try one or a combo of the following CSS options:
-🔹 Option 1: Tighter padding and font size
-html
-Copy
-Edit
-<select id="eventSelect" class="form-select w-100" style="padding: 0.25rem 0.5rem; font-size: 0.875rem
-
-I changed things but kept style padding which fixed it
+        What I gained:
+            Being new to HTML and bootstrap, I could not figure out how to manually fix the sizing. I looked at bootsrap examples, google,
+             etc.. but nothing really helped. By using the LLM, it hlped me figure out padding was the problem, and aided me in manually 
+             formatting the dropwdown.
+        
+        What I lost:
+            Again, a chance to really dive into all the intricasies of bootstrap and html formatting
