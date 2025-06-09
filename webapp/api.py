@@ -35,7 +35,7 @@ def get_connection():
         print(e, file=sys.stderr)
         exit()
 
-@api.route('/teams/')
+@api.route('/teams/') 
 def get_teams():
     """Endpoint to return list of all teams to populate dropdown."""
     teams = []
@@ -389,13 +389,14 @@ def athlete_search():
 
 @api.route('/search')
 def get_marks():
-    ''' Returns a list of all the marks in the database, filtered by event, gender, team, season, meet and mark. Includes the option to not allow repeat marks from the same athlete (to display only PRs). '''
+    ''' Returns a list of all the marks in the database, filtered by event, gender, team, season, meet and mark.
+      Includes the option to not allow repeat marks from the same athlete (to display only PRs). '''
     marks = []
     try:
 
 
         event = flask.request.args.get('event', '100 Meters', type=str)
-        gender = flask.request.args.get('gender', 'm') #, type=bool
+        gender = flask.request.args.get('gender', 'm') 
         duplicates = flask.request.args.get('duplicates', 'False')
         team = flask.request.args.getlist('team')
         season = flask.request.args.get('season')

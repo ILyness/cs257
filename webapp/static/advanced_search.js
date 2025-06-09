@@ -187,7 +187,7 @@ function onSearch() { // Main search function - runs query twice, once for each 
                     let tableRow = '';
 
                     tableRow += '<tr>\n<th scope="row">' + (j + 1) + '</th>' +
-                        '<td class="col-md-3">' + performance['athlete_name'] + '</td>' +
+                        '<td class="col-md-3"' + 'href = "url/comparison?athelteId=' + performance['athlete_id'] + '">' + performance['athlete_name'] + '</td>' +
                         '<td class="col-md-2">' + performance['team'] + '</td>' +
                         '<td class="col-md-2">' + performance['mark'] + '</td>' +
                         '<td class="col-md-3">' + performance['meet'] + '</td>' +
