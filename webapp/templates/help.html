@@ -64,23 +64,24 @@
 
             RESPONSE: a JSON dictionary of the seasons in the dataset with their season category
 
-                [
-                    {
-                        "season_name": Outdoor 2025, 
-                        "season_category": Outdoor
-                    },
-                    {
-                        "season_name": Outdoor 2024, 
-                        "season_category": Outdoor
-                    }, 
-                    etc..
-                ]
+                season_name - Text name of the season
+                season_category - The type of season (indoor/outdoor)
 
             EXAMPLE:
 
-                /teams/
+                /seasons/
 
-                [Carleton, St. Olaf, etc..]
+                [
+                    {     
+                        "season_name": "Outdoor 2025", 
+                        "season_category": "Outdoor"
+                    },
+                    
+                    {
+                        "season_name": "Indoor 2025",
+                        "season_category": "Indoor" 
+                    }
+                ]
 
         REQUEST: /teams/
 
@@ -89,21 +90,21 @@
 
             RESPONSE: a JSON dictionary of the teams in the dataset
 
-                [
-                        {     
-                            "school_name": "Carleton", 
-                        },
-                        
-                        {
-                            "school_name": "St. Olaf", 
-                        }
-                    ]
+                school_name - Text of the name of the school
 
             EXAMPLE:
 
-                /teams/
+            /teams/
 
-                [Carleton, St. Olaf, etc..]
+                [
+                    {     
+                        "school": "Carleton", 
+                    },
+                    
+                    {
+                        "school": "St. Olaf", 
+                    }
+                ]
 
         
         REQUEST: /search/?gender={gender}&event={event}&mark={mark}&team={team}&meet={meet}&season={season}&duplicates={duplicates}&display_number={display_number}
