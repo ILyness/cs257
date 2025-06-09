@@ -9,6 +9,53 @@
         Indy Lyness
         Daniel Scheider
 
+        REQUEST: /meets/?season={season}
+
+            GET parameters
+                
+                season (Optional, default='') - only return meets from the specified season
+            
+            RESPONSE: a JSON list of all meets from the specified season. Each meet will be a dictionary with the following fields.
+
+                id - (INT) unqiue id for the meet 
+                meet_name - (TEXT) name of the meet 
+                season_category - (TEXT) whether the meet was indoor or outdoor 
+
+            EXAMPLE: /meets/?season=Outdoor%202025
+
+                [
+                    {
+                        "id": 100,
+                        "meet_name": "MIAC Outdoor Championships",
+                        "season_category": "Outdoor"
+                    },
+                    etc.
+                ]
+
+         REQUEST: /events/?season={season}
+
+            GET parameters
+                
+                season (Optional, default='') - only return events from the specified season
+            
+            RESPONSE: a JSON list of all events from the specified season. Each event will be a dictionary with the following fields.
+
+                id - (INT) unqiue id for the meet 
+                event_name - (TEXT) name of the meet 
+                count - (INT) the number of performances from that event for the current season.
+
+            EXAMPLE: /events/?season=Outdoor%202025
+
+                [
+                    {
+                        "id": 1,
+                        "event_name": "100 Meters",
+                        "count": 2048
+                    },
+                    etc.
+                ]
+
+
 
         REQUEST: /seasons/
 
@@ -17,7 +64,17 @@
 
             RESPONSE: a JSON dictionary of the seasons in the dataset with their season category
 
-                [{Outdoor 2025, Outdoor},{Outdoor 2024, Outdoor} , etc..]
+                [
+                    {
+                        "season_name": Outdoor 2025, 
+                        "season_category": Outdoor
+                    },
+                    {
+                        "season_name": Outdoor 2024, 
+                        "season_category": Outdoor
+                    }, 
+                    etc..
+                ]
 
             EXAMPLE:
 
@@ -34,11 +91,11 @@
 
                 [
                         {     
-                            "school": "Carleton", 
+                            "school_name": "Carleton", 
                         },
                         
                         {
-                            "school": "St. Olaf", 
+                            "school_name": "St. Olaf", 
                         }
                     ]
 
@@ -49,18 +106,23 @@
                 [Carleton, St. Olaf, etc..]
 
         
-        REQUEST: /marks/{sex}/{event}?mark={mark}&school={school}&season={season}&duplicate={duplicate}&display_number={display_number}
-            ## DANIEL WILL DO THIS
+        REQUEST: /search/?gender={gender}&event={event}&mark={mark}&team={team}&meet={meet}&season={season}&duplicates={duplicates}&display_number={display_number}
             GET parameters
+
+                event (Mandatory, default: '100 Meters') - return only performances from the specified event
+
+                gender (Mandatory, default: 'm') - retrun only performances from the specified gender category
+
+                meet (Optional, default: '') - return only performances from the specified meet
             
-                mark (Optional, default: ‘’) – return only athletes who have a competition mark better than ‘mark’ in specified event. For field events, this is 
+                mark (Optional, default: ‘’) – return only performances of athletes who have a competition mark better than ‘mark’ in specified event. For field events, this is 
                     a number interpreted in meters, for track events this is a time (mm:ss.xx) and for the decathlon/heptathlon this is a point score.
                 
-                school (Optional, default: ‘’) -- return only marks by athletes from the specified school (for an exact string match).
+                team (Optional, default: ‘’) -- return only marks by athletes from the specified team (for an exact string match).
                 
-                season(Optional,default: ‘currentseason’) – return only marks from selected season
+                season(Optional,default: ‘Outdoor 2025’) – return only marks from selected season
             
-                duplicate (Optional, default: ‘False’) - Boolean value for whether duplicate athletes are allowed. If true, will return all marks, while if false
+                duplicates (Optional, default: ‘False’) - Boolean value for whether duplicate athletes are allowed. If true, will return all marks, while if false
                     will only return the best mark for each athlete
             
                 display_number(Optional, default: 20) – maximum number of marks to return
@@ -70,35 +132,42 @@
                 (ascending or descending depending on track vs field event). Each dictionary in this list will have the following fields.
             
             athlete_name -- (TEXT) the athletes last,first name
+            athlete_id - (INT) unique id for the athlete
+            event_name - (TEXT) what event the performance is for
+            season_name - (TEXT) what season the performance is from
             mark – (TEXT) the athletes value for that specific mark.
-            date – (TEXT) the date the athlete scored this mark
+            team - (TEXT) what team the athlete who recorded the performance is from
             meet - the meet that the mark was recorded at.
-            school - the school the athlete that recorded the mark attended when the mark was run
+            result_date – (TEXT) the date the athlete scored this mark
             num_marks – (int) if duplicate is false, returns the total number of times the athlete has raced faster than that mark. If duplicate is 
                 true, returns 'NULL', as all of the filtered marks will be displayed individually.
             
             
-            …
-            
             EXAMPLE:
-                /marks/m/800Meters?mark=1:55&display_number=2
+                /marks?gender=m&event=*00%20Meters&mark=1:55&display_number=2
             
                     [
                         {
-                            "athlete_name": "Scheider,Daniel", 
-                            "mark": "1:52.67", 
-                            "date": "5/2/2025", 
-                            "meet": "MIAC Conference Championships", 
-                            "school": "Carleton", 
+                            "athlete_name": "Daniel Scheider", 
+                            "athlete_id": 420,
+                            "event_name": "800 Meters",
+                            "season_name": "Outdoor 2025",
+                            "mark": "1:52.67",
+                            "team": "Carleton",
+                            "meet": "MIAC Conference Championships",
+                            "resukt_date": "5/2/2025", 
                             "num_marks": 5
                         },
                         
                         {
-                            "athlete_name": "Lyness,Indy", 
+                            "athlete_name": "Indy Lyness",
+                            "athlete_id": 69,
+                            "event_name": "800 Meters",
+                            "season_name": "Outdoor 2025",
                             "mark": "1:53.54", 
-                            "date": "4/26/2025", 
+                            "team": "Carleton",
                             "meet": "Rider/Bolstorff Invitational", 
-                            "school": "Carleton", 
+                            "result_date": "4/26/2025", 
                             "num_marks": 11
                         }
                     ]
@@ -147,11 +216,12 @@
                                 ]
                     }
             
-        REQUEST: /list/?num_entries={num_entries}
-            ## INDY DOING THIS ONE
+        REQUEST: /list/?season={season}&limit={limit}
             
             GET parameters
-            num_entries(Optional, default: 20) – the number of results for each event to display
+
+                limit (Optional, default: 20) – the number of results for each event to display
+                season (Mandatory, default: "Outdoor 2025") - the season to display the performance list for
             
             
             RESPONSE: a JSON dictionary with a key for each gender category associated with a dictionary, where each key in that dictionary is an event and each value 
@@ -159,19 +229,20 @@
             and will have the following fields.
             
                 athlete_name – (TEXT) - name of the athlete who recorded the mark
+                id - (INT) unique id associated with the athlete
                 school – (TEXT) school that the athlete attends
                 mark – (TEXT) athlete’s performance for the event
                 date – (TEXT) date that the mark was recorded
                 meet – (TEXT) meet that the mark was recorded at
             
             EXAMPLE:
-                /list?num_entries=2
+                /list?num_entries=2&season=Outdoor%202025
 
                     {
-                        "Men": {
+                        "m": {
                                     "100Meters": [
                                                     {
-                                                        "athlete_name": "Liu,Landen", 
+                                                        "athlete_name": "Landen Liu", 
                                                         "school": "Bethel", 
                                                         "mark": "10.57", 
                                                         "date": "4/20/2025", 
@@ -179,7 +250,7 @@
                                                     }, 
                         
                                                     {
-                                                        "athlete_name": "Ondich,Jeff", 
+                                                        "athlete_name": "Jeff Ondich", 
                                                         "school": "Carleton", 
                                                         "mark": "10.99", 
                                                         "date": "4/25/2025", 
@@ -188,7 +259,7 @@
                                                 ], 
                                     “200Meters”: [
                                                     {
-                                                        "athlete_name": "Jamison,Komodo", 
+                                                        "athlete_name": "Komodo Jamison", 
                                                         .
                                                         .
                                                         .
@@ -209,7 +280,7 @@
                                                     .
                                                 ]
                                 },
-                    "Women": {
+                    "f": {
                                     .
                                     .
                                     .
