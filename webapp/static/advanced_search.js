@@ -25,11 +25,10 @@ function initialize() {
 
     let form = document.getElementById('advancedSearchForm');
     if (form) {
-        form.addEventListener('submit', function (e) { // when form is clicked
+        form.addEventListener('submit', function (e) { // when form is clicked          --------------------------------------
             e.preventDefault();
             const formData = new FormData(form);
-            const params = new URLSearchParams();
-
+            const params = new URLSearchParams(); /////------------------------------------------------------------
             for (const [key, value] of formData.entries()) { // manually grab the params and update the URL
                 if (value) params.append(key, value);
             }
