@@ -8,208 +8,225 @@
         Soren Kaster
         Indy Lyness
         Daniel Scheider
+
+
+        REQUEST: /teams/
+
+            GET parameters
+                none
+
+            RESPONSE: a JSON list of the teams in the dataset
+
+                [Carleton, St. Olaf, etc..]
+
+            EXAMPLE:
+
+                /teams/
+
+                [Carleton, St. Olaf, etc..]
+
         
         REQUEST: /marks/{sex}/{event}?mark={mark}&school={school}&season={season}&duplicate={duplicate}&display_number={display_number}
             ## DANIEL WILL DO THIS
-        GET parameters
-        
-            mark (Optional, default: ‘’) – return only athletes who have a competition mark better than ‘mark’ in specified event. For field events, this is 
-                a number interpreted in meters, for track events this is a time (mm:ss.xx) and for the decathlon/heptathlon this is a point score.
+            GET parameters
             
-            school (Optional, default: ‘’) -- return only marks by athletes from the specified school (for an exact string match).
+                mark (Optional, default: ‘’) – return only athletes who have a competition mark better than ‘mark’ in specified event. For field events, this is 
+                    a number interpreted in meters, for track events this is a time (mm:ss.xx) and for the decathlon/heptathlon this is a point score.
+                
+                school (Optional, default: ‘’) -- return only marks by athletes from the specified school (for an exact string match).
+                
+                season(Optional,default: ‘currentseason’) – return only marks from selected season
             
-            season(Optional,default: ‘currentseason’) – return only marks from selected season
-        
-            duplicate (Optional, default: ‘False’) - Boolean value for whether duplicate athletes are allowed. If true, will return all marks, while if false
-                will only return the best mark for each athlete
-        
-            display_number(Optional, default: 20) – maximum number of marks to return
-           
-        
-        RESPONSE: a JSON list of dictionaries, each of which represents one mark from the specified event and gender, sorted by mark value 
-            (ascending or descending depending on track vs field event). Each dictionary in this list will have the following fields.
-        
-           athlete_name -- (TEXT) the athletes last,first name
-           mark – (TEXT) the athletes value for that specific mark.
-           date – (TEXT) the date the athlete scored this mark
-           meet - the meet that the mark was recorded at.
-           school - the school the athlete that recorded the mark attended when the mark was run
-           num_marks – (int) if duplicate is false, returns the total number of times the athlete has raced faster than that mark. If duplicate is 
-            true, returns 'NULL', as all of the filtered marks will be displayed individually.
-           
-           
-           …
-        
-        EXAMPLE:
-            /marks/m/800Meters?mark=1:55&display_number=2
-        
-                [
-                    {
-                        "athlete_name": "Scheider,Daniel", 
-                        "mark": "1:52.67", 
-                        "date": "5/2/2025", 
-                        "meet": "MIAC Conference Championships", 
-                        "school": "Carleton", 
-                        "num_marks": 5
-                    },
-                    
-                    {
-                        "athlete_name": "Lyness,Indy", 
-                        "mark": "1:53.54", 
-                        "date": "4/26/2025", 
-                        "meet": "Rider/Bolstorff Invitational", 
-                        "school": "Carleton", 
-                        "num_marks": 11
-                    }
-                ]
-               
+                duplicate (Optional, default: ‘False’) - Boolean value for whether duplicate athletes are allowed. If true, will return all marks, while if false
+                    will only return the best mark for each athlete
+            
+                display_number(Optional, default: 20) – maximum number of marks to return
+            
+            
+            RESPONSE: a JSON list of dictionaries, each of which represents one mark from the specified event and gender, sorted by mark value 
+                (ascending or descending depending on track vs field event). Each dictionary in this list will have the following fields.
+            
+            athlete_name -- (TEXT) the athletes last,first name
+            mark – (TEXT) the athletes value for that specific mark.
+            date – (TEXT) the date the athlete scored this mark
+            meet - the meet that the mark was recorded at.
+            school - the school the athlete that recorded the mark attended when the mark was run
+            num_marks – (int) if duplicate is false, returns the total number of times the athlete has raced faster than that mark. If duplicate is 
+                true, returns 'NULL', as all of the filtered marks will be displayed individually.
+            
+            
+            …
+            
+            EXAMPLE:
+                /marks/m/800Meters?mark=1:55&display_number=2
+            
+                    [
+                        {
+                            "athlete_name": "Scheider,Daniel", 
+                            "mark": "1:52.67", 
+                            "date": "5/2/2025", 
+                            "meet": "MIAC Conference Championships", 
+                            "school": "Carleton", 
+                            "num_marks": 5
+                        },
+                        
+                        {
+                            "athlete_name": "Lyness,Indy", 
+                            "mark": "1:53.54", 
+                            "date": "4/26/2025", 
+                            "meet": "Rider/Bolstorff Invitational", 
+                            "school": "Carleton", 
+                            "num_marks": 11
+                        }
+                    ]
+                
         
         REQUEST: /athlete/athlete_id
-        ## SOREN DOING THIS ONE
-        RESPONSE: a JSON dictionary where each dictionary representing the specified athlete. The dictionary will have the following fields.
         
-            name – (TEXT) the athletes name
-            school – (TEXT) the athletes school
-            marks - (LIST) list of dictionaries, where each dictionary is a mark for the athlete containing:
-                event - (TEXT) event that the mark is from
-                mark - (TEXT) time/distance/points for the performance
-                meet - (TEXT) meet that the mark was recorded at
-                date - (TEXT) date that the mark was recorded
-        
-        EXAMPLE:
-            /athlete/23
-        
-                { 
-                    "name" : "Lyness,Indy",
-                    "school" : "Carleton",
-                    "marks": [
-                                {
-                                    "event": "800Meters", 
-                                    "mark": "1:53.54", 
-                                    "date": "4/26/25",
-                                    "meet": "Rider/Bolstorff Invitational"
+            RESPONSE: a JSON dictionary where each dictionary representing the specified athlete. The dictionary will have the following fields.
+            
+                name – (TEXT) the athletes name
+                school – (TEXT) the athletes school
+                marks - (LIST) list of dictionaries, where each dictionary is a mark for the athlete containing:
+                    event - (TEXT) event that the mark is from
+                    mark - (TEXT) time/distance/points for the performance
+                    meet - (TEXT) meet that the mark was recorded at
+                    date - (TEXT) date that the mark was recorded
+            
+            EXAMPLE:
+                /athlete/23
+            
+                    { 
+                        "name" : "Lyness,Indy",
+                        "school" : "Carleton",
+                        "marks": [
+                                    {
+                                        "event": "800Meters", 
+                                        "mark": "1:53.54", 
+                                        "date": "4/26/25",
+                                        "meet": "Rider/Bolstorff Invitational"
+                                    },
+            
+                                    {
+                                        "event": "400Meters", 
+                                        "mark": "45.24", 
+                                        "date": "5/20/25", 
+                                        "meet": "NCAA DIII Outdoor Track and Field Championships"
+                                    },
+                                    .
+                                    .
+                                    .,
+                                    {
+                                        .
+                                        .
+                                        .
+                                    }
+                                ]
+                    }
+            
+        REQUEST: /list/?num_entries={num_entries}
+            ## INDY DOING THIS ONE
+            
+            GET parameters
+            num_entries(Optional, default: 20) – the number of results for each event to display
+            
+            
+            RESPONSE: a JSON dictionary with a key for each gender category associated with a dictionary, where each key in that dictionary is an event and each value 
+            is a list of dictionaries with specified length of the top performances for each event. Each of these dictionaries will represent the top mark from an athlete, 
+            and will have the following fields.
+            
+                athlete_name – (TEXT) - name of the athlete who recorded the mark
+                school – (TEXT) school that the athlete attends
+                mark – (TEXT) athlete’s performance for the event
+                date – (TEXT) date that the mark was recorded
+                meet – (TEXT) meet that the mark was recorded at
+            
+            EXAMPLE:
+                /list?num_entries=2
+
+                    {
+                        "Men": {
+                                    "100Meters": [
+                                                    {
+                                                        "athlete_name": "Liu,Landen", 
+                                                        "school": "Bethel", 
+                                                        "mark": "10.57", 
+                                                        "date": "4/20/2025", 
+                                                        “meet”: "Bethel Invitational"
+                                                    }, 
+                        
+                                                    {
+                                                        "athlete_name": "Ondich,Jeff", 
+                                                        "school": "Carleton", 
+                                                        "mark": "10.99", 
+                                                        "date": "4/25/2025", 
+                                                        "meet": "CS 257 Jamboree"
+                                                    }
+                                                ], 
+                                    “200Meters”: [
+                                                    {
+                                                        "athlete_name": "Jamison,Komodo", 
+                                                        .
+                                                        .
+                                                        .
+                                                    },
+                        
+                                                    {
+                                                        .
+                                                        .
+                                                        .
+                                                    }
+                                                ],
+                                                .
+                                                .
+                                                .,
+                                    "...":       [
+                                                    .
+                                                    .
+                                                    .
+                                                ]
                                 },
-        
-                                {
-                                    "event": "400Meters", 
-                                    "mark": "45.24", 
-                                    "date": "5/20/25", 
-                                    "meet": "NCAA DIII Outdoor Track and Field Championships"
-                                },
-                                .
-                                .
-                                .,
-                                {
+                    "Women": {
                                     .
                                     .
                                     .
                                 }
-                             ]
-                }
-        
-        REQUEST: /list/?num_entries={num_entries}
-        ## INDY DOING THIS ONE
-        
-        GET parameters
-          num_entries(Optional, default: 20) – the number of results for each event to display
-        
-        
-        RESPONSE: a JSON dictionary with a key for each gender category associated with a dictionary, where each key in that dictionary is an event and each value 
-        is a list of dictionaries with specified length of the top performances for each event. Each of these dictionaries will represent the top mark from an athlete, 
-        and will have the following fields.
-        
-            athlete_name – (TEXT) - name of the athlete who recorded the mark
-            school – (TEXT) school that the athlete attends
-            mark – (TEXT) athlete’s performance for the event
-            date – (TEXT) date that the mark was recorded
-            meet – (TEXT) meet that the mark was recorded at
-        
-        EXAMPLE:
-            /list?num_entries=2
-
-                {
-                    "Men": {
-                                "100Meters": [
-                                                {
-                                                    "athlete_name": "Liu,Landen", 
-                                                    "school": "Bethel", 
-                                                    "mark": "10.57", 
-                                                    "date": "4/20/2025", 
-                                                    “meet”: "Bethel Invitational"
-                                                }, 
-                    
-                                                {
-                                                    "athlete_name": "Ondich,Jeff", 
-                                                    "school": "Carleton", 
-                                                    "mark": "10.99", 
-                                                    "date": "4/25/2025", 
-                                                    "meet": "CS 257 Jamboree"
-                                                }
-                                            ], 
-                                “200Meters”: [
-                                                {
-                                                    "athlete_name": "Jamison,Komodo", 
-                                                    .
-                                                    .
-                                                    .
-                                                },
-                    
-                                                {
-                                                    .
-                                                    .
-                                                    .
-                                                }
-                                            ],
-                                            .
-                                            .
-                                            .,
-                                "...":       [
-                                                .
-                                                .
-                                                .
-                                            ]
-                            },
-                   "Women": {
-                                .
-                                .
-                                .
-                            }
-                }
-        
-        
+                    }
+            
+            
         
         REQUEST: /athletes?search={search_entry}
-        ## SOREN DOING THIS
-        GET parameters
-           search_entry (Optional, default: '') -- only return athletes whose first or last name contains search_entry
-        
-        
-        RESPONSE: a JSON list of dictionaries where each dictionary has the following fields.
-        
-            name – (TEXT) the athletes name
-            school – (TEXT) the athletes school
-        
-        EXAMPLE:
-            /athletes?search=soren
-        
-                [
-                    {
-                        "name": "Kaster,Soren",
-                        "school": Carleton"
-                    },
-        
-                    {
-                        "name": "Smith,Soren,
-                        "school": "St. Olaf"
-                    },
-        
-                    {
-                        "name": "Sorenson,Jeff",
-                        "school": "Bethel"
-                    }
-                ]
-        
-        
+            ## SOREN DOING THIS
+            GET parameters
+            search_entry (Optional, default: '') -- only return athletes whose first or last name contains search_entry
+            
+            
+            RESPONSE: a JSON list of dictionaries where each dictionary has the following fields.
+            
+                name – (TEXT) the athletes name
+                school – (TEXT) the athletes school
+            
+            EXAMPLE:
+                /athletes?search=soren
+            
+                    [
+                        {
+                            "name": "Kaster,Soren",
+                            "school": Carleton"
+                        },
+            
+                        {
+                            "name": "Smith,Soren,
+                            "school": "St. Olaf"
+                        },
+            
+                        {
+                            "name": "Sorenson,Jeff",
+                            "school": "Bethel"
+                        }
+                    ]
+            
+            
         
         
     </pre>
