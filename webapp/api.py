@@ -107,7 +107,6 @@ def get_meets():
             del meets[i]
 
         connection.close()
-        print(meets)
         return json.dumps(meets)
     except Exception as e:
         print(e, file=sys.stderr)
